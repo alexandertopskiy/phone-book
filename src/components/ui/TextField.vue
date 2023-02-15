@@ -9,24 +9,17 @@
         label="Search a contact"
         placeholder="Search a contact"
         :value="enteredValue"
-        @input="setSearch"
+        @input="setSearchQuery($event.target.value)"
+        @click:clear="setSearchQuery('')"
     ></v-text-field>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-    data() {
-        return {
-            enteredValue: ''
-        };
-    },
-    methods: {
-        setSearch(evt) {
-            const value = evt.target.value;
-            this.enteredValue = value;
-            console.log(value);
-        }
-    }
+    computed: mapGetters({ enteredValue: 'searchQuery' }),
+    methods: mapActions(['setSearchQuery'])
 };
 </script>
 
