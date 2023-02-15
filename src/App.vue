@@ -12,7 +12,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <h1>Phone Book App</h1>
+                            <ContactList />
                         </v-card>
                     </v-col>
                 </v-row>
@@ -24,11 +24,13 @@
 <script>
 import NavBar from '@/components/nav/NavBar.vue';
 import TextField from '@/components/ui/TextField.vue';
+import ContactList from '@/components/contacts/ContactList.vue';
 
 export default {
     components: {
         NavBar,
-        TextField
+        TextField,
+        ContactList
     },
     data() {
         return {};
