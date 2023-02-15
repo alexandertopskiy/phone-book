@@ -26,6 +26,7 @@ export default {
                     icon: 'mdi-application-import',
                     value: 'import'
                 },
+                // TODO: Сделать выпадающим списком
                 {
                     title: 'Export Contacts (JSON)',
                     icon: 'mdi-code-json',

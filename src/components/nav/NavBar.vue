@@ -2,7 +2,8 @@
     <div>
         <v-app-bar color="teal-lighten-1">
             <v-app-bar-nav-icon @click="toggleDrawerVisibility"></v-app-bar-nav-icon>
-            <v-toolbar-title class="hidden-sm-and-down">PhoneBook</v-toolbar-title>
+            <!-- TODO: делать по центру для десктопа, прижимать к левому краю для планшетов, скрывать для мобилок -->
+            <v-toolbar-title class="hidden-sm-and-down">PhoneBook App</v-toolbar-title>
         </v-app-bar>
         <!-- Боковое Меню -->
         <v-navigation-drawer v-model="drawer">
