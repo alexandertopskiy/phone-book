@@ -40,15 +40,27 @@
             </div>
             <!-- Contact -->
             <div>
-                <!-- TODO: custom component -->
-                {{ contact.name }}
+                <!-- TODO: expand only one at time -->
+                <ContactItem
+                    :id="contact.id"
+                    :name="contact.name"
+                    :phone="contact.phone"
+                    :email="contact.email"
+                    :birthday="contact.birthday"
+                    class="my-2"
+                />
             </div>
         </template>
     </v-list>
 </template>
 
 <script>
+import ContactItem from '@/components/contacts/ContactItem.vue';
+
 export default {
+    components: {
+        ContactItem
+    },
     computed: {
         availableContacts() {
             const allContacts = this.$store.getters.contacts;
