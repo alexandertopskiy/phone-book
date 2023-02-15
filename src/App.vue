@@ -12,7 +12,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <ContactList />
+                            <ContactsList />
                         </v-card>
                     </v-col>
                 </v-row>
@@ -24,13 +24,13 @@
 <script>
 import NavBar from '@/components/nav/NavBar.vue';
 import TextField from '@/components/ui/TextField.vue';
-import ContactList from '@/components/contacts/ContactList.vue';
+import ContactsList from '@/components/contacts/ContactsList.vue';
 
 export default {
     components: {
         NavBar,
         TextField,
-        ContactList
+        ContactsList
     },
     data() {
         return {};

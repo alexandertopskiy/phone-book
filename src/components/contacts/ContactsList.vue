@@ -49,41 +49,11 @@
 
 <script>
 export default {
-    // TODO: move to store
-    data() {
-        return {
-            contacts: [
-                {
-                    name: 'Alex',
-                    phone: '+7-123-456-78-90',
-                    email: 'user1@mail.ru',
-                    birthday: '01.01.2000'
-                },
-
-                {
-                    name: 'Bob',
-                    phone: '+7-123-456-78-90',
-                    email: 'user2@mail.ru',
-                    birthday: '01.01.2000'
-                },
-                {
-                    name: 'Tyler',
-                    phone: '+7-123-456-78-90',
-                    email: 'user3@mail.ru',
-                    birthday: '01.01.2000'
-                },
-                {
-                    name: 'Alice',
-                    phone: '+7-123-456-78-90',
-                    email: 'user1@mail.ru',
-                    birthday: '01.01.2000'
-                }
-            ]
-        };
-    },
     computed: {
         availableContacts() {
-            return this.contacts.slice().sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+            const allContacts = this.$store.getters.contacts;
+            const sortedContacts = allContacts.slice().sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+            return sortedContacts;
         },
         filteredContacts() {
             if (this.searchQuery && this.searchQuery.trim()) {
