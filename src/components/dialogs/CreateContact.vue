@@ -94,10 +94,22 @@ export default {
             ],
             emailRules: [val => !(val && val.trim()) || /.+@.+\..+/.test(val) || 'E-mail must be valid.'],
             birthdayRules: [
-                // TODO: add validation
-                value => {
-                    if (value && value.trim()) return true;
-                    return 'E-mail is required.';
+                val => val !== null || !isNaN(new Date(val).getTime()) || 'Date must be valid',
+                val => {
+                    const enteredDate = new Date(val);
+                    const nowDate = new Date(new Date().toISOString().slice(0, 10));
+                    const tooYoung = enteredDate.getTime() > nowDate.getTime();
+
+                    return !tooYoung || 'The site rules prohibit saving users from the future :)';
+                },
+                val => {
+                    const enteredDate = new Date(val);
+                    const tooOld = enteredDate.getFullYear() < 1900;
+
+                    return (
+                        !tooOld ||
+                        'We doubt that you will be able to reach such an old contact. Please, try someone younger :)'
+                    );
                 }
             ]
         };
