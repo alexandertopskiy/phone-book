@@ -85,37 +85,14 @@ export default {
 
             // input rules
             nameRules: [
-                value => {
-                    if (value && value.trim()) return true;
-                    return 'Name is required.';
-                },
-                value => {
-                    if (value?.length <= 40) return true;
-                    return 'Name must be less than 40 characters.';
-                }
+                val => !!(val && val.trim()) || 'Name is required.',
+                val => val?.length <= 40 || 'Name must be less than 40 characters.'
             ],
             phoneRules: [
-                value => {
-                    if (value && value.trim()) return true;
-                    return 'Phone number is required.';
-                },
-                value => {
-                    if (/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im.test(value)) return true;
-                    return 'Phone must be valid.';
-                }
+                val => !!(val && val.trim()) || 'Phone number is required.',
+                val => /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im.test(val) || 'Phone must be valid.'
             ],
-            // TODO: not required
-            emailRules: [
-                value => {
-                    if (value && value.trim()) return true;
-                    return 'E-mail is required.';
-                },
-                value => {
-                    if (/.+@.+\..+/.test(value)) return true;
-                    return 'E-mail must be valid.';
-                }
-            ],
-            // TODO: not required
+            emailRules: [val => !(val && val.trim()) || /.+@.+\..+/.test(val) || 'E-mail must be valid.'],
             birthdayRules: [
                 // TODO: add validation
                 value => {
