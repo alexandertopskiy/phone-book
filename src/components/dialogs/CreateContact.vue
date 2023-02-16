@@ -31,7 +31,6 @@
                     v-model.trim="userMail"
                     :rules="emailRules"
                     label="E-mail"
-                    required
                     class="pb-2"
                 ></v-text-field>
 
@@ -43,18 +42,18 @@
                     v-model.trim="userBirthday"
                     :rules="birthdayRules"
                     label="Birthday"
-                    required
                     class="pb-2"
                 ></v-text-field>
 
                 <!-- Actions -->
                 <div class="d-flex justify-space-between pt-4">
+                    <!-- Cancel/Close Modal -->
                     <v-btn variant="outlined" color="red" @click="closeModal">
                         <v-icon small class="mr-3">mdi-backspace-outline</v-icon>
                         Cancel
                     </v-btn>
-
-                    <v-btn variant="outlined" color="blue" @click="createContact">
+                    <!-- Create/Main Action -->
+                    <v-btn variant="outlined" color="blue" type="submit">
                         <v-icon small class="mr-3">mdi-plus</v-icon>
                         Create
                     </v-btn>
@@ -126,7 +125,6 @@ export default {
             ]
         };
     },
-
     computed: {
         showDialog: {
             get() {
@@ -139,25 +137,27 @@ export default {
     },
     methods: {
         closeModal() {
-            console.log('closeModal');
             this.userName = '';
             this.userPhone = '';
             this.userMail = '';
+            this.userBirthday = null;
 
             this.$emit('close');
         },
         createContact() {
             if (!this.isFormValid) return;
 
-            const birthday = this.userBirthday?.split('-').reverse().join('.') || null;
+            const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;
             const newContact = {
                 name: this.userName,
                 phone: this.userPhone,
                 email: this.userMail,
-                birthday: birthday
+                birthday: formattedBirthday
             };
 
+            // TODO: save to store -> closeModal
             console.log('createContact: ', newContact);
+            this.closeModal();
         }
     }
 };

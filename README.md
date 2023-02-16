@@ -6,6 +6,7 @@
 -   v-toolbar-content не имеет дофолтных paddings, как во 2 версии Vuetify, исправлено глобальным стилем для **.v-toolbar\_\_content**
 -   Для **v-text-field** в документации не описано, как реалзизовать **solo-inverted (Reduces element opacity until focused)** в 3 версии Vuetify
 -   Предупреждение в консоли и долгое HMR (https://github.com/vuetifyjs/vuetify/issues/16661), пофикшено вручную как в коммите автора
+-   Для input[type='date'] не получается сделать валидацию, когда инпут заполнен неполностью (01.мм.гггг), т.к. value устанавливается только при полном указании даты
 
 ## Project setup
 
