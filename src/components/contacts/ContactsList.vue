@@ -23,7 +23,7 @@
         </div>
 
         <!-- Contacts List -->
-        <template v-for="(contact, index) in filteredContacts" :key="index">
+        <template v-for="(contact, index) in filteredContacts" :key="contact.id">
             <!-- Group/Letter -->
             <div>
                 <div v-if="index === 0">

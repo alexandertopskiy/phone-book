@@ -133,6 +133,7 @@ export default {
 
             this.$emit('close');
         },
+        // TODO: show success/failure message
         createContact() {
             if (!this.isFormValid) return;
 
@@ -144,8 +145,7 @@ export default {
                 birthday: formattedBirthday
             };
 
-            // TODO: save to store -> closeModal
-            console.log('createContact: ', newContact);
+            this.$store.dispatch('registerContact', newContact);
             this.closeModal();
         }
     }
