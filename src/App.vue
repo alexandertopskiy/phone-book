@@ -23,6 +23,7 @@
         </v-main>
 
         <!-- Dialog Modals -->
+        <CreateContact :dialog="showCreate" @close="closeCreate" />
     </v-app>
 </template>
 
@@ -30,19 +31,28 @@
 import NavBar from '@/components/nav/NavBar.vue';
 import TextField from '@/components/ui/TextField.vue';
 import ContactsList from '@/components/contacts/ContactsList.vue';
+import CreateContact from '@/components/dialogs/CreateContact.vue';
 
 export default {
     components: {
         NavBar,
         TextField,
-        ContactsList
+        ContactsList,
+        CreateContact
     },
     data() {
-        return {};
+        return {
+            showCreate: false
+        };
     },
     methods: {
         createContact() {
             console.log('creating contact...');
+            this.showCreate = true;
+        },
+        closeCreate() {
+            console.log('closing creating contact...');
+            this.showCreate = false;
         }
     }
 };
