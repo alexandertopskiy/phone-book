@@ -41,6 +41,7 @@
             <!-- Contact -->
             <div>
                 <!-- TODO: expand only one at time -->
+                <!-- https://vuetifyjs.com/en/components/expansion-panels/#expansion-panels -->
                 <ContactItem
                     :id="contact.id"
                     :name="contact.name"

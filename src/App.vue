@@ -1,6 +1,9 @@
 <template>
     <v-app id="inspire">
+        <!-- Navigation Bar -->
         <NavBar />
+
+        <!-- Content -->
         <v-main>
             <v-container fluid>
                 <v-row>
@@ -18,6 +21,8 @@
                 </v-row>
             </v-container>
         </v-main>
+
+        <!-- Dialog Modals -->
     </v-app>
 </template>
 

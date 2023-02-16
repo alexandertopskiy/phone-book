@@ -23,7 +23,7 @@
                     <v-icon class="mr-sm-3">mdi-email</v-icon>
                     <span class="d-none d-sm-block">Write</span>
                 </v-btn>
-                <v-btn @click="editContact" icon variant="outlined" size="small" color="primary" class="ml-2">
+                <v-btn @click="editContact" icon variant="outlined" size="small" color="blue" class="ml-2">
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
                 <v-btn @click="deleteContact" icon variant="outlined" size="small" color="red" class="ml-2">
