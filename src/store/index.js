@@ -30,6 +30,7 @@ const store = createStore({
                     id: 'a',
                     name: 'Alice',
                     phone: '+7-123-456-78-90',
+                    email: null,
                     birthday: '01.01.2000'
                 }
             ]

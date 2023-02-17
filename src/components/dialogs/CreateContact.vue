@@ -4,7 +4,7 @@
             <h1 class="text-h5 text-center">New Contact</h1>
 
             <!-- Form -->
-            <v-form v-model="isFormValid" class="my-2" @submit.prevent="createContact">
+            <v-form class="my-2" @submit.prevent="createContact" ref="form">
                 <!-- Name Field -->
                 <v-text-field
                     v-model.trim="userName"
@@ -63,6 +63,7 @@
     </v-dialog>
 </template>
 
+<!-- TODO: Composition API: validation in setup -> disabled button -->
 <script>
 export default {
     props: {
@@ -75,8 +76,6 @@ export default {
     emits: ['close'],
     data() {
         return {
-            isFormValid: false,
-
             // input data
             userName: '',
             userPhone: '',
@@ -90,7 +89,7 @@ export default {
             ],
             phoneRules: [
                 val => !!(val && val.trim()) || 'Phone number is required.',
-                val => /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im.test(val) || 'Phone must be valid.'
+                val => /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/.test(val) || 'Phone must be valid.'
             ],
             emailRules: [val => !(val && val.trim()) || /.+@.+\..+/.test(val) || 'E-mail must be valid.'],
             birthdayRules: [
@@ -134,8 +133,9 @@ export default {
             this.$emit('close');
         },
         // TODO: show success/failure message
-        createContact() {
-            if (!this.isFormValid) return;
+        async createContact() {
+            const { valid } = await this.$refs.form.validate();
+            if (!valid) return;
 
             const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;
             const newContact = {

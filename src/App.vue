@@ -23,7 +23,7 @@
         </v-main>
 
         <!-- Dialog Modals -->
-        <CreateContact :dialog="showCreate" @close="closeCreate" />
+        <CreateContact v-if="showCreate" :dialog="showCreate" @close="closeCreate" />
     </v-app>
 </template>
 
