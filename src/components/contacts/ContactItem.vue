@@ -31,12 +31,24 @@
                 </v-btn>
             </div>
         </v-list-item>
+
+        <EditContact v-if="showEdit" :dialog="showEdit" :id="id" @close="closeEdit" />
     </v-list-group>
 </template>
 
 <script>
+import EditContact from '@/components/dialogs/EditContact.vue';
+
 export default {
+    components: {
+        EditContact
+    },
     props: ['id', 'name', 'phone', 'email', 'birthday'],
+    data() {
+        return {
+            showEdit: false
+        };
+    },
     computed: {
         dummyImage() {
             const [firstLetter, secondLetter] = this.name.split(' ').map(word => word[0]);
@@ -54,11 +66,16 @@ export default {
         },
         editContact() {
             console.log('Editing Contact...');
+            this.showEdit = true;
         },
         deleteContact() {
             console.log('Deleting Contact...');
             // TODO: анимация закрытия перед удалением
             this.$store.dispatch('removeContact', { id: this.id });
+        },
+        closeEdit() {
+            console.log('closing editing contact...');
+            this.showEdit = false;
         }
     }
 };
