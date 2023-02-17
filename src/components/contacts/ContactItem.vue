@@ -1,5 +1,5 @@
 <template>
-    <v-list-group :value="name" fluid>
+    <v-list-group :value="id" fluid>
         <!-- Activator (карточка контакта) -->
         <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" :title="name" :subtitle="phone" :prepend-avatar="dummyImage"></v-list-item>

@@ -23,35 +23,37 @@
         </div>
 
         <!-- Contacts List -->
-        <template v-for="(contact, index) in filteredContacts" :key="contact.id">
-            <!-- Group/Letter -->
-            <div>
-                <div v-if="index === 0">
-                    <v-list-subheader class="bg-teal-lighten-3">{{ getFirstLater(contact.name) }}</v-list-subheader>
+        <transition-group name="collapsed-contact">
+            <template v-for="(contact, index) in filteredContacts" :key="contact.id">
+                <!-- Group/Letter -->
+                <div>
+                    <div v-if="index === 0">
+                        <v-list-subheader class="bg-teal-lighten-3">{{ getFirstLater(contact.name) }}</v-list-subheader>
+                    </div>
+                    <div v-else>
+                        <v-list-subheader
+                            class="bg-teal-lighten-3"
+                            v-if="getFirstLater(contact.name) !== getFirstLater(filteredContacts[index - 1].name)"
+                            >{{ getFirstLater(contact.name) }}</v-list-subheader
+                        >
+                        <v-divider v-else></v-divider>
+                    </div>
                 </div>
-                <div v-else>
-                    <v-list-subheader
-                        class="bg-teal-lighten-3"
-                        v-if="getFirstLater(contact.name) !== getFirstLater(filteredContacts[index - 1].name)"
-                        >{{ getFirstLater(contact.name) }}</v-list-subheader
-                    >
-                    <v-divider v-else></v-divider>
+                <!-- Contact -->
+                <div>
+                    <!-- TODO: expand only one at time -->
+                    <!-- https://vuetifyjs.com/en/components/expansion-panels/#expansion-panels -->
+                    <ContactItem
+                        :id="contact.id"
+                        :name="contact.name"
+                        :phone="contact.phone"
+                        :email="contact.email"
+                        :birthday="contact.birthday"
+                        class="my-2"
+                    />
                 </div>
-            </div>
-            <!-- Contact -->
-            <div>
-                <!-- TODO: expand only one at time -->
-                <!-- https://vuetifyjs.com/en/components/expansion-panels/#expansion-panels -->
-                <ContactItem
-                    :id="contact.id"
-                    :name="contact.name"
-                    :phone="contact.phone"
-                    :email="contact.email"
-                    :birthday="contact.birthday"
-                    class="my-2"
-                />
-            </div>
-        </template>
+            </template>
+        </transition-group>
     </v-list>
 </template>
 
@@ -88,3 +90,29 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.collapsed-contact-enter-from {
+    opacity: 0;
+    transform: translateX(550px);
+}
+.collapsed-contact-enter-active {
+    transition: all 0.6s ease-out;
+}
+.collapsed-contact-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.collapsed-contact-leave-from {
+    opacity: 1;
+    transform: translateX(0);
+}
+.collapsed-contact-leave-active {
+    transition: all 0.6s ease-in;
+}
+.collapsed-contact-leave-to {
+    opacity: 0;
+    transform: translateX(-550px);
+}
+</style>
