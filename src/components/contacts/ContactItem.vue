@@ -57,6 +57,8 @@ export default {
         },
         deleteContact() {
             console.log('Deleting Contact...');
+            // TODO: анимация закрытия перед удалением
+            this.$store.dispatch('removeContact', { id: this.id });
         }
     }
 };

@@ -49,6 +49,9 @@ const store = createStore({
         },
         registerContact(state, payload) {
             state.contacts.push(payload);
+        },
+        removeContact(state, index) {
+            state.contacts.splice(index, 1);
         }
     },
     actions: {
@@ -66,6 +69,12 @@ const store = createStore({
             console.log(newContact);
 
             context.commit('registerContact', newContact);
+        },
+        removeContact(context, payload) {
+            const contactId = payload.id;
+            const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
+
+            context.commit('removeContact', contactIndex);
         }
     }
 });
