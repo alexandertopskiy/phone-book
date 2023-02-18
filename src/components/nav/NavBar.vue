@@ -7,7 +7,7 @@
         </v-app-bar>
         <!-- Боковое Меню -->
         <v-navigation-drawer v-model="drawer">
-            <MenuList />
+            <MenuList @close-menu="toggleDrawerVisibility" />
         </v-navigation-drawer>
     </div>
 </template>

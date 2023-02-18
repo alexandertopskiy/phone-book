@@ -15,6 +15,7 @@
 <script>
 export default {
     inject: ['createContact'],
+    emits: ['closeMenu'],
     data() {
         return {
             menuItems: [
@@ -65,6 +66,7 @@ export default {
                     console.log('other action');
                     break;
             }
+            this.$emit('closeMenu');
         }
     }
 };
