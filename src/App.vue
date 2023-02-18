@@ -40,6 +40,11 @@ export default {
         ContactsList,
         CreateContact
     },
+    provide() {
+        return {
+            createContact: this.createContact
+        };
+    },
     data() {
         return {
             showCreate: false
