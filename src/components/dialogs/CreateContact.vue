@@ -4,7 +4,7 @@
             <h1 class="text-h5 text-center">New Contact</h1>
 
             <!-- Form -->
-            <v-form class="my-2" @submit.prevent="createContact" ref="form">
+            <v-form class="my-2" @submit.prevent="createContact" validate-on="blur" ref="form">
                 <!-- Name Field -->
                 <v-text-field
                     v-model.trim="userName"

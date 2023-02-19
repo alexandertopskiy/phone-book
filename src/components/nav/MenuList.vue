@@ -9,15 +9,23 @@
             @click="onClickMenu(item.action)"
         >
         </v-list-item>
+
+        <ImportContacts v-if="showImport" :dialog="showImport" @close="closeImport" />
     </v-list>
 </template>
 
 <script>
+import ImportContacts from '@/components/dialogs/ImportContacts.vue';
+
 export default {
+    components: {
+        ImportContacts
+    },
     inject: ['createContact'],
     emits: ['closeMenu'],
     data() {
         return {
+            showImport: false,
             menuItems: [
                 {
                     title: 'New Contact',
@@ -58,15 +66,31 @@ export default {
         onClickMenu(action) {
             switch (action) {
                 case 'create':
-                    console.log('creating');
                     this.createContact();
                     break;
-
-                default:
-                    console.log('other action');
+                case 'import':
+                    this.importContacts();
+                    break;
+                case 'export-json':
+                    this.exportContacts('json');
+                    break;
+                case 'export-csv':
+                    this.exportContacts('csv');
+                    break;
+                case 'export-txt':
+                    this.exportContacts('txt');
                     break;
             }
             this.$emit('closeMenu');
+        },
+        exportContacts(format) {
+            console.log(`export (${format})`);
+        },
+        importContacts() {
+            this.showImport = true;
+        },
+        closeImport() {
+            this.showImport = false;
         }
     }
 };

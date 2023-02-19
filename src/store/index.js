@@ -88,6 +88,28 @@ const store = createStore({
                 index: contactIndex,
                 data: payload
             });
+        },
+        async importContacts(context, payload) {
+            const currentContacts = context.rootGetters.contacts;
+            // юзер может ввести как массив, так и один объект
+            const contactForImport = payload.length ? payload : [payload];
+            // счетчик недобавленных контактов, TODO: вывод на экран
+            let issues = 0;
+
+            console.log(currentContacts);
+            console.log(contactForImport, contactForImport.length);
+
+            contactForImport.forEach(importedContact => {
+                // TODO: проверка, не добавлять уже существующие
+                const alreadyExists = currentContacts.some(
+                    existedContact =>
+                        existedContact.phone === importedContact.phone || existedContact.email === importedContact.email
+                );
+                if (!alreadyExists) context.dispatch('registerContact', importedContact);
+                else issues++;
+            });
+
+            return issues;
         }
     }
 });
