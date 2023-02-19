@@ -73,7 +73,7 @@ export default {
             required: true
         }
     },
-    emits: ['close'],
+    emits: ['close', 'showSnackbar'],
     data() {
         return {
             // input data
@@ -145,7 +145,8 @@ export default {
                 birthday: formattedBirthday
             };
 
-            this.$store.dispatch('registerContact', newContact);
+            const resultMessage = await this.$store.dispatch('registerContact', newContact);
+            this.$emit('showSnackbar', resultMessage);
             this.closeModal();
         }
     }

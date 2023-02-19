@@ -15,7 +15,7 @@
                                     <v-icon>mdi-plus</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <ContactsList />
+                            <ContactsList @show-snackbar="showSnackbar" />
                         </v-card>
                     </v-col>
                 </v-row>
@@ -23,7 +23,7 @@
         </v-main>
 
         <!-- Dialog Modals -->
-        <CreateContact v-if="showCreate" :dialog="showCreate" @close="closeCreate" />
+        <CreateContact v-if="showCreate" :dialog="showCreate" @close="closeCreate" @show-snackbar="showSnackbar" />
 
         <!-- Success/Failure Messages -->
         <v-snackbar v-model="snackbarVisible" multi-line>
@@ -63,11 +63,9 @@ export default {
     },
     methods: {
         createContact() {
-            console.log('creating contact...');
             this.showCreate = true;
         },
         closeCreate() {
-            console.log('closing creating contact...');
             this.showCreate = false;
         },
         showSnackbar(msg) {

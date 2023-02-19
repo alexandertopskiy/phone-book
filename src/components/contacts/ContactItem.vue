@@ -2,7 +2,13 @@
     <v-list-group :value="id" fluid>
         <!-- Activator (карточка контакта) -->
         <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="name" :subtitle="phone" :prepend-avatar="dummyImage"></v-list-item>
+            <v-list-item
+                v-bind="props"
+                :title="name"
+                :subtitle="phone"
+                :prepend-avatar="dummyImage"
+                ref="item"
+            ></v-list-item>
         </template>
 
         <!-- Выпадающая часть -->
@@ -26,13 +32,26 @@
                 <v-btn @click="editContact" icon variant="outlined" size="small" color="blue" class="ml-2">
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn @click="deleteContact" icon variant="outlined" size="small" color="red" class="ml-2">
+                <v-btn
+                    @click="this.$emit('deleteContact', this.id)"
+                    icon
+                    variant="outlined"
+                    size="small"
+                    color="red"
+                    class="ml-2"
+                >
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
             </div>
         </v-list-item>
 
-        <EditContact v-if="showEdit" :dialog="showEdit" :id="id" @close="closeEdit" />
+        <EditContact
+            v-if="showEdit"
+            :dialog="showEdit"
+            :id="id"
+            @close="closeEdit"
+            @show-snackbar="this.$emit('showSnackbar', $event)"
+        />
     </v-list-group>
 </template>
 
@@ -44,6 +63,7 @@ export default {
         EditContact
     },
     props: ['id', 'name', 'phone', 'email', 'birthday'],
+    emits: ['deleteContact', 'showSnackbar'],
     data() {
         return {
             showEdit: false
@@ -65,16 +85,9 @@ export default {
             window.open('mailto:' + this.email);
         },
         editContact() {
-            console.log('Editing Contact...');
             this.showEdit = true;
         },
-        deleteContact() {
-            console.log('Deleting Contact...');
-            // TODO: анимация закрытия перед удалением
-            this.$store.dispatch('removeContact', { id: this.id });
-        },
         closeEdit() {
-            console.log('closing editing contact...');
             this.showEdit = false;
         }
     }

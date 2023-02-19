@@ -62,7 +62,7 @@ const store = createStore({
         setSearchQuery(context, payload) {
             context.commit('setSearchQuery', payload);
         },
-        registerContact(context, payload) {
+        async registerContact(context, payload) {
             const newContact = {
                 name: payload.name,
                 phone: payload.phone,
@@ -73,14 +73,18 @@ const store = createStore({
             console.log(newContact);
 
             context.commit('registerContact', newContact);
+
+            return 'Контакт добавлен';
         },
-        removeContact(context, payload) {
+        async removeContact(context, payload) {
             const contactId = payload.id;
-            const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
+            const contactIndex = await context.getters.contacts.findIndex(contact => contact.id === contactId);
 
             context.commit('removeContact', contactIndex);
+
+            return 'Контакт удален';
         },
-        updateContact(context, payload) {
+        async updateContact(context, payload) {
             const contactId = payload.id;
             const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
@@ -88,6 +92,8 @@ const store = createStore({
                 index: contactIndex,
                 data: payload
             });
+
+            return 'Контакт обновлен';
         },
         async importContacts(context, payload) {
             const currentContacts = context.rootGetters.contacts;

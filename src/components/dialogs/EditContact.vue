@@ -76,7 +76,7 @@ export default {
             type: String
         }
     },
-    emits: ['close'],
+    emits: ['close', 'showSnackbar'],
     data() {
         return {
             originalData: null,
@@ -157,7 +157,8 @@ export default {
                 birthday: formattedBirthday
             };
 
-            this.$store.dispatch('updateContact', updatedContact);
+            const resultMessage = await this.$store.dispatch('updateContact', updatedContact);
+            this.$emit('showSnackbar', resultMessage);
             this.closeModal();
         },
         setOriginalData() {
