@@ -105,8 +105,12 @@ const store = createStore({
                     existedContact =>
                         existedContact.phone === importedContact.phone || existedContact.email === importedContact.email
                 );
-                if (!alreadyExists) context.dispatch('registerContact', importedContact);
-                else issues++;
+                if (!alreadyExists) {
+                    // TODO: временный костыль для генерации уникальных айдишников
+                    setTimeout(() => {
+                        context.dispatch('registerContact', importedContact);
+                    }, 300);
+                } else issues++;
             });
 
             return issues;
