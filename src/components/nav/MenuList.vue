@@ -10,7 +10,12 @@
         >
         </v-list-item>
 
-        <ImportContacts v-if="showImport" :dialog="showImport" @close="closeImport" />
+        <ImportContacts
+            v-if="showImport"
+            :dialog="showImport"
+            @close="closeImport"
+            @show-snackbar="this.$emit('showSnackbar', $event)"
+        />
     </v-list>
 </template>
 
@@ -22,7 +27,7 @@ export default {
         ImportContacts
     },
     inject: ['createContact'],
-    emits: ['closeMenu'],
+    emits: ['closeMenu', 'showSnackbar'],
     data() {
         return {
             showImport: false,

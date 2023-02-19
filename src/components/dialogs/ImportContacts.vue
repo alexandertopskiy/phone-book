@@ -49,7 +49,7 @@ export default {
             required: true
         }
     },
-    emits: ['close'],
+    emits: ['close', 'showSnackbar'],
     data() {
         return {
             // input data
@@ -60,7 +60,6 @@ export default {
             jsonDataRules: [
                 val => !!(val && val.trim()) || 'JSON Data is required.',
                 val => this.isValidJSON(val) || 'Data is invalid.'
-                // isJSON?
             ]
         };
     },
@@ -92,8 +91,8 @@ export default {
             const { valid } = await this.$refs.form.validate();
             if (!valid) return;
 
-            const result = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
-            console.log('импорт завершен, число недобавленых: ', result);
+            const resultMessage = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
+            this.$emit('showSnackbar', resultMessage);
             this.closeModal();
         }
     }

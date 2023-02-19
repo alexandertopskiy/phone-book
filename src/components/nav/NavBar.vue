@@ -7,7 +7,7 @@
         </v-app-bar>
         <!-- Боковое Меню -->
         <v-navigation-drawer v-model="drawer">
-            <MenuList @close-menu="toggleDrawerVisibility" />
+            <MenuList @close-menu="toggleDrawerVisibility" @show-snackbar="this.$emit('showSnackbar', $event)" />
         </v-navigation-drawer>
     </div>
 </template>
@@ -19,6 +19,7 @@ export default {
     components: {
         MenuList
     },
+    emits: ['showSnackbar'],
     data() {
         return {
             // true: opened

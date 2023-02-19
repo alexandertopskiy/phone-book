@@ -1,7 +1,7 @@
 <template>
     <v-app id="inspire">
         <!-- Navigation Bar -->
-        <NavBar />
+        <NavBar @show-snackbar="showSnackbar" />
 
         <!-- Content -->
         <v-main>
@@ -24,6 +24,15 @@
 
         <!-- Dialog Modals -->
         <CreateContact v-if="showCreate" :dialog="showCreate" @close="closeCreate" />
+
+        <!-- Success/Failure Messages -->
+        <v-snackbar v-model="snackbarVisible" multi-line>
+            {{ snackbarMessage }}
+
+            <template v-slot:actions>
+                <v-btn color="pink" variant="text" @click="snackbarVisible = false"> Close </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -47,7 +56,9 @@ export default {
     },
     data() {
         return {
-            showCreate: false
+            showCreate: false,
+            snackbarVisible: false,
+            snackbarMessage: ''
         };
     },
     methods: {
@@ -58,6 +69,10 @@ export default {
         closeCreate() {
             console.log('closing creating contact...');
             this.showCreate = false;
+        },
+        showSnackbar(msg) {
+            this.snackbarVisible = true;
+            this.snackbarMessage = msg;
         }
     }
 };

@@ -113,7 +113,11 @@ const store = createStore({
                 } else issues++;
             });
 
-            return issues;
+            let resMessage = 'Импорт завершен.';
+            if (issues !== 0)
+                resMessage += ' Часть контактов (' + issues + ' шт) не была импортрована, так как они уже существуют';
+
+            return resMessage;
         }
     }
 });
