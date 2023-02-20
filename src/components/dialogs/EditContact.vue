@@ -77,7 +77,6 @@ export default {
         }
     },
     emits: ['close'],
-    inject: ['showSnackbar'],
     data() {
         return {
             originalData: null,
@@ -158,8 +157,9 @@ export default {
                 birthday: formattedBirthday
             };
 
-            const resultMessage = await this.$store.dispatch('updateContact', updatedContact);
-            this.showSnackbar(resultMessage);
+            const { message, type } = await this.$store.dispatch('updateContact', updatedContact);
+            this.$store.dispatch('snackbar/showSnackbar', { message, type });
+
             this.closeModal();
         },
         setOriginalData() {

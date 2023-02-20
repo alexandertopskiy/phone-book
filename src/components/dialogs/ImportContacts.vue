@@ -50,7 +50,6 @@ export default {
         }
     },
     emits: ['close'],
-    inject: ['showSnackbar'],
     data() {
         return {
             // input data
@@ -92,8 +91,9 @@ export default {
             const { valid } = await this.$refs.form.validate();
             if (!valid) return;
 
-            const resultMessage = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
-            this.showSnackbar(resultMessage);
+            const { message, type } = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
+            this.$store.dispatch('snackbar/showSnackbar', { message, type });
+
             this.closeModal();
         }
     }

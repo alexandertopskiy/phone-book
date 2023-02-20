@@ -65,7 +65,7 @@ export default {
     components: {
         ContactItem
     },
-    inject: ['showCreateContact', 'showSnackbar'],
+    inject: ['showCreateContact'],
     computed: {
         availableContacts() {
             const allContacts = this.$store.getters.contacts;
@@ -90,8 +90,8 @@ export default {
             return name[0].toUpperCase();
         },
         async deleteContact(id) {
-            const resultMessage = await this.$store.dispatch('removeContact', { id: id });
-            this.showSnackbar(resultMessage);
+            const { message, type } = await this.$store.dispatch('removeContact', { id: id });
+            this.$store.dispatch('snackbar/showSnackbar', { message, type });
         }
     }
 };

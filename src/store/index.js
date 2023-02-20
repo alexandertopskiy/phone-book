@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
+import snackbarModule from './snackbarModule.js';
 
 const store = createStore({
+    modules: {
+        snackbar: snackbarModule
+    },
     state() {
         return {
             searchQuery: '',
@@ -74,7 +78,10 @@ const store = createStore({
 
             context.commit('registerContact', newContact);
 
-            return 'Контакт добавлен';
+            return {
+                message: 'Контакт добавлен',
+                type: 'success'
+            };
         },
         async removeContact(context, payload) {
             const contactId = payload.id;
@@ -82,7 +89,10 @@ const store = createStore({
 
             context.commit('removeContact', contactIndex);
 
-            return 'Контакт удален';
+            return {
+                message: 'Контакт удален',
+                type: 'success'
+            };
         },
         async updateContact(context, payload) {
             const contactId = payload.id;
@@ -93,13 +103,18 @@ const store = createStore({
                 data: payload
             });
 
-            return 'Контакт обновлен';
+            return {
+                message: 'Контакт обновлен',
+                type: 'success'
+            };
         },
         async importContacts(context, payload) {
             const currentContacts = context.rootGetters.contacts;
             // юзер может ввести как массив, так и один объект
             const contactForImport = payload.length ? payload : [payload];
-            // счетчик недобавленных контактов, TODO: вывод на экран
+            // счетчик добавленных контактов
+            let importedContacts = 0;
+            // счетчик недобавленных контактов
             let issues = 0;
 
             console.log(currentContacts);
@@ -116,6 +131,7 @@ const store = createStore({
 
                 if (!alreadyExists && isCorrect) {
                     // форматирование контакта: добавляются только поля с корректными данными, иначе - обнуляются
+                    importedContacts++;
                     const correctedContact = {
                         name: importedContact.name,
                         phone: importedContact.phone,
@@ -129,14 +145,19 @@ const store = createStore({
                 } else issues++;
             });
 
-            let resMessage = 'Импорт завершен.';
-            if (issues !== 0)
-                resMessage +=
-                    ' Часть контактов (' +
-                    issues +
-                    ' шт) не была импортирована, так как они уже существуют или записаны некорректно';
+            // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
+            let resultMessage = '';
+            const causeText = 'Возможно, введенные контакты уже существуют или они записаны некорректно';
 
-            return resMessage;
+            if (importedContacts === 0) resultMessage = `Ни один из контактов не был импортирован. ${causeText}`;
+            else if (issues !== 0)
+                resultMessage = `Импорт завершен, но часть контактов (${issues} шт) не была импортирована. ${causeText}`;
+            else resultMessage = `Импорт завершен. Все контакты (${importedContacts} шт) были импортированы.`;
+
+            return {
+                message: resultMessage,
+                type: importedContacts === 0 || issues !== 0 ? 'failure' : 'success'
+            };
         }
     }
 });

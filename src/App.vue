@@ -11,14 +11,7 @@
         <!-- TODO: move all modals here -->
 
         <!-- Success/Failure Messages -->
-        <!-- TODO: manipulate from Store -->
-        <v-snackbar v-model="snackbarVisible" multi-line>
-            {{ snackbarMessage }}
-
-            <template v-slot:actions>
-                <v-btn color="pink" variant="text" @click="snackbarVisible = false"> Close </v-btn>
-            </template>
-        </v-snackbar>
+        <ResultMessage />
     </v-app>
 </template>
 
@@ -26,24 +19,23 @@
 import NavBar from '@/components/nav/NavBar.vue';
 import AppContent from '@/components/AppContent.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
+import ResultMessage from '@/components/ui/ResultMessage.vue';
 
 export default {
     components: {
         NavBar,
         AppContent,
-        CreateContact
+        CreateContact,
+        ResultMessage
     },
     provide() {
         return {
-            showCreateContact: this.showCreateContact,
-            showSnackbar: this.showSnackbar
+            showCreateContact: this.showCreateContact
         };
     },
     data() {
         return {
-            createFormVisible: false,
-            snackbarVisible: false,
-            snackbarMessage: ''
+            createFormVisible: false
         };
     },
     methods: {
@@ -52,10 +44,6 @@ export default {
         },
         closeCreateContact() {
             this.createFormVisible = false;
-        },
-        showSnackbar(msg) {
-            this.snackbarVisible = true;
-            this.snackbarMessage = msg;
         }
     }
 };
