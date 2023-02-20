@@ -106,22 +106,35 @@ const store = createStore({
             console.log(contactForImport, contactForImport.length);
 
             contactForImport.forEach(importedContact => {
-                // TODO: проверка, не добавлять уже существующие
+                // уже существующие контакты () не добавляются
                 const alreadyExists = currentContacts.some(
                     existedContact =>
                         existedContact.phone === importedContact.phone || existedContact.email === importedContact.email
                 );
-                if (!alreadyExists) {
+                // если у контакта не указано имя/номер, то не добавлять его
+                const isCorrect = !!(importedContact.name && importedContact.phone);
+
+                if (!alreadyExists && isCorrect) {
+                    // форматирование контакта: добавляются только поля с корректными данными, иначе - обнуляются
+                    const correctedContact = {
+                        name: importedContact.name,
+                        phone: importedContact.phone,
+                        email: importedContact.email || '',
+                        birthday: importedContact.birthday || null
+                    };
                     // TODO: временный костыль для генерации уникальных айдишников
                     setTimeout(() => {
-                        context.dispatch('registerContact', importedContact);
+                        context.dispatch('registerContact', correctedContact);
                     }, 300);
                 } else issues++;
             });
 
             let resMessage = 'Импорт завершен.';
             if (issues !== 0)
-                resMessage += ' Часть контактов (' + issues + ' шт) не была импортрована, так как они уже существуют';
+                resMessage +=
+                    ' Часть контактов (' +
+                    issues +
+                    ' шт) не была импортрована, так как они уже существуют или записаны некорректно';
 
             return resMessage;
         }
