@@ -51,7 +51,6 @@
                         :birthday="contact.birthday"
                         class="my-2"
                         @delete-contact="deleteContact($event)"
-                        @show-snackbar="this.$emit('showSnackbar', $event)"
                     />
                 </div>
             </template>
@@ -66,7 +65,7 @@ export default {
     components: {
         ContactItem
     },
-    emits: ['showSnackbar'],
+    inject: ['showCreateContact', 'showSnackbar'],
     computed: {
         availableContacts() {
             const allContacts = this.$store.getters.contacts;
@@ -85,14 +84,14 @@ export default {
     },
     methods: {
         createContact() {
-            console.log('creating contact...');
+            this.showCreateContact();
         },
         getFirstLater(name) {
             return name[0].toUpperCase();
         },
         async deleteContact(id) {
             const resultMessage = await this.$store.dispatch('removeContact', { id: id });
-            this.$emit('showSnackbar', resultMessage);
+            this.showSnackbar(resultMessage);
         }
     }
 };

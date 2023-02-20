@@ -1,31 +1,17 @@
 <template>
     <v-app id="inspire">
         <!-- Navigation Bar -->
-        <NavBar @show-snackbar="showSnackbar" />
+        <NavBar />
 
         <!-- Content -->
-        <v-main>
-            <v-container fluid>
-                <v-row>
-                    <v-col cols="12">
-                        <v-card max-width="600" class="mx-auto">
-                            <v-toolbar color="teal-lighten-1" dark>
-                                <TextField />
-                                <v-btn icon class="ml-5" @click="createContact">
-                                    <v-icon>mdi-plus</v-icon>
-                                </v-btn>
-                            </v-toolbar>
-                            <ContactsList @show-snackbar="showSnackbar" />
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-main>
+        <AppContent />
 
         <!-- Dialog Modals -->
-        <CreateContact v-if="showCreate" :dialog="showCreate" @close="closeCreate" @show-snackbar="showSnackbar" />
+        <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
+        <!-- TODO: move all modals here -->
 
         <!-- Success/Failure Messages -->
+        <!-- TODO: manipulate from Store -->
         <v-snackbar v-model="snackbarVisible" multi-line>
             {{ snackbarMessage }}
 
@@ -38,35 +24,34 @@
 
 <script>
 import NavBar from '@/components/nav/NavBar.vue';
-import TextField from '@/components/ui/TextField.vue';
-import ContactsList from '@/components/contacts/ContactsList.vue';
+import AppContent from '@/components/AppContent.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
 
 export default {
     components: {
         NavBar,
-        TextField,
-        ContactsList,
+        AppContent,
         CreateContact
     },
     provide() {
         return {
-            createContact: this.createContact
+            showCreateContact: this.showCreateContact,
+            showSnackbar: this.showSnackbar
         };
     },
     data() {
         return {
-            showCreate: false,
+            createFormVisible: false,
             snackbarVisible: false,
             snackbarMessage: ''
         };
     },
     methods: {
-        createContact() {
-            this.showCreate = true;
+        showCreateContact() {
+            this.createFormVisible = true;
         },
-        closeCreate() {
-            this.showCreate = false;
+        closeCreateContact() {
+            this.createFormVisible = false;
         },
         showSnackbar(msg) {
             this.snackbarVisible = true;

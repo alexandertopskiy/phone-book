@@ -29,7 +29,7 @@
                     <v-icon class="mr-sm-3">mdi-email</v-icon>
                     <span class="d-none d-sm-block">Write</span>
                 </v-btn>
-                <v-btn @click="editContact" icon variant="outlined" size="small" color="blue" class="ml-2">
+                <v-btn @click="showEditContact" icon variant="outlined" size="small" color="blue" class="ml-2">
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
                 <v-btn
@@ -46,11 +46,10 @@
         </v-list-item>
 
         <EditContact
-            v-if="showEdit"
-            :dialog="showEdit"
+            v-if="editFormVisible"
+            :dialog="editFormVisible"
             :id="id"
-            @close="closeEdit"
-            @show-snackbar="this.$emit('showSnackbar', $event)"
+            @close="closeEditContact"
         />
     </v-list-group>
 </template>
@@ -63,10 +62,10 @@ export default {
         EditContact
     },
     props: ['id', 'name', 'phone', 'email', 'birthday'],
-    emits: ['deleteContact', 'showSnackbar'],
+    emits: ['deleteContact'],
     data() {
         return {
-            showEdit: false
+            editFormVisible: false
         };
     },
     computed: {
@@ -84,11 +83,11 @@ export default {
             console.log('Writing Contact...');
             window.open('mailto:' + this.email);
         },
-        editContact() {
-            this.showEdit = true;
+        showEditContact() {
+            this.editFormVisible = true;
         },
-        closeEdit() {
-            this.showEdit = false;
+        closeEditContact() {
+            this.editFormVisible = false;
         }
     }
 };

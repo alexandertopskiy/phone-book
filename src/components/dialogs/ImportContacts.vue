@@ -49,7 +49,8 @@ export default {
             required: true
         }
     },
-    emits: ['close', 'showSnackbar'],
+    emits: ['close'],
+    inject: ['showSnackbar'],
     data() {
         return {
             // input data
@@ -92,7 +93,7 @@ export default {
             if (!valid) return;
 
             const resultMessage = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
-            this.$emit('showSnackbar', resultMessage);
+            this.showSnackbar(resultMessage);
             this.closeModal();
         }
     }

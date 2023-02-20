@@ -10,12 +10,7 @@
         >
         </v-list-item>
 
-        <ImportContacts
-            v-if="showImport"
-            :dialog="showImport"
-            @close="closeImport"
-            @show-snackbar="this.$emit('showSnackbar', $event)"
-        />
+        <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
     </v-list>
 </template>
 
@@ -26,11 +21,11 @@ export default {
     components: {
         ImportContacts
     },
-    inject: ['createContact'],
-    emits: ['closeMenu', 'showSnackbar'],
+    inject: ['showCreateContact'],
+    emits: ['closeMenu'],
     data() {
         return {
-            showImport: false,
+            importFormVisible: false,
             menuItems: [
                 {
                     title: 'New Contact',
@@ -71,10 +66,10 @@ export default {
         onClickMenu(action) {
             switch (action) {
                 case 'create':
-                    this.createContact();
+                    this.showCreateContact();
                     break;
                 case 'import':
-                    this.importContacts();
+                    this.showImportContacts();
                     break;
                 case 'export-json':
                     this.exportContacts('json');
@@ -91,11 +86,11 @@ export default {
         exportContacts(format) {
             console.log(`export (${format})`);
         },
-        importContacts() {
-            this.showImport = true;
+        showImportContacts() {
+            this.importFormVisible = true;
         },
-        closeImport() {
-            this.showImport = false;
+        closeImportContacts() {
+            this.importFormVisible = false;
         }
     }
 };

@@ -73,7 +73,8 @@ export default {
             required: true
         }
     },
-    emits: ['close', 'showSnackbar'],
+    emits: ['close'],
+    inject: ['showSnackbar'],
     data() {
         return {
             // input data
@@ -146,7 +147,7 @@ export default {
             };
 
             const resultMessage = await this.$store.dispatch('registerContact', newContact);
-            this.$emit('showSnackbar', resultMessage);
+            this.showSnackbar(resultMessage);
             this.closeModal();
         }
     }

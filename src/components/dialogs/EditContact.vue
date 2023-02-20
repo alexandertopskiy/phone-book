@@ -76,7 +76,8 @@ export default {
             type: String
         }
     },
-    emits: ['close', 'showSnackbar'],
+    emits: ['close'],
+    inject: ['showSnackbar'],
     data() {
         return {
             originalData: null,
@@ -158,7 +159,7 @@ export default {
             };
 
             const resultMessage = await this.$store.dispatch('updateContact', updatedContact);
-            this.$emit('showSnackbar', resultMessage);
+            this.showSnackbar(resultMessage);
             this.closeModal();
         },
         setOriginalData() {
