@@ -8,6 +8,8 @@
 
         <!-- Dialog Modals -->
         <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
+        <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
+        <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
         <!-- TODO: move all modals here -->
 
         <!-- Success/Failure Messages -->
@@ -19,6 +21,8 @@
 import NavBar from '@/components/nav/NavBar.vue';
 import AppContent from '@/components/AppContent.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
+import EditContact from '@/components/dialogs/EditContact.vue';
+import ImportContacts from '@/components/dialogs/ImportContacts.vue';
 import ResultMessage from '@/components/ui/ResultMessage.vue';
 
 export default {
@@ -26,16 +30,23 @@ export default {
         NavBar,
         AppContent,
         CreateContact,
+        EditContact,
+        ImportContacts,
         ResultMessage
     },
     provide() {
         return {
-            showCreateContact: this.showCreateContact
+            showCreateContact: this.showCreateContact,
+            showEditContact: this.showEditContact,
+            showImportContacts: this.showImportContacts
         };
     },
     data() {
         return {
-            createFormVisible: false
+            createFormVisible: false,
+            editFormVisible: false,
+            importFormVisible: false,
+            editedContactId: null
         };
     },
     methods: {
@@ -44,6 +55,20 @@ export default {
         },
         closeCreateContact() {
             this.createFormVisible = false;
+        },
+        showEditContact(id) {
+            this.editedContactId = id;
+            this.editFormVisible = true;
+        },
+        closeEditContact() {
+            this.editedContactId = null;
+            this.editFormVisible = false;
+        },
+        showImportContacts() {
+            this.importFormVisible = true;
+        },
+        closeImportContacts() {
+            this.importFormVisible = false;
         }
     }
 };

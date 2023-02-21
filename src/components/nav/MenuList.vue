@@ -9,23 +9,15 @@
             @click="onClickMenu(item.action)"
         >
         </v-list-item>
-
-        <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
     </v-list>
 </template>
 
 <script>
-import ImportContacts from '@/components/dialogs/ImportContacts.vue';
-
 export default {
-    components: {
-        ImportContacts
-    },
-    inject: ['showCreateContact'],
+    inject: ['showCreateContact', 'showImportContacts'],
     emits: ['closeMenu'],
     data() {
         return {
-            importFormVisible: false,
             menuItems: [
                 {
                     title: 'New Contact',
@@ -85,12 +77,6 @@ export default {
         },
         exportContacts(format) {
             console.log(`export (${format})`);
-        },
-        showImportContacts() {
-            this.importFormVisible = true;
-        },
-        closeImportContacts() {
-            this.importFormVisible = false;
         }
     }
 };

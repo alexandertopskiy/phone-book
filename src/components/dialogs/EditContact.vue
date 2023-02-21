@@ -1,71 +1,64 @@
 <template>
-    <v-dialog v-model="showDialog" width="450">
-        <v-card class="pa-4">
-            <h1 class="text-h5 text-center">Edit Contact</h1>
+    <BaseDialog :dialog="dialog" title="Edit Contact" @close="closeModal" @sumbitData="editContact">
+        <template #dataFields>
+            <!-- Name Field -->
+            <v-text-field
+                v-model.trim="userName"
+                :rules="nameRules"
+                :counter="40"
+                label="Name"
+                required
+                class="pb-2"
+            ></v-text-field>
 
-            <!-- Form -->
-            <v-form class="my-2" @submit.prevent="editContact" ref="form">
-                <!-- Name Field -->
-                <v-text-field
-                    v-model.trim="userName"
-                    :rules="nameRules"
-                    :counter="40"
-                    label="Name"
-                    required
-                    class="pb-2"
-                ></v-text-field>
+            <!-- Phone Field -->
+            <v-text-field
+                type="tel"
+                v-model.trim="userPhone"
+                :rules="phoneRules"
+                label="Phone Number"
+                required
+                class="pb-2"
+            ></v-text-field>
 
-                <!-- Phone Field -->
-                <v-text-field
-                    type="tel"
-                    v-model.trim="userPhone"
-                    :rules="phoneRules"
-                    label="Phone Number"
-                    required
-                    class="pb-2"
-                ></v-text-field>
+            <!-- Email Field -->
+            <v-text-field
+                type="email"
+                v-model.trim="userMail"
+                :rules="emailRules"
+                label="E-mail"
+                class="pb-2"
+            ></v-text-field>
 
-                <!-- Email Field -->
-                <v-text-field
-                    type="email"
-                    v-model.trim="userMail"
-                    :rules="emailRules"
-                    label="E-mail"
-                    class="pb-2"
-                ></v-text-field>
+            <!-- Birthday -->
+            <v-text-field
+                type="date"
+                :max="new Date().toISOString().slice(0, 10)"
+                min="1950-01-01"
+                v-model.trim="userBirthday"
+                :rules="birthdayRules"
+                label="Birthday"
+                class="pb-2"
+            ></v-text-field>
+        </template>
 
-                <!-- Birthday -->
-                <v-text-field
-                    type="date"
-                    :max="new Date().toISOString().slice(0, 10)"
-                    min="1950-01-01"
-                    v-model.trim="userBirthday"
-                    :rules="birthdayRules"
-                    label="Birthday"
-                    class="pb-2"
-                ></v-text-field>
-
-                <!-- Actions -->
-                <div class="d-flex justify-space-between pt-4">
-                    <!-- Cancel/Close Modal -->
-                    <v-btn variant="outlined" color="red" @click="closeModal">
-                        <v-icon small class="mr-3">mdi-backspace-outline</v-icon>
-                        Cancel
-                    </v-btn>
-                    <!-- Edit/Main Action -->
-                    <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasChanges">
-                        <v-icon small class="mr-3">mdi-content-save-edit-outline</v-icon>
-                        Save Changes
-                    </v-btn>
-                </div>
-            </v-form>
-        </v-card>
-    </v-dialog>
+        <template #mainAction>
+            <!-- Edit/Main Action -->
+            <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasChanges">
+                <v-icon small class="mr-3">mdi-content-save-edit-outline</v-icon>
+                Save Changes
+            </v-btn>
+        </template>
+    </BaseDialog>
 </template>
 
 <!-- TODO: Composition API: validation in setup -> disabled button -->
 <script>
+import BaseDialog from '@/components/dialogs/BaseDialog.vue';
+import createEditMixin from '@/mixins/createEditMixin.js';
+
 export default {
+    components: { BaseDialog },
     props: {
         dialog: {
             type: Boolean,
@@ -118,14 +111,6 @@ export default {
         };
     },
     computed: {
-        showDialog: {
-            get() {
-                return this.dialog;
-            },
-            set() {
-                this.closeModal();
-            }
-        },
         hasChanges() {
             const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;
             const originalData = this.originalData;
@@ -139,15 +124,8 @@ export default {
         }
     },
     methods: {
-        closeModal() {
-            this.setOriginalData();
-            this.$emit('close');
-        },
         // TODO: show success/failure message
         async editContact() {
-            const { valid } = await this.$refs.form.validate();
-            if (!valid) return;
-
             const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;
             const updatedContact = {
                 id: this.id,
@@ -161,6 +139,10 @@ export default {
             this.$store.dispatch('snackbar/showSnackbar', { message, type });
 
             this.closeModal();
+        },
+        closeModal() {
+            this.setOriginalData();
+            this.$emit('close');
         },
         setOriginalData() {
             const editedContact = this.$store.getters.contacts.find(contact => contact.id === this.id);
