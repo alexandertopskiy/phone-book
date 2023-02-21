@@ -10,7 +10,6 @@
         <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
         <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
         <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
-        <!-- TODO: move all modals here -->
 
         <!-- Success/Failure Messages -->
         <ResultMessage />
