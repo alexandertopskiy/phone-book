@@ -23,6 +23,7 @@ import CreateContact from '@/components/dialogs/CreateContact.vue';
 import EditContact from '@/components/dialogs/EditContact.vue';
 import ImportContacts from '@/components/dialogs/ImportContacts.vue';
 import ResultMessage from '@/components/ui/ResultMessage.vue';
+import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
 
 export default {
     components: {
@@ -40,35 +41,26 @@ export default {
             showImportContacts: this.showImportContacts
         };
     },
-    data() {
+    setup() {
+        const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
+        const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
+        const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
+
         return {
-            createFormVisible: false,
-            editFormVisible: false,
-            importFormVisible: false,
-            editedContactId: null
+            // creating
+            createFormVisible,
+            showCreateContact,
+            closeCreateContact,
+            // editing
+            editFormVisible,
+            editedContactId,
+            showEditContact,
+            closeEditContact,
+            // importing
+            importFormVisible,
+            showImportContacts,
+            closeImportContacts
         };
-    },
-    methods: {
-        showCreateContact() {
-            this.createFormVisible = true;
-        },
-        closeCreateContact() {
-            this.createFormVisible = false;
-        },
-        showEditContact(id) {
-            this.editedContactId = id;
-            this.editFormVisible = true;
-        },
-        closeEditContact() {
-            this.editedContactId = null;
-            this.editFormVisible = false;
-        },
-        showImportContacts() {
-            this.importFormVisible = true;
-        },
-        closeImportContacts() {
-            this.importFormVisible = false;
-        }
     }
 };
 </script>
