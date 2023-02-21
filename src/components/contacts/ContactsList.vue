@@ -70,6 +70,7 @@ export default {
         availableContacts() {
             const allContacts = this.$store.getters.contacts;
             const sortedContacts = allContacts.slice().sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+
             return sortedContacts;
         },
         filteredContacts() {

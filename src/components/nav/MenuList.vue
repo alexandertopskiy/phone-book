@@ -5,7 +5,7 @@
                 v-if="!item.subItems"
                 :title="item.title"
                 :prepend-icon="item.icon"
-                :value="item.value"
+                v-model="selection"
                 @click="onClickMenu(item.action)"
             >
             </v-list-item>
@@ -18,7 +18,7 @@
                     :key="subitem.value"
                     :title="subitem.title"
                     :prepend-icon="subitem.icon"
-                    :value="subitem.value"
+                    v-model="selection"
                     @click="onClickMenu(subitem.action)"
                 >
                 </v-list-item>
@@ -33,6 +33,7 @@ export default {
     emits: ['closeMenu'],
     data() {
         return {
+            selection: null,
             menuItems: [
                 {
                     title: 'New Contact',
@@ -94,10 +95,56 @@ export default {
                     this.exportContacts('txt');
                     break;
             }
+
+            this.selection = null;
             this.$emit('closeMenu');
         },
         exportContacts(format) {
-            console.log(`export (${format})`);
+            // создаем глубокую копию, т.к. contacts - это массив объектов, и изменения объектов затронут стор
+            const contactCopy = JSON.parse(JSON.stringify(this.$store.getters.contacts));
+            // удаление свойства id (при импорте/создании приложение само генерит id)
+            contactCopy.forEach(contact => delete contact['id']);
+
+            if (format === 'json') this.download(JSON.stringify(contactCopy), format);
+            else if (format === 'txt') this.download(this.convertToPlainText(contactCopy), format);
+            else if (format === 'csv') this.download(this.convertToCSV(contactCopy), format);
+        },
+        convertToPlainText(contacts) {
+            let output = '';
+            for (const [index, contact] of contacts.entries()) {
+                output += 'Contact №' + (index + 1) + '\n';
+                output += 'Name: ' + contact.name + '\n';
+                output += 'Number: ' + contact.phone + '\n';
+                if (contact.email) output += 'Email: ' + contact.email + '\n';
+                if (contact.birthday) output += 'Birthday: ' + contact.birthday + '\n';
+                output += '\n';
+            }
+            return output;
+        },
+        convertToCSV(contacts) {
+            // заголовок таблицы (названия полей)
+            // ',' - перевод на новый столбец
+            // '\r\n' - перевод на новую строку
+            let csv = '№,name,phone,email,birthday\r\n';
+
+            for (const [index, contact] of contacts.entries()) {
+                csv += index + 1 + ',' + contact.name + ',' + contact.phone + ',';
+                csv += contact.email ? contact.email + ',' : ',';
+                if (contact.birthday) csv += contact.birthday;
+                csv += '\r\n';
+            }
+
+            return csv;
+        },
+        download(text, format = 'txt') {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/' + format + ';charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', 'exported_contacts.' + format);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
         }
     }
 };
