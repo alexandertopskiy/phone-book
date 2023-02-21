@@ -49,7 +49,7 @@ export default {
                     action: 'import'
                 },
                 {
-                    title: 'Export',
+                    title: 'Export Contacts',
                     value: 'export',
                     icon: 'mdi-application-export',
                     subItems: [
@@ -102,6 +102,12 @@ export default {
         exportContacts(format) {
             // создаем глубокую копию, т.к. contacts - это массив объектов, и изменения объектов затронут стор
             const contactCopy = JSON.parse(JSON.stringify(this.$store.getters.contacts));
+
+            if (!contactCopy.length) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: 'Список контактов пуст.', type: 'failure' });
+                return;
+            }
+
             // удаление свойства id (при импорте/создании приложение само генерит id)
             contactCopy.forEach(contact => delete contact['id']);
 
