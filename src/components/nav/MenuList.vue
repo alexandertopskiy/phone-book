@@ -1,14 +1,29 @@
 <template>
     <v-list density="compact" nav>
-        <v-list-item
-            v-for="item in menuItems"
-            :key="item.title"
-            :title="item.title"
-            :prepend-icon="item.icon"
-            :value="item.value"
-            @click="onClickMenu(item.action)"
-        >
-        </v-list-item>
+        <template v-for="item in menuItems" :key="item.value">
+            <v-list-item
+                v-if="!item.subItems"
+                :title="item.title"
+                :prepend-icon="item.icon"
+                :value="item.value"
+                @click="onClickMenu(item.action)"
+            >
+            </v-list-item>
+            <v-list-group v-else :value="item.value">
+                <template #activator="{ props }">
+                    <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
+                </template>
+                <v-list-item
+                    v-for="subitem in item.subItems"
+                    :key="subitem.value"
+                    :title="subitem.title"
+                    :prepend-icon="subitem.icon"
+                    :value="subitem.value"
+                    @click="onClickMenu(subitem.action)"
+                >
+                </v-list-item>
+            </v-list-group>
+        </template>
     </v-list>
 </template>
 
@@ -32,24 +47,30 @@ export default {
                     value: 'import',
                     action: 'import'
                 },
-                // TODO: Сделать выпадающим списком
                 {
-                    title: 'Export Contacts (JSON)',
-                    icon: 'mdi-code-json',
-                    value: 'export-json',
-                    action: 'export-json'
-                },
-                {
-                    title: 'Export Contacts (CSV)',
-                    icon: 'mdi-table',
-                    value: 'export-csv',
-                    action: 'export-csv'
-                },
-                {
-                    title: 'Export Contacts (TXT)',
-                    icon: 'mdi-text-box',
-                    value: 'export-txt',
-                    action: 'export-txt'
+                    title: 'Export',
+                    value: 'export',
+                    icon: 'mdi-application-export',
+                    subItems: [
+                        {
+                            title: 'JSON',
+                            icon: 'mdi-code-json',
+                            value: 'export-json',
+                            action: 'export-json'
+                        },
+                        {
+                            title: 'CSV',
+                            icon: 'mdi-table',
+                            value: 'export-csv',
+                            action: 'export-csv'
+                        },
+                        {
+                            title: 'TXT',
+                            icon: 'mdi-text-box',
+                            value: 'export-txt',
+                            action: 'export-txt'
+                        }
+                    ]
                 }
             ]
         };
