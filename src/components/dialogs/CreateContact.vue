@@ -44,7 +44,7 @@
 
         <template #mainAction>
             <!-- Create/Main Action -->
-            <v-btn variant="outlined" color="blue" type="submit">
+            <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasEnteredData">
                 <v-icon small class="mr-3">mdi-plus</v-icon>
                 Create
             </v-btn>
@@ -67,6 +67,11 @@ export default {
     },
     emits: ['close'],
     mixins: [createEditMixin],
+    computed: {
+        hasEnteredData() {
+            return this.userName !== '' || this.userPhone !== '' || this.userMail !== '' || this.userBirthday !== null;
+        }
+    },
     methods: {
         async createContact() {
             const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;

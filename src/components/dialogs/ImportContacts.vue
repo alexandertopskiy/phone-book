@@ -14,7 +14,7 @@
 
         <template #mainAction>
             <!-- Import/Main Action -->
-            <v-btn variant="outlined" color="blue" type="submit" :disabled="!jsonData">
+            <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasEnteredData">
                 <v-icon small class="mr-3">mdi-application-import</v-icon>
                 Import
             </v-btn>
@@ -49,6 +49,11 @@ export default {
                 val => this.isValidJSON(val) || 'Data is invalid.'
             ]
         };
+    },
+    computed: {
+        hasEnteredData() {
+            return !!this.jsonData;
+        }
     },
     methods: {
         // TODO: check validation
