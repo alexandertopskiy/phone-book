@@ -14,6 +14,11 @@
 
         <!-- Выпадающая часть -->
         <v-list-item class="px-4 py-2">
+            <div class="d-flex flex-wrap justify-start px-4 py-2 with-gap">
+                <CopiedButton title="Phone" :data="phone" />
+                <CopiedButton v-if="!!email" title="Email" :data="email" />
+                <CopiedButton v-if="!!birthday" title="Birthday" :data="birthday" />
+            </div>
             <div class="d-flex flex-wrap align-center justify-center px-4 py-2 with-gap">
                 <v-btn @click="callContact" text variant="outlined" color="success" class="flex-grow-1">
                     <v-icon class="mr-sm-3">mdi-phone</v-icon>
@@ -35,7 +40,10 @@
 </template>
 
 <script>
+import CopiedButton from '@/components/ui/CopiedButton.vue';
+
 export default {
+    components: { CopiedButton },
     props: ['id', 'name', 'phone', 'email', 'birthday'],
     emits: ['deleteContact'],
     inject: ['showEditContact'],
