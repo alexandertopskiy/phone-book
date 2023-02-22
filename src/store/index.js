@@ -40,53 +40,6 @@ const store = createStore({
         setSearchQuery(context, payload) {
             context.commit('setSearchQuery', payload);
         },
-        async importContacts(context, payload) {
-            const currentContacts = context.rootGetters.contacts;
-            // юзер может ввести как массив, так и один объект
-            const contactForImport = payload.length ? payload : [payload];
-            // счетчик добавленных контактов
-            let importedContacts = 0;
-            // счетчик недобавленных контактов
-            let issues = 0;
-
-            contactForImport.forEach(importedContact => {
-                // уже существующие контакты () не добавляются
-                const alreadyExists = currentContacts.some(
-                    existed => existed.phone === importedContact.phone || existed.email === importedContact.email
-                );
-                // если у контакта не указано имя/номер, то не добавлять его
-                const isCorrect = !!(importedContact.name && importedContact.phone);
-
-                if (!alreadyExists && isCorrect) {
-                    // форматирование контакта: добавляются только поля с корректными данными, иначе - обнуляются
-                    importedContacts++;
-                    const correctedContact = {
-                        name: importedContact.name,
-                        phone: importedContact.phone,
-                        email: importedContact.email || '',
-                        birthday: importedContact.birthday || null
-                    };
-                    // TODO: временный костыль для генерации уникальных айдишников
-                    setTimeout(() => {
-                        context.dispatch('registerContact', correctedContact);
-                    }, 300);
-                } else issues++;
-            });
-
-            // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
-            let resultMessage = '';
-            const causeText = 'Возможно, введенные контакты уже существуют или они записаны некорректно';
-
-            if (importedContacts === 0) resultMessage = `Ни один из контактов не был импортирован. ${causeText}`;
-            else if (issues !== 0)
-                resultMessage = `Импорт завершен, но часть контактов (${issues} шт) не была импортирована. ${causeText}`;
-            else resultMessage = `Импорт завершен. Все контакты (${importedContacts} шт) были импортированы.`;
-
-            return {
-                message: resultMessage,
-                type: importedContacts === 0 || issues !== 0 ? 'failure' : 'success'
-            };
-        },
         // working with api
         async loadContacts(context) {
             try {
@@ -106,6 +59,57 @@ const store = createStore({
                 return 'Контакты загружены';
             } catch (error) {
                 throw new Error(error.message || 'Произошла ошибка при загрузке контактов');
+            }
+        },
+        async importContacts(context, payload) {
+            try {
+                const currentContacts = context.rootGetters.contacts;
+                // юзер может ввести как массив, так и один объект
+                const contactsForImport = payload.length ? payload : [payload];
+                // счетчик добавленных контактов
+                let importedContacts = 0;
+                // счетчик недобавленных контактов
+                let issues = 0;
+
+                for (const importedContact of contactsForImport) {
+                    // уже существующие контакты () не добавляются
+                    const alreadyExists = currentContacts.some(
+                        existed => existed.phone === importedContact.phone || existed.email === importedContact.email
+                    );
+                    // если у контакта не указано имя/номер, то не добавлять его
+                    const isCorrect = !!(importedContact.name && importedContact.phone);
+
+                    if (!alreadyExists && isCorrect) {
+                        // форматирование контакта: добавляются только поля с корректными данными, иначе - обнуляются
+
+                        const correctedContact = {
+                            name: importedContact.name,
+                            phone: importedContact.phone,
+                            email: importedContact.email || '',
+                            birthday: importedContact.birthday || null
+                        };
+                        try {
+                            await context.dispatch('registerContact', correctedContact);
+                        } catch (error) {
+                            throw new Error('Произошла ошибка при импорте контактов');
+                        }
+
+                        importedContacts++;
+                    } else issues++;
+                }
+
+                // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
+
+                const causeText = 'Возможно, введенные контакты уже существуют или они записаны некорректно';
+                if (importedContacts === 0) throw new Error(`Ни один из контактов не был импортирован. ${causeText}`);
+                if (issues !== 0)
+                    throw new Error(
+                        `Импорт завершен. Часть контактов (${issues} шт) не была импортирована. ${causeText}`
+                    );
+
+                return `Импорт завершен. Все контакты (${importedContacts} шт) были импортированы.`;
+            } catch (error) {
+                throw new Error(error.message || 'Произошла ошибка при импорте контактов');
             }
         },
         async registerContact(context, payload) {

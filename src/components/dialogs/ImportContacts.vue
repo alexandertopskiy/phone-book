@@ -66,8 +66,12 @@ export default {
             }
         },
         async importContacts() {
-            const { message, type } = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
-            this.$store.dispatch('snackbar/showSnackbar', { message, type });
+			try {
+				const message = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
+				this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+			} catch (error) {
+				this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+			}
 
             this.closeModal();
         },
