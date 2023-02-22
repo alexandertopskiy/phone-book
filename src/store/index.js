@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import snackbarModule from './snackbarModule.js';
+import snackbarModule from '@/store/modules/snackbarModule.js';
 
 const store = createStore({
     modules: {
