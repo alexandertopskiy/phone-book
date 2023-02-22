@@ -1,5 +1,6 @@
 <template>
-    <v-list>
+    <BaseSpinner v-if="isLoading" class="my-16" />
+    <v-list v-else>
         <!-- Info Message -->
         <template v-if="!filteredContacts.length">
             <v-list-item>
@@ -59,13 +60,20 @@
 </template>
 
 <script>
+import BaseSpinner from '@/components/ui/BaseSpinner.vue';
 import ContactItem from '@/components/contacts/ContactItem.vue';
 
 export default {
     components: {
+        BaseSpinner,
         ContactItem
     },
     inject: ['showCreateContact'],
+    data() {
+        return {
+            isLoading: false
+        };
+    },
     computed: {
         availableContacts() {
             const allContacts = this.$store.getters.contacts;
@@ -99,13 +107,14 @@ export default {
             }
         },
         async loadContacts() {
-            // TODO: add loading spinner
+            this.isLoading = true;
             try {
                 const message = await this.$store.dispatch('loadContacts');
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
             }
+            this.isLoading = false;
         }
     },
     created() {
@@ -117,14 +126,12 @@ export default {
 <style lang="scss" scoped>
 .collapsed-contact-enter-from {
     opacity: 0;
-    transform: translateX(550px);
 }
 .collapsed-contact-enter-active {
-    transition: all 0.6s ease-out;
+    transition: all 0.3s ease-out;
 }
 .collapsed-contact-enter-to {
     opacity: 1;
-    transform: translateX(0);
 }
 
 .collapsed-contact-leave-from {
@@ -132,7 +139,7 @@ export default {
     transform: translateX(0);
 }
 .collapsed-contact-leave-active {
-    transition: all 0.6s ease-in;
+    transition: all 0.3s ease-in;
 }
 .collapsed-contact-leave-to {
     opacity: 0;
