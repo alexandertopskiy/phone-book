@@ -123,7 +123,7 @@ const store = createStore({
                 if (context.state.contacts.some(contact => contact.phone === newContact.phone))
                     throw new Error('Такой контакт уже существует');
 
-                const response = await fetch('https://phonebook-60b42-default-rtdb.firebaseio.com//contacts.json', {
+                const response = await fetch('https://phonebook-60b42-default-rtdb.firebaseio.com/contacts.json', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -144,15 +144,20 @@ const store = createStore({
             }
         },
         async removeContact(context, payload) {
-            const contactId = payload.id;
-            const contactIndex = await context.getters.contacts.findIndex(contact => contact.id === contactId);
+            try {
+                const contactId = payload.id;
+                const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
-            context.commit('removeContact', contactIndex);
+                await fetch(`https://phonebook-60b42-default-rtdb.firebaseio.com/contacts/${contactId}.json`, {
+                    method: 'DELETE'
+                });
 
-            return {
-                message: 'Контакт удален',
-                type: 'success'
-            };
+                context.commit('removeContact', contactIndex);
+
+                return 'Контакт удален';
+            } catch (error) {
+                throw new Error('Произошла ошибка при удалении контакта');
+            }
         },
         async updateContact(context, payload) {
             const contactId = payload.id;

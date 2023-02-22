@@ -91,8 +91,12 @@ export default {
             return name[0].toUpperCase();
         },
         async deleteContact(id) {
-            const { message, type } = await this.$store.dispatch('removeContact', { id: id });
-            this.$store.dispatch('snackbar/showSnackbar', { message, type });
+            try {
+                const message = await this.$store.dispatch('removeContact', { id: id });
+                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+            } catch (error) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+            }
         },
         async loadContacts() {
             // TODO: add loading spinner
