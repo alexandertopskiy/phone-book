@@ -52,8 +52,7 @@ const store = createStore({
             contactForImport.forEach(importedContact => {
                 // уже существующие контакты () не добавляются
                 const alreadyExists = currentContacts.some(
-                    existedContact =>
-                        existedContact.phone === importedContact.phone || existedContact.email === importedContact.email
+                    existed => existed.phone === importedContact.phone || existed.email === importedContact.email
                 );
                 // если у контакта не указано имя/номер, то не добавлять его
                 const isCorrect = !!(importedContact.name && importedContact.phone);
@@ -106,25 +105,39 @@ const store = createStore({
 
                 return 'Контакты загружены';
             } catch (error) {
-                throw new Error('Произошла ошибка при загрузке контактов');
+                throw new Error(error.message || 'Произошла ошибка при загрузке контактов');
             }
         },
         async registerContact(context, payload) {
-            const newContact = {
-                name: payload.name,
-                phone: payload.phone,
-                email: payload.email,
-                birthday: payload.birthday,
-                id: new Date().toISOString()
-            };
-            console.log(newContact);
+            try {
+                const newContact = {
+                    name: payload.name,
+                    phone: payload.phone,
+                    email: payload.email,
+                    birthday: payload.birthday
+                };
+                if (context.state.contacts.some(contact => contact.phone === newContact.phone))
+                    throw new Error('Такой контакт уже существует');
 
-            context.commit('registerContact', newContact);
+                const response = await fetch('https://phonebook-60b42-default-rtdb.firebaseio.com//contacts.json', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newContact)
+                });
+                const responseData = await response.json();
 
-            return {
-                message: 'Контакт добавлен',
-                type: 'success'
-            };
+                if (!response.ok) {
+                    throw new Error(responseData.errorMessage || 'Произошла ошибка при создании нового контакта');
+                }
+
+                context.commit('registerContact', { id: responseData.name, ...newContact });
+
+                return 'Контакт добавлен';
+            } catch (error) {
+                throw new Error(error.message || 'Произошла ошибка при создании нового контакта');
+            }
         },
         async removeContact(context, payload) {
             const contactId = payload.id;
