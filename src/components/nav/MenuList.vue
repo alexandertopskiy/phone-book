@@ -1,11 +1,11 @@
 <template>
     <v-list density="compact" nav>
         <template v-for="item in menuItems" :key="item.value">
+            <!-- v-list-item также имеет пропс value для запоминания селекта :value="subitem.value" -->
             <v-list-item
                 v-if="!item.subItems"
                 :title="item.title"
                 :prepend-icon="item.icon"
-                v-model="selection"
                 @click="onClickMenu(item.action)"
             >
             </v-list-item>
@@ -13,12 +13,12 @@
                 <template #activator="{ props }">
                     <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
                 </template>
+
                 <v-list-item
                     v-for="subitem in item.subItems"
                     :key="subitem.value"
                     :title="subitem.title"
                     :prepend-icon="subitem.icon"
-                    v-model="selection"
                     @click="onClickMenu(subitem.action)"
                 >
                 </v-list-item>
@@ -33,12 +33,10 @@ export default {
     emits: ['closeMenu'],
     data() {
         return {
-            selection: null,
             menuItems: [
                 {
                     title: 'New Contact',
                     icon: 'mdi-plus',
-                    // TODO: check if it's needed
                     value: 'add-contact',
                     action: 'create'
                 },
@@ -96,7 +94,6 @@ export default {
                     break;
             }
 
-            this.selection = null;
             this.$emit('closeMenu');
         },
         exportContacts(format) {

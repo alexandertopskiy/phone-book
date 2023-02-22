@@ -52,7 +52,6 @@
     </BaseDialog>
 </template>
 
-<!-- TODO: Composition API: validation in setup -> disabled button -->
 <script>
 import BaseDialog from '@/components/dialogs/BaseDialog.vue';
 import createEditMixin from '@/mixins/createEditMixin.js';
@@ -69,7 +68,6 @@ export default {
     emits: ['close'],
     mixins: [createEditMixin],
     methods: {
-        // TODO: show success/failure message
         async createContact() {
             const formattedBirthday = this.userBirthday?.split('-').reverse().join('.') || null;
             const newContact = {

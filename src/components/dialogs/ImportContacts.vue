@@ -11,6 +11,7 @@
                 class="pb-2"
             ></v-textarea>
         </template>
+
         <template #mainAction>
             <!-- Import/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit" :disabled="!jsonData">
@@ -21,12 +22,6 @@
     </BaseDialog>
 </template>
 
-<!-- TODO: Composition API: validation in setup -> disabled button -->
-<!-- test data: -->
-<!-- [{"name":"Alex Hoppesr","phone":"+7-352-456-78-90","email":"user21@mail.ru","birthday":"01.01.2000"}, -->
-<!-- {"name":"user 1","phone":"+7-288-456-78-90","email":"user211@mail.ru","birthday":"01.01.2000"}, -->
-<!-- {"name":"test user 2","phone":"+7-329-456-78-90","email":"user122@mail.ru","birthday":"01.01.2000"}, -->
-<!-- {"name":"Username", "phone":"+7-532-456-78-90", "email":"user512@mail.ru", "birthday":"01.01.2000"}] -->
 <script>
 import BaseDialog from '@/components/dialogs/BaseDialog.vue';
 
@@ -65,7 +60,6 @@ export default {
                 return false;
             }
         },
-        // TODO: show success/failure message
         async importContacts() {
             const { message, type } = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
             this.$store.dispatch('snackbar/showSnackbar', { message, type });
