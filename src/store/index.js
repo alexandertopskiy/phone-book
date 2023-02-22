@@ -160,18 +160,30 @@ const store = createStore({
             }
         },
         async updateContact(context, payload) {
-            const contactId = payload.id;
-            const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
+            try {
+                const contactId = payload.id;
+                const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
-            context.commit('updateContact', {
-                index: contactIndex,
-                data: payload
-            });
+                const response = await fetch(
+                    `https://phonebook-60b42-default-rtdb.firebaseio.com/contacts/${contactId}.json`,
+                    {
+                        method: 'PUT',
+                        body: JSON.stringify(payload)
+                    }
+                );
+                const responseData = await response.json();
 
-            return {
-                message: 'Контакт обновлен',
-                type: 'success'
-            };
+                if (!response.ok) {
+                    const error = new Error(responseData.message || 'Произошла ошибка при обновлении контакта');
+                    throw error;
+                }
+
+                context.commit('updateContact', { index: contactIndex, data: payload });
+
+                return 'Контакт обновлен';
+            } catch (error) {
+                throw new Error('Произошла ошибка при обновлении контакта');
+            }
         }
     }
 });

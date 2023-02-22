@@ -99,8 +99,12 @@ export default {
                 birthday: formattedBirthday
             };
 
-            const { message, type } = await this.$store.dispatch('updateContact', updatedContact);
-            this.$store.dispatch('snackbar/showSnackbar', { message, type });
+            try {
+                const message = await this.$store.dispatch('updateContact', updatedContact);
+                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+            } catch (error) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+            }
 
             this.closeModal();
         },
