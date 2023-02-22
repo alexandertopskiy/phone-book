@@ -93,7 +93,19 @@ export default {
         async deleteContact(id) {
             const { message, type } = await this.$store.dispatch('removeContact', { id: id });
             this.$store.dispatch('snackbar/showSnackbar', { message, type });
+        },
+        async loadContacts() {
+            // TODO: add loading spinner
+            try {
+                const message = await this.$store.dispatch('loadContacts');
+                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+            } catch (error) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+            }
         }
+    },
+    created() {
+        this.loadContacts();
     }
 };
 </script>
