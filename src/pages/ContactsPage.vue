@@ -9,9 +9,6 @@
     <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
     <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
     <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
-
-    <!-- Success/Failure Messages -->
-    <ResultMessage />
 </template>
 
 <script>
@@ -20,7 +17,6 @@ import AppContent from '@/components/AppContent.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
 import EditContact from '@/components/dialogs/EditContact.vue';
 import ImportContacts from '@/components/dialogs/ImportContacts.vue';
-import ResultMessage from '@/components/ui/ResultMessage.vue';
 import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
 
 export default {
@@ -30,7 +26,6 @@ export default {
         CreateContact,
         EditContact,
         ImportContacts,
-        ResultMessage
     },
     provide() {
         return {
