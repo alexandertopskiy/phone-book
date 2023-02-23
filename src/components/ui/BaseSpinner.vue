@@ -13,6 +13,17 @@
     </div>
 </template>
 
+<script>
+export default {
+    props: {
+        color: {
+            type: String,
+            default: '#80cbc4'
+        }
+    }
+};
+</script>
+
 <style scoped lang="scss">
 .spinner {
     display: flex;
@@ -38,7 +49,7 @@
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #80cbc4;
+            background: v-bind(color);
             margin: -4px 0 0 -4px;
         }
 
