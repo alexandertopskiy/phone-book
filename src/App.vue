@@ -10,6 +10,9 @@
 <script>
 import ResultMessage from '@/components/ui/ResultMessage.vue';
 export default {
-    components: { ResultMessage }
+    components: { ResultMessage },
+    created() {
+        this.$store.dispatch('tryLogin');
+    }
 };
 </script>

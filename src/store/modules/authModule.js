@@ -70,6 +70,9 @@ const authModule = {
                 throw new Error(responseData.message || errorMessage);
             }
 
+            localStorage.setItem('userId', responseData.localId);
+            localStorage.setItem('token', responseData.idToken);
+
             context.commit('setUser', {
                 userId: responseData.localId,
                 token: responseData.idToken
@@ -82,6 +85,18 @@ const authModule = {
         },
         async signUp(context, payload) {
             return context.dispatch('auth', { ...payload, mode: 'signUp' });
+        },
+        // auto login (if token/userId exist)
+        tryLogin(context) {
+            const userId = localStorage.getItem('userId');
+            const token = localStorage.getItem('token');
+
+            if (token && userId) {
+                context.commit('setUser', {
+                    userId: userId,
+                    token: token
+                });
+            }
         },
     }
 };
