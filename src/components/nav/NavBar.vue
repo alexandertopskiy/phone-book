@@ -4,6 +4,8 @@
             <v-app-bar-nav-icon @click="toggleDrawerVisibility"></v-app-bar-nav-icon>
             <!-- TODO: делать по центру для десктопа, прижимать к левому краю для планшетов, скрывать для мобилок -->
             <v-toolbar-title class="hidden-sm-and-down">PhoneBook App</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn @click="logout">Logout</v-btn>
         </v-app-bar>
         <!-- Боковое Меню -->
         <v-navigation-drawer v-model="drawer">
@@ -28,6 +30,10 @@ export default {
     methods: {
         toggleDrawerVisibility() {
             this.drawer = !this.drawer;
+        },
+        logout() {
+            this.$store.dispatch('logout');
+            this.$router.replace('/auth');
         }
     }
 };
