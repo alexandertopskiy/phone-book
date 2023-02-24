@@ -1,8 +1,10 @@
 import { createStore } from 'vuex';
+import authModule from '@/store/modules/authModule';
 import snackbarModule from '@/store/modules/snackbarModule.js';
 
 const store = createStore({
     modules: {
+        auth: authModule,
         snackbar: snackbarModule
     },
     state() {

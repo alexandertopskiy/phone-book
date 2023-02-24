@@ -92,9 +92,23 @@ export default {
     },
     methods: {
         async submitData() {
+            const { valid } = await this.$refs.form.validate();
+            if (!valid) return;
+
             this.isLoading = true;
-            console.log(this.mode + '...');
-            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            const actionPayload = { email: this.userMail, password: this.userPassword };
+            try {
+                let message;
+                if (this.mode === 'login') message = await this.$store.dispatch('login', actionPayload);
+                else message = await this.$store.dispatch('signUp', actionPayload);
+
+                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+                this.$router.replace('/');
+            } catch (error) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+            }
+
             this.isLoading = false;
         },
         switchAuthMode() {
