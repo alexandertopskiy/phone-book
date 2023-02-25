@@ -1,11 +1,15 @@
 const authModule = {
     state() {
         return {
+            userMail: null,
             userId: null,
             token: null
         };
     },
     getters: {
+        userMail(state) {
+            return state.userMail;
+        },
         userId(state) {
             return state.userId;
         },
@@ -18,6 +22,7 @@ const authModule = {
     },
     mutations: {
         setUser(state, payload) {
+            state.userMail = payload.userMail;
             state.userId = payload.userId;
             state.token = payload.token;
         }
@@ -70,10 +75,12 @@ const authModule = {
                 throw new Error(responseData.message || errorMessage);
             }
 
+            localStorage.setItem('email', payload.email);
             localStorage.setItem('userId', responseData.localId);
             localStorage.setItem('token', responseData.idToken);
 
             context.commit('setUser', {
+                userMail: payload.email,
                 userId: responseData.localId,
                 token: responseData.idToken
             });
@@ -88,21 +95,25 @@ const authModule = {
         },
         // auto login (if token/userId exist)
         tryLogin(context) {
+            const email = localStorage.getItem('email');
             const userId = localStorage.getItem('userId');
             const token = localStorage.getItem('token');
 
             if (token && userId) {
                 context.commit('setUser', {
+                    userMail: email,
                     userId: userId,
                     token: token
                 });
             }
         },
         logout(context) {
+            localStorage.removeItem('email');
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
 
             context.commit('setUser', {
+                userMail: null,
                 userId: null,
                 token: null
             });
