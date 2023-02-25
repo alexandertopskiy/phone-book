@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
-import authModule from '@/store/modules/authModule';
+import authModule from '@/store/modules/auth';
 import contactsModule from '@/store/modules/contacts';
-import snackbarModule from '@/store/modules/snackbarModule.js';
+import snackbarModule from '@/store/modules/snackbar';
 
 const store = createStore({
     modules: {
