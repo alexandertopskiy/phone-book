@@ -39,8 +39,8 @@ export default {
         ContactsList
     },
     inject: ['showCreateContact'],
-    computed: mapGetters({ enteredValue: 'searchQuery' }),
-    methods: mapActions(['setSearchQuery'])
+    computed: mapGetters('contacts', { enteredValue: 'searchQuery' }),
+    methods: mapActions('contacts', ['setSearchQuery'])
 };
 </script>
 

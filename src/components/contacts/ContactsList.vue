@@ -76,7 +76,7 @@ export default {
     },
     computed: {
         availableContacts() {
-            const allContacts = this.$store.getters.contacts;
+            const allContacts = this.$store.getters['contacts/contacts'];
             const sortedContacts = allContacts.slice().sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
 
             return sortedContacts;
@@ -88,7 +88,7 @@ export default {
             return this.availableContacts;
         },
         searchQuery() {
-            return this.$store.getters.searchQuery;
+            return this.$store.getters['contacts/searchQuery'];
         }
     },
     methods: {
@@ -100,7 +100,7 @@ export default {
         },
         async deleteContact(id) {
             try {
-                const message = await this.$store.dispatch('removeContact', { id: id });
+                const message = await this.$store.dispatch('contacts/removeContact', { id: id });
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
@@ -109,7 +109,7 @@ export default {
         async loadContacts() {
             this.isLoading = true;
             try {
-                const message = await this.$store.dispatch('loadContacts');
+                const message = await this.$store.dispatch('contacts/loadContacts');
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });

@@ -66,12 +66,12 @@ export default {
             }
         },
         async importContacts() {
-			try {
-				const message = await this.$store.dispatch('importContacts', JSON.parse(this.jsonData));
-				this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
-			} catch (error) {
-				this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
-			}
+            try {
+                const message = await this.$store.dispatch('contacts/importContacts', JSON.parse(this.jsonData));
+                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+            } catch (error) {
+                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
+            }
 
             this.closeModal();
         },

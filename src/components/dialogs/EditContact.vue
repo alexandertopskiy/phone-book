@@ -100,7 +100,7 @@ export default {
             };
 
             try {
-                const message = await this.$store.dispatch('updateContact', updatedContact);
+                const message = await this.$store.dispatch('contacts/updateContact', updatedContact);
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
@@ -113,7 +113,7 @@ export default {
             this.$emit('close');
         },
         setOriginalData() {
-            const editedContact = this.$store.getters.contacts.find(contact => contact.id === this.id);
+            const editedContact = this.$store.getters['contacts/contacts'].find(contact => contact.id === this.id);
             const formattedBirthday = editedContact.birthday?.split('.').reverse().join('-') || null;
 
             this.userName = editedContact.name;

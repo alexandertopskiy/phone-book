@@ -83,7 +83,7 @@ export default {
             };
 
             try {
-                const message = await this.$store.dispatch('registerContact', newContact);
+                const message = await this.$store.dispatch('contacts/registerContact', newContact);
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });

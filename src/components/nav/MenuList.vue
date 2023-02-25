@@ -98,7 +98,7 @@ export default {
         },
         exportContacts(format) {
             // создаем глубокую копию, т.к. contacts - это массив объектов, и изменения объектов затронут стор
-            const contactCopy = JSON.parse(JSON.stringify(this.$store.getters.contacts));
+            const contactCopy = JSON.parse(JSON.stringify(this.$store.getters['contacts/contacts']));
 
             if (!contactCopy.length) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: 'Список контактов пуст.', type: 'failure' });
