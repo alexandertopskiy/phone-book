@@ -88,5 +88,7 @@ export default {
             userId: null,
             token: null
         });
+
+        return 'До свидания!';
     }
 };

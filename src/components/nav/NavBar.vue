@@ -38,8 +38,9 @@ export default {
         toggleDrawerVisibility() {
             this.drawer = !this.drawer;
         },
-        logout() {
-            this.$store.dispatch('logout');
+        async logout() {
+            const message = await this.$store.dispatch('logout');
+            this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
             this.$router.replace('/auth');
         }
     }
