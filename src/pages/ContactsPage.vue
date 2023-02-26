@@ -15,9 +15,9 @@
                                 prepend-inner-icon="mdi-text-box-search-outline"
                                 label="Search a contact"
                                 placeholder="Search a contact"
-                                :value="enteredValue"
-                                @input="setSearchQuery($event.target.value)"
-                                @click:clear="setSearchQuery('')"
+                                :value="enteredTerm"
+                                @input="updateEnteredTerm($event.target.value)"
+                                @click:clear="updateEnteredTerm('')"
                             ></v-text-field>
                             <v-btn icon class="ml-5" @click="showCreateContact">
                                 <v-icon>mdi-plus</v-icon>
@@ -33,14 +33,29 @@
 
 <script>
 import ContactsList from '@/components/contacts/ContactsList.vue';
-import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
         ContactsList
     },
     inject: ['showCreateContact'],
-    computed: mapGetters('contacts', { enteredValue: 'searchQuery' }),
-    methods: mapActions('contacts', ['setSearchQuery'])
+    data() {
+        return {
+            enteredTerm: ''
+        };
+    },
+    methods: {
+        updateEnteredTerm(newValue) {
+            this.enteredTerm = newValue;
+        }
+    },
+    watch: {
+        enteredTerm(newValue) {
+            // задержка поиска (чтобы не обновлять с каждой новой буквой, а подождать 0.3с)
+            setTimeout(() => {
+                if (newValue === this.enteredTerm) this.$store.dispatch('contacts/setSearchQuery', newValue);
+            }, 300);
+        }
+    }
 };
 </script>
