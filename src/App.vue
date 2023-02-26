@@ -1,6 +1,19 @@
 <template>
     <v-app id="inspire">
-        <router-view></router-view>
+        <!-- Navigation Bar -->
+        <NavBar />
+
+        <!-- Content -->
+        <router-view v-slot="{ Component }">
+            <transition name="route" mode="out-in">
+                <component :is="Component"></component>
+            </transition>
+        </router-view>
+
+        <!-- Dialog Modals -->
+        <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
+        <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
+        <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
 
         <!-- Success/Failure Messages -->
         <ResultMessage />
@@ -8,9 +21,49 @@
 </template>
 
 <script>
+import NavBar from '@/components/nav/NavBar.vue';
+import CreateContact from '@/components/dialogs/CreateContact.vue';
+import EditContact from '@/components/dialogs/EditContact.vue';
+import ImportContacts from '@/components/dialogs/ImportContacts.vue';
 import ResultMessage from '@/components/ui/ResultMessage.vue';
+import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
+
 export default {
-    components: { ResultMessage },
+    components: {
+        NavBar,
+        CreateContact,
+        EditContact,
+        ImportContacts,
+        ResultMessage
+    },
+    provide() {
+        return {
+            showCreateContact: this.showCreateContact,
+            showEditContact: this.showEditContact,
+            showImportContacts: this.showImportContacts
+        };
+    },
+    setup() {
+        const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
+        const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
+        const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
+
+        return {
+            // creating
+            createFormVisible,
+            showCreateContact,
+            closeCreateContact,
+            // editing
+            editFormVisible,
+            editedContactId,
+            showEditContact,
+            closeEditContact,
+            // importing
+            importFormVisible,
+            showImportContacts,
+            closeImportContacts
+        };
+    },
     created() {
         this.$store.dispatch('tryLogin');
     },
@@ -32,3 +85,28 @@ export default {
     }
 };
 </script>
+
+<style>
+/* Animation */
+.route-enter-from {
+    transform: translateY(30px);
+    opacity: 0;
+}
+.route-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.route-enter-to,
+.route-leave-from {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.route-leave-active {
+    transition: all 0.3s ease-in;
+}
+.route-leave-to {
+    transform: translateY(-30px);
+    opacity: 0;
+}
+</style>

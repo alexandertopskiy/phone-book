@@ -1,65 +1,46 @@
 <template>
-    <!-- Navigation Bar -->
-    <NavBar />
-
-    <!-- Content -->
-    <AppContent />
-
-    <!-- Dialog Modals -->
-    <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
-    <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
-    <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
+    <v-main>
+        <v-container fluid>
+            <v-row>
+                <v-col cols="12">
+                    <v-card max-width="600" class="mx-auto">
+                        <v-toolbar color="teal-lighten-1" dark>
+                            <v-text-field
+                                class="ml-3"
+                                density="compact"
+                                variant="solo"
+                                clearable
+                                single-line
+                                hide-details
+                                prepend-inner-icon="mdi-text-box-search-outline"
+                                label="Search a contact"
+                                placeholder="Search a contact"
+                                :value="enteredValue"
+                                @input="setSearchQuery($event.target.value)"
+                                @click:clear="setSearchQuery('')"
+                            ></v-text-field>
+                            <v-btn icon class="ml-5" @click="showCreateContact">
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-toolbar>
+                        <ContactsList />
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-main>
 </template>
 
 <script>
-import NavBar from '@/components/nav/NavBar.vue';
-import AppContent from '@/components/AppContent.vue';
-import CreateContact from '@/components/dialogs/CreateContact.vue';
-import EditContact from '@/components/dialogs/EditContact.vue';
-import ImportContacts from '@/components/dialogs/ImportContacts.vue';
-import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
+import ContactsList from '@/components/contacts/ContactsList.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
-        NavBar,
-        AppContent,
-        CreateContact,
-        EditContact,
-        ImportContacts,
+        ContactsList
     },
-    provide() {
-        return {
-            showCreateContact: this.showCreateContact,
-            showEditContact: this.showEditContact,
-            showImportContacts: this.showImportContacts
-        };
-    },
-    setup() {
-        const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
-        const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
-        const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
-
-        return {
-            // creating
-            createFormVisible,
-            showCreateContact,
-            closeCreateContact,
-            // editing
-            editFormVisible,
-            editedContactId,
-            showEditContact,
-            closeEditContact,
-            // importing
-            importFormVisible,
-            showImportContacts,
-            closeImportContacts
-        };
-    }
+    inject: ['showCreateContact'],
+    computed: mapGetters('contacts', { enteredValue: 'searchQuery' }),
+    methods: mapActions('contacts', ['setSearchQuery'])
 };
 </script>
-
-<style lang="scss">
-.v-toolbar__content {
-    padding: 4px 20px;
-}
-</style>
