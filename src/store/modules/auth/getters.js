@@ -10,5 +10,8 @@ export default {
     },
     isAuth(state) {
         return !!state.token;
+    },
+    didAutoLogout(state) {
+        return state.didAutoLogout;
     }
 };

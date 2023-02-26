@@ -7,7 +7,8 @@ const authModule = {
         return {
             userMail: null,
             userId: null,
-            token: null
+            token: null,
+            didAutoLogout: false
         };
     },
     getters,
