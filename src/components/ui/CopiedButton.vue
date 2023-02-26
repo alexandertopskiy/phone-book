@@ -6,6 +6,7 @@
 
 <script>
 export default {
+    name: 'CopiedButton',
     props: ['title', 'data'],
     methods: {
         async copyToClipboard(mytext) {

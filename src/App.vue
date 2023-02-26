@@ -25,7 +25,7 @@ import NavBar from '@/components/nav/NavBar.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
 import EditContact from '@/components/dialogs/EditContact.vue';
 import ImportContacts from '@/components/dialogs/ImportContacts.vue';
-import ResultMessage from '@/components/ui/ResultMessage.vue';
+
 import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
 
 export default {
@@ -33,8 +33,7 @@ export default {
         NavBar,
         CreateContact,
         EditContact,
-        ImportContacts,
-        ResultMessage
+        ImportContacts
     },
     provide() {
         return {

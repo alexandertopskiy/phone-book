@@ -10,6 +10,7 @@
 
 <script>
 export default {
+    name: 'ResultMessage',
     computed: {
         isVisible: {
             get() {

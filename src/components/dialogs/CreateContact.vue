@@ -53,11 +53,9 @@
 </template>
 
 <script>
-import BaseDialog from '@/components/dialogs/BaseDialog.vue';
 import createEditMixin from '@/mixins/createEditMixin.js';
 
 export default {
-    components: { BaseDialog },
     props: {
         dialog: {
             type: Boolean,

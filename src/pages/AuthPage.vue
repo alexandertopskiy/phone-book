@@ -57,12 +57,7 @@
 </template>
 
 <script>
-import BaseSpinner from '@/components/ui/BaseSpinner.vue';
-
 export default {
-    components: {
-        BaseSpinner
-    },
     data() {
         return {
             mode: 'login',

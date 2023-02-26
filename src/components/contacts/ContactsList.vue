@@ -60,12 +60,10 @@
 </template>
 
 <script>
-import BaseSpinner from '@/components/ui/BaseSpinner.vue';
 import ContactItem from '@/components/contacts/ContactItem.vue';
 
 export default {
     components: {
-        BaseSpinner,
         ContactItem
     },
     inject: ['showCreateContact'],

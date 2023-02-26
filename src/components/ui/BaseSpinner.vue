@@ -15,6 +15,7 @@
 
 <script>
 export default {
+    name: 'BaseSpinner',
     props: {
         color: {
             type: String,

@@ -40,10 +40,7 @@
 </template>
 
 <script>
-import CopiedButton from '@/components/ui/CopiedButton.vue';
-
 export default {
-    components: { CopiedButton },
     props: ['id', 'name', 'phone', 'email', 'birthday'],
     emits: ['deleteContact'],
     inject: ['showEditContact'],
