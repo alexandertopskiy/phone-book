@@ -24,6 +24,15 @@
                 </v-list-item>
             </v-list-group>
         </template>
+
+        <div class="lang">
+            <label class="text-subtitle-2" for="lang">{{ $t('chooseLang') }}</label>
+            <select v-model="$i18n.locale" id="lang">
+                <option v-for="(locale, i) in lagnuages" :key="`locale-${i}`" :value="locale">
+                    {{ locale.toUpperCase() }}
+                </option>
+            </select>
+        </div>
     </v-list>
 </template>
 
@@ -71,7 +80,8 @@ export default {
                         }
                     ]
                 }
-            ]
+            ],
+            lagnuages: ['ru', 'en']
         };
     },
     methods: {
@@ -152,3 +162,25 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.lang {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+select {
+    // margin: 1rem;
+    padding: 0.25rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #b2dfdb;
+    color: #b2dfdb;
+
+    &:focus {
+        outline: none;
+        border-color: #26a69a;
+        color: #26a69a;
+    }
+}
+</style>

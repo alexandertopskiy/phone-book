@@ -1,4 +1,5 @@
 {
+    "chooseLang": "Change Language:",
     "navBar": {
         "greeting": "Hello, ",
         "logout": "Logout",

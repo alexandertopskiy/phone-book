@@ -12,7 +12,7 @@
     </v-app-bar>
 
     <!-- Боковое Меню -->
-    <v-navigation-drawer v-model="drawer" v-if="isAuth">
+    <v-navigation-drawer v-model="drawer" v-if="isAuth" width="300">
         <MenuList @close-menu="toggleDrawerVisibility" />
     </v-navigation-drawer>
 </template>
