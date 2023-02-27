@@ -6,6 +6,7 @@ import vuetify from '@/plugins/vuetify';
 import { loadFonts } from '@/plugins/webfontloader';
 import store from '@/store';
 import router from '@/router';
+import i18n from './i18n';
 
 loadFonts();
 
@@ -17,5 +18,6 @@ components.forEach(component => app.component(component.name, component));
 app.use(vuetify);
 app.use(store);
 app.use(router);
+app.use(i18n);
 
 app.mount('#app');
