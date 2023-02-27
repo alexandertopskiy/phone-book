@@ -1,3 +1,40 @@
 {
-    "message": "hello i18n !!"
+    "auth": {
+        "inputs": {
+            "mail": "E-mail",
+            "password": "Password",
+            "errors": {
+                "fieldRequired": "This field is required.",
+                "emailInvalid": "E-mail must be valid."
+            }
+        },
+        "buttons": {
+            "login": "Login",
+            "signUp": "Sign Up",
+            "loginInstead": "Login Instead",
+            "signUpInstead": "Sign Up Instead"
+        },
+        "info": {
+            "loading": "Loading...",
+            "logoutMessage": "Goodbye!",
+            "success": {
+                "login": "Authorization was successful",
+                "signUp": "Registration was successful"
+            },
+            "errors": {
+                "errorMessage": "Failed to Authenticate! ",
+                "defaultMessage": "Please, try again later.",
+
+                "login": {
+                    "EMAIL_NOT_FOUND": "User record with this email not found.",
+                    "INVALID_PASSWORD": "You entered incorrect password!",
+                    "USER_DISABLED": "The user account has been disabled by an administrator."
+                },
+                "signUp": {
+                    "EMAIL_EXISTS": "This email has been used already. Please, try another one",
+                    "TOO_MANY_ATTEMPTS_TRY_LATER": "We have blocked all requests from this device due to unusual activity. Try again later."
+                }
+            }
+        }
+    }
 }

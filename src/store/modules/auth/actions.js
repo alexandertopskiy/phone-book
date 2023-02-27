@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+
 let timer;
 
 export default {
@@ -17,31 +19,30 @@ export default {
         const responseData = await response.json();
 
         if (!response.ok) {
-            let errorMessage = 'Failed to Authenticate! ';
+            let errorMessage = i18n.global.t('auth.info.errors.errorMessage');
             switch (responseData.error?.message) {
                 // login errors messages
                 case 'EMAIL_NOT_FOUND':
-                    errorMessage += 'User record with this email not found. Maybe you have been deleted.';
+                    errorMessage += i18n.global.t('auth.info.errors.login.EMAIL_NOT_FOUND');
                     break;
                 case 'INVALID_PASSWORD':
-                    errorMessage += 'You entered incorrect password! Please, try again.';
+                    errorMessage += i18n.global.t('auth.info.errors.login.INVALID_PASSWORD');
                     break;
                 case 'USER_DISABLED':
-                    errorMessage += 'The user account has been disabled by an administrator.';
+                    errorMessage += i18n.global.t('auth.info.errors.login.USER_DISABLED');
                     break;
 
                 // signup errors messages
                 case 'EMAIL_EXISTS':
-                    errorMessage += 'This email has been used already. Please, try another one';
+                    errorMessage += i18n.global.t('auth.info.errors.signUp.EMAIL_EXISTS');
                     break;
                 case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-                    errorMessage +=
-                        'We have blocked all requests from this device due to unusual activity. Try again later.';
+                    errorMessage += i18n.global.t('auth.info.errors.signUp.TOO_MANY_ATTEMPTS_TRY_LATER');
                     break;
 
                 // default error message
                 default:
-                    errorMessage += 'Please, try again later.';
+                    errorMessage += i18n.global.t('auth.info.errors.defaultMessage');
                     break;
             }
 
@@ -65,7 +66,9 @@ export default {
             token: responseData.idToken
         });
 
-        return (payload.mode === 'login' ? 'Авторизация' : 'Регистрация') + ' прошла успешно';
+        return payload.mode === 'login'
+            ? i18n.global.t('auth.info.success.login')
+            : i18n.global.t('auth.info.success.signUp');
     },
     async login(context, payload) {
         return context.dispatch('auth', { ...payload, mode: 'login' });
@@ -109,7 +112,7 @@ export default {
             token: null
         });
 
-        return 'До свидания!';
+        return i18n.global.t('auth.info.logoutMessage');
     },
     autoLogout(context) {
         context.dispatch('logout');

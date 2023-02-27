@@ -1,15 +1,6 @@
 <template>
     <v-main class="bg-teal-lighten-3 d-flex flex-column justify-center">
         <v-container fluid class="text-center">
-            <!-- <v-card max-width="600" class="py-10 mx-auto">
-                <h1 class="my-4">Page not found</h1>
-                <p class="my-2">This page doesn't exist yet</p>
-                <p class="my-2">
-                    Maybe you wanna check
-                    <router-link to="/contacts">contacts list?</router-link>
-                </p>
-            </v-card> -->
-
             <v-card max-width="400" class="mx-auto bg-teal-lighten-5" v-if="!isLoading">
                 <v-form class="my-2 pa-2 px-4" @submit.prevent="submitData" validate-on="blur" ref="form">
                     <!-- Email Field -->
@@ -17,7 +8,7 @@
                         type="email"
                         v-model.trim="userMail"
                         :rules="emailRules"
-                        label="E-mail"
+                        :label="$t('auth.inputs.mail')"
                         required
                         class="pb-2"
                         variant="solo"
@@ -29,7 +20,7 @@
                         type="password"
                         v-model.trim="userPassword"
                         :rules="passwordRules"
-                        label="Password"
+                        :label="$t('auth.inputs.password')"
                         required
                         class="pb-2"
                         variant="solo"
@@ -50,7 +41,7 @@
             </v-card>
             <div v-else>
                 <BaseSpinner color="white" />
-                <h2 class="mt-6 text-white">Loading...</h2>
+                <h2 class="mt-6 text-white">{{ $t('auth.info.loading') }}</h2>
             </div>
         </v-container>
     </v-main>
@@ -68,18 +59,18 @@ export default {
 
             // inputs rules
             emailRules: [
-                val => !!(val && val.trim()) || 'E-mail is required.',
-                val => !(val && val.trim()) || /.+@.+\..+/.test(val) || 'E-mail must be valid.'
+                val => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired'),
+                val => !(val && val.trim()) || /.+@.+\..+/.test(val) || this.$t('auth.inputs.errors.emailInvalid')
             ],
-            passwordRules: [val => !!(val && val.trim()) || 'Password is required.']
+            passwordRules: [val => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired')]
         };
     },
     computed: {
         submitButtonCaption() {
-            return this.mode === 'login' ? 'Login' : 'Sign Up';
+            return this.mode === 'login' ? this.$t('auth.buttons.login') : this.$t('auth.buttons.signUp');
         },
         switchModeButtonCaption() {
-            return (this.mode === 'login' ? 'Sign Up' : 'Login') + ' Instead';
+            return this.mode === 'login' ? this.$t('auth.buttons.signUpInstead') : this.$t('auth.buttons.loginInstead');
         },
         hasEnteredData() {
             return !!this.userMail && !!this.userPassword;
@@ -117,6 +108,7 @@ export default {
 .actions {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 </style>
