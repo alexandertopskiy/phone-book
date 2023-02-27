@@ -1,12 +1,12 @@
 <template>
-    <BaseDialog :dialog="dialog" title="New Contact" @close="closeModal" @sumbitData="createContact">
+    <BaseDialog :dialog="dialog" :title="$t('dialogs.create.title')" @close="closeModal" @sumbitData="createContact">
         <template #dataFields>
             <!-- Name Field -->
             <v-text-field
                 v-model.trim="userName"
                 :rules="nameRules"
                 :counter="40"
-                label="Name"
+                :label="$t('dialogs.createAndEdit.inputs.name')"
                 required
                 class="pb-2"
             ></v-text-field>
@@ -16,7 +16,7 @@
                 type="tel"
                 v-model.trim="userPhone"
                 :rules="phoneRules"
-                label="Phone Number"
+                :label="$t('dialogs.createAndEdit.inputs.phone')"
                 required
                 class="pb-2"
             ></v-text-field>
@@ -26,7 +26,7 @@
                 type="email"
                 v-model.trim="userMail"
                 :rules="emailRules"
-                label="E-mail"
+                :label="$t('dialogs.createAndEdit.inputs.email')"
                 class="pb-2"
             ></v-text-field>
 
@@ -37,7 +37,7 @@
                 min="1950-01-01"
                 v-model.trim="userBirthday"
                 :rules="birthdayRules"
-                label="Birthday"
+                :label="$t('dialogs.createAndEdit.inputs.birthday')"
                 class="pb-2"
             ></v-text-field>
         </template>
@@ -46,7 +46,7 @@
             <!-- Create/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasEnteredData">
                 <v-icon small class="mr-3">mdi-plus</v-icon>
-                Create
+                {{ $t('dialogs.create.btnTitle') }}
             </v-btn>
         </template>
     </BaseDialog>

@@ -5,12 +5,16 @@
         <template v-if="!filteredContacts.length">
             <v-list-item>
                 <v-list-item-title class="text-center">
-                    <div v-if="searchQuery && searchQuery.trim()">There's no such contact</div>
+                    <div v-if="searchQuery && searchQuery.trim()">
+                        {{ $t('contacts.emptyList.notFound') }}
+                    </div>
                     <div v-else class="my-2">
-                        <p class="my-2">You haven't add any contacts yet</p>
-                        <v-btn block variant="outlined" color="blue-darken-2" @click="createContact"
-                            >Add the first one!</v-btn
-                        >
+                        <p class="my-2">
+                            {{ $t('contacts.emptyList.noContacts.title') }}
+                        </p>
+                        <v-btn block variant="outlined" color="blue-darken-2" @click="createContact">
+                            {{ $t('contacts.emptyList.noContacts.btnTitle') }}
+                        </v-btn>
                     </div>
                 </v-list-item-title>
             </v-list-item>
@@ -19,7 +23,9 @@
 
         <!-- Contacts Counter -->
         <div v-else>
-            <v-list-subheader>All contacts: {{ filteredContacts.length }}</v-list-subheader>
+            <v-list-subheader>
+                {{ $t('contacts.list.counterTitle') + filteredContacts.length }}
+            </v-list-subheader>
             <v-divider></v-divider>
         </div>
 

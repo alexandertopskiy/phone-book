@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+
 const baseURL = 'https://phonebook-60b42-default-rtdb.firebaseio.com/contacts';
 
 export default {
@@ -13,7 +15,7 @@ export default {
             const responseData = await response.json();
 
             if (!response.ok) {
-                throw new Error(responseData.errorMessage || 'Произошла ошибка при загрузке контактов');
+                throw new Error(responseData.errorMessage || i18n.global.t('contacts.info.errors.loaded'));
             }
 
             let contacts = [];
@@ -22,9 +24,9 @@ export default {
             }
             context.commit('setContacts', contacts);
 
-            return 'Контакты загружены';
+            return i18n.global.t('contacts.info.success.loaded');
         } catch (error) {
-            throw new Error(error.message || 'Произошла ошибка при загрузке контактов');
+            throw new Error(error.message || i18n.global.t('contacts.info.errors.loaded'));
         }
     },
     async importContacts(context, payload) {
@@ -57,7 +59,7 @@ export default {
                     try {
                         await context.dispatch('registerContact', correctedContact);
                     } catch (error) {
-                        throw new Error('Произошла ошибка при импорте контактов');
+                        throw new Error(i18n.global.t('contacts.info.errors.import.default'));
                     }
 
                     importedContacts++;
@@ -66,14 +68,21 @@ export default {
 
             // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
 
-            const causeText = 'Возможно, введенные контакты уже существуют или они записаны некорректно';
-            if (importedContacts === 0) throw new Error(`Ни один из контактов не был импортирован. ${causeText}`);
+            if (importedContacts === 0) throw new Error(i18n.global.t('contacts.info.errors.import.duplicate.all'));
             if (issues !== 0)
-                throw new Error(`Импорт завершен. Часть контактов (${issues} шт) не была импортирована. ${causeText}`);
+                throw new Error(
+                    i18n.global.t('contacts.info.errors.import.duplicate.partly.start') +
+                        issues +
+                        i18n.global.t('contacts.info.errors.import.duplicate.partly.end')
+                );
 
-            return `Импорт завершен. Все контакты (${importedContacts} шт) были импортированы.`;
+            return (
+                i18n.global.t('contacts.info.success.import.start') +
+                importedContacts +
+                i18n.global.t('contacts.info.success.import.end')
+            );
         } catch (error) {
-            throw new Error(error.message || 'Произошла ошибка при импорте контактов');
+            throw new Error(error.message || i18n.global.t('contacts.info.errors.import.default'));
         }
     },
     async registerContact(context, payload) {
@@ -87,7 +96,7 @@ export default {
                 birthday: payload.birthday
             };
             if (context.state.contacts.some(contact => contact.phone === newContact.phone))
-                throw new Error('Такой контакт уже существует');
+                throw new Error(i18n.global.t('contacts.info.errors.create.exist'));
 
             const response = await fetch(`${baseURL}/${userId}.json?auth=${token}`, {
                 method: 'POST',
@@ -98,15 +107,14 @@ export default {
             });
             const responseData = await response.json();
 
-            if (!response.ok) {
-                throw new Error(responseData.errorMessage || 'Произошла ошибка при создании нового контакта');
-            }
+            if (!response.ok)
+                throw new Error(responseData.errorMessage || i18n.global.t('contacts.info.errors.create.default'));
 
             context.commit('registerContact', { id: responseData.name, ...newContact });
 
-            return 'Контакт добавлен';
+            return i18n.global.t('contacts.info.success.create');
         } catch (error) {
-            throw new Error(error.message || 'Произошла ошибка при создании нового контакта');
+            throw new Error(error.message || i18n.global.t('contacts.info.errors.create.default'));
         }
     },
     async removeContact(context, payload) {
@@ -122,9 +130,9 @@ export default {
 
             context.commit('removeContact', contactIndex);
 
-            return 'Контакт удален';
+            return i18n.global.t('contacts.info.success.delete');
         } catch (error) {
-            throw new Error('Произошла ошибка при удалении контакта');
+            throw new Error(i18n.global.t('contacts.info.errors.delete'));
         }
     },
     async updateContact(context, payload) {
@@ -140,16 +148,13 @@ export default {
             });
             const responseData = await response.json();
 
-            if (!response.ok) {
-                const error = new Error(responseData.message || 'Произошла ошибка при обновлении контакта');
-                throw error;
-            }
+            if (!response.ok) throw new Error(responseData.message || i18n.global.t('contacts.info.errors.update'));
 
             context.commit('updateContact', { index: contactIndex, data: payload });
 
-            return 'Контакт обновлен';
+            return i18n.global.t('contacts.info.success.update');
         } catch (error) {
-            throw new Error('Произошла ошибка при обновлении контакта');
+            throw new Error(i18n.global.t('contacts.info.errors.update'));
         }
     }
 };

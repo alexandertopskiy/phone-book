@@ -3,7 +3,9 @@
         {{ message }}
 
         <template v-slot:actions>
-            <v-btn color="white" variant="text" @click="closeSnackbar"> Close </v-btn>
+            <v-btn color="white" variant="text" @click="closeSnackbar">
+                {{ $t('commonUI.resultMessage.closeBtn') }}
+            </v-btn>
         </template>
     </v-snackbar>
 </template>

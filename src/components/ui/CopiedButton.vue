@@ -1,7 +1,9 @@
 <template>
     <v-btn @click="copyToClipboard(data)" variant="tonal">
         <strong class="mr-1">{{ title }}: </strong> {{ data }}
-        <v-tooltip activator="parent" location="bottom">Click to Copy to Clipboard</v-tooltip>
+        <v-tooltip activator="parent" location="bottom">
+            {{ $t('commonUI.copiedButton.title') }}
+        </v-tooltip>
     </v-btn>
 </template>
 

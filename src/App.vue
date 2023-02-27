@@ -76,7 +76,7 @@ export default {
             if (curVal && curVal !== oldVal) {
                 this.$router.replace('/auth');
                 this.$store.dispatch('snackbar/showSnackbar', {
-                    message: 'Ваша сессия истекла, авторизуйтесь заново!',
+                    message: this.$t('auth.info.autoLogoutMessage'),
                     type: 'success'
                 });
             }

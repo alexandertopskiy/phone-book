@@ -15,18 +15,22 @@
         <!-- Выпадающая часть -->
         <v-list-item class="px-4 py-2">
             <div class="d-flex flex-wrap justify-start px-4 py-2 with-gap">
-                <CopiedButton title="Phone" :data="phone" />
-                <CopiedButton v-if="!!email" title="Email" :data="email" />
-                <CopiedButton v-if="!!birthday" title="Birthday" :data="birthday" />
+                <CopiedButton :title="$t('contacts.list.item.info.phone')" :data="phone" />
+                <CopiedButton v-if="!!email" :title="$t('contacts.list.item.info.email')" :data="email" />
+                <CopiedButton v-if="!!birthday" :title="$t('contacts.list.item.info.birthday')" :data="birthday" />
             </div>
             <div class="d-flex flex-wrap align-center justify-center px-4 py-2 with-gap">
                 <v-btn @click="callContact" text variant="outlined" color="success" class="flex-grow-1">
                     <v-icon class="mr-sm-3">mdi-phone</v-icon>
-                    <span class="d-none d-sm-block">Call</span>
+                    <span class="d-none d-sm-block">
+                        {{ $t('contacts.list.item.buttons.call') }}
+                    </span>
                 </v-btn>
                 <v-btn @click="writeContact" text variant="outlined" color="success" class="flex-grow-1" v-if="email">
                     <v-icon class="mr-sm-3">mdi-email</v-icon>
-                    <span class="d-none d-sm-block">Write</span>
+                    <span class="d-none d-sm-block">
+                        {{ $t('contacts.list.item.buttons.write') }}
+                    </span>
                 </v-btn>
                 <v-btn @click="editContact" icon variant="outlined" size="small" color="blue">
                     <v-icon>mdi-pencil</v-icon>

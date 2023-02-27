@@ -13,8 +13,8 @@
                                 single-line
                                 hide-details
                                 prepend-inner-icon="mdi-text-box-search-outline"
-                                label="Search a contact"
-                                placeholder="Search a contact"
+                                :label="$t('contacts.toolbar.inputLabel')"
+                                :placeholder="$t('contacts.toolbar.inputLabel')"
                                 :value="enteredTerm"
                                 @input="updateEnteredTerm($event.target.value)"
                                 @click:clear="updateEnteredTerm('')"

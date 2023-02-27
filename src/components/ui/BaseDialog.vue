@@ -12,7 +12,7 @@
                     <!-- Cancel/Close Modal -->
                     <v-btn variant="outlined" color="red" @click="closeModal">
                         <v-icon small class="mr-3">mdi-backspace-outline</v-icon>
-                        Cancel
+                        {{ $t('commonUI.dialog.closeBtn') }}
                     </v-btn>
                     <!-- Main Action -->
                     <slot name="mainAction"></slot>

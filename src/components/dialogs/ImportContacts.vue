@@ -1,11 +1,11 @@
 <template>
-    <BaseDialog :dialog="dialog" title="Import Contacts" @close="closeModal" @sumbitData="importContacts">
+    <BaseDialog :dialog="dialog" :title="$t('dialogs.import.title')" @close="closeModal" @sumbitData="importContacts">
         <template #dataFields>
             <!-- JSON Data Field -->
             <v-textarea
                 v-model.trim="jsonData"
                 :rules="jsonDataRules"
-                label="Paste JSON Data here, format:"
+                :label="$t('dialogs.import.inputTitle')"
                 auto-grow
                 required
                 class="pb-2"
@@ -16,7 +16,7 @@
             <!-- Import/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit" :disabled="!hasEnteredData">
                 <v-icon small class="mr-3">mdi-application-import</v-icon>
-                Import
+                {{ $t('dialogs.import.btnTitle') }}
             </v-btn>
         </template>
     </BaseDialog>
@@ -40,8 +40,8 @@ export default {
 
             // input rules
             jsonDataRules: [
-                val => !!(val && val.trim()) || 'JSON Data is required.',
-                val => this.isValidJSON(val) || 'Data is invalid.'
+                val => !!(val && val.trim()) || this.$t('dialogs.import.errors.required'),
+                val => this.isValidJSON(val) || this.$t('dialogs.import.errors.invalid')
             ]
         };
     },

@@ -1,4 +1,55 @@
 {
+    "commonUI": {
+        "copiedButton": {
+            "title": "Click to Copy to Clipboard"
+        },
+        "resultMessage": {
+            "closeBtn": "Close"
+        },
+        "dialog": {
+            "closeBtn": "Cancel"
+        }
+    },
+    "dialogs": {
+        "create": {
+            "title": "New Contact",
+            "btnTitle": "Create"
+        },
+        "edit": {
+            "title": "Edit Contact",
+            "btnTitle": "Save Changes"
+        },
+        "createAndEdit": {
+            "inputs": {
+                "name": "Name",
+                "phone": "Phone Number",
+                "email": "E-mail",
+                "birthday": "Birthday"
+            },
+            "errors": {
+                "nameRequired": "Name is required.",
+                "longName": "Name must be less than 40 characters.",
+
+                "phoneRequired": "Phone number is required.",
+                "invalidPhone": "Phone must be valid.",
+
+                "invalidMail": "E-mail must be valid.",
+
+                "invalidDate": "Date must be valid",
+                "earlyDate": "The site rules prohibit saving users from the future",
+                "lateDate": "We doubt that you will be able to reach such an old contact. Please, try someone younger"
+            }
+        },
+        "import": {
+            "title": "Import Contacts",
+            "inputTitle": "Paste JSON Data here, format:",
+            "btnTitle": "Import",
+            "errors": {
+                "required": "JSON Data is required.",
+                "invalid": "Data is invalid."
+            }
+        }
+    },
     "auth": {
         "inputs": {
             "mail": "E-mail",
@@ -17,6 +68,7 @@
         "info": {
             "loading": "Loading...",
             "logoutMessage": "Goodbye!",
+            "autoLogoutMessage": "Your session has expired, log in again!",
             "success": {
                 "login": "Authorization was successful",
                 "signUp": "Registration was successful"
@@ -37,7 +89,64 @@
             }
         }
     },
-	"notFound": {
+    "contacts": {
+        "toolbar": {
+            "inputLabel": "Search a contact"
+        },
+        "emptyList": {
+            "notFound": "There's no such contact",
+            "noContacts": {
+                "title": "You haven't add any contacts yet",
+                "btnTitle": "Add the first one!"
+            }
+        },
+        "list": {
+            "counterTitle": "All contacts: ",
+            "item": {
+                "info": {
+                    "phone": "Phone",
+                    "email": "Email",
+                    "birthday": "Birthday"
+                },
+                "buttons": {
+                    "call": "Call",
+                    "write": "Write"
+                }
+            }
+        },
+        "info": {
+            "success": {
+                "loaded": "Contacts uploaded",
+                "import": {
+                    "start": "Import completed. All contacts (",
+                    "end": " pcs) have been imported."
+                },
+                "create": "Contact added",
+                "delete": "Contact deleted",
+                "update": "Contact updated"
+            },
+            "errors": {
+                "loaded": "An error occurred while uploading contacts",
+                "import": {
+                    "default": "An error occurred while importing contacts",
+                    "duplicate": {
+                        "all": "None of the contacts were imported. Probably, entered contacts already exist or they are recorded incorrectly",
+                        "partly": {
+                            "start": "Import completed. Part of contacts (",
+                            "end": " pcs) was not imported. Probably, entered contacts already exist or they are recorded incorrectly"
+                        }
+                    }
+                },
+                "create": {
+                    "default": "An error occurred while creating new contact",
+                    "exist": "Such a contact already exists"
+                },
+                "delete": "An error occurred while deleting contact",
+                "update": "An error occurred while updating contact"
+            }
+        }
+    },
+    "notFound": {
         "title": "Page not found",
         "subtitle": "This page doesn't exist yet",
         "linkStart": "Maybe you wanna check",
