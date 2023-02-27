@@ -19,9 +19,14 @@ function loadLocaleMessages() {
     return messages;
 }
 
+// считывание сохраненного в localStorage языка
+const savedLocal = localStorage.getItem('locale');
+
 export default createI18n({
     legacy: false,
-    locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+    globalInjection: true,
+    // если в localStorage ничего нет, то считывание из env (если и там нет, то 'en')
+    locale: savedLocal || process.env.VUE_APP_I18N_LOCALE || 'en',
     fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
     messages: loadLocaleMessages()
 });

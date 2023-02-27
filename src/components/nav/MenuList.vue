@@ -84,6 +84,11 @@ export default {
             lagnuages: ['ru', 'en']
         };
     },
+    computed: {
+        locale() {
+            return this.$i18n.locale;
+        }
+    },
     methods: {
         onClickMenu(action) {
             switch (action) {
@@ -158,6 +163,11 @@ export default {
             document.body.appendChild(element);
             element.click();
             document.body.removeChild(element);
+        }
+    },
+    watch: {
+        locale(newValue) {
+            localStorage.setItem('locale', newValue);
         }
     }
 };
