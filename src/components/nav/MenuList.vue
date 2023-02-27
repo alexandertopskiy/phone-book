@@ -35,19 +35,19 @@ export default {
         return {
             menuItems: [
                 {
-                    title: 'New Contact',
+                    title: this.$t('navBar.menuItems.create'),
                     icon: 'mdi-plus',
                     value: 'add-contact',
                     action: 'create'
                 },
                 {
-                    title: 'Import Contacts',
+                    title: this.$t('navBar.menuItems.import'),
                     icon: 'mdi-application-import',
                     value: 'import',
                     action: 'import'
                 },
                 {
-                    title: 'Export Contacts',
+                    title: this.$t('navBar.menuItems.export'),
                     value: 'export',
                     icon: 'mdi-application-export',
                     subItems: [

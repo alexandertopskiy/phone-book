@@ -1,4 +1,13 @@
 {
+    "navBar": {
+        "greeting": "Hello, ",
+        "logout": "Logout",
+        "menuItems": {
+            "create": "New Contact",
+            "import": "Import Contacts",
+            "export": "Export Contacts"
+        }
+    },
     "commonUI": {
         "copiedButton": {
             "title": "Click to Copy to Clipboard"
