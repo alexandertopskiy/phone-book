@@ -2,11 +2,11 @@
     <v-main class="bg-teal-lighten-3 d-flex flex-column justify-center">
         <v-container fluid class="text-center">
             <v-card max-width="600" class="py-10 mx-auto">
-                <h1 class="my-4">Page not found</h1>
-                <p class="my-2">This page doesn't exist yet</p>
+                <h1 class="my-4">{{ $t('notFound.title') }}</h1>
+                <p class="my-2">{{ $t('notFound.subtitle') }}</p>
                 <p class="my-2">
-                    Maybe you wanna check
-                    <router-link to="/contacts">contacts list?</router-link>
+                    {{ $t('notFound.linkStart') }}
+                    <router-link to="/contacts">{{ $t('notFound.linkEnd') }}</router-link>
                 </p>
             </v-card>
         </v-container>

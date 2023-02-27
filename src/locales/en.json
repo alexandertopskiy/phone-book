@@ -36,5 +36,11 @@
                 }
             }
         }
+    },
+	"notFound": {
+        "title": "Page not found",
+        "subtitle": "This page doesn't exist yet",
+        "linkStart": "Maybe you wanna check",
+        "linkEnd": "contacts list?"
     }
 }
