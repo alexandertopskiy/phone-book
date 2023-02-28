@@ -1,4 +1,5 @@
 import i18n from '@/i18n';
+import axios from 'axios';
 
 let timer;
 
@@ -8,19 +9,39 @@ export default {
         const mode = payload.mode === 'login' ? 'signInWithPassword' : 'signUp';
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${apiKey}`;
 
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
+        try {
+            const { data: responseData } = await axios.post(url, {
                 email: payload.email,
                 password: payload.password,
                 returnSecureToken: true
-            })
-        });
-        const responseData = await response.json();
+            });
 
-        if (!response.ok) {
+            // установка таймера для автологаута
+            // const expiresIn = 10 * 1000; // time in ms: 3600s * 1000
+            const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
+            const curDate = new Date().getTime();
+            const tokenExpiration = curDate + expiresIn;
+            timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
+
+            localStorage.setItem('email', payload.email);
+            localStorage.setItem('userId', responseData.localId);
+            localStorage.setItem('token', responseData.idToken);
+            localStorage.setItem('tokenExpiration', tokenExpiration);
+
+            context.commit('setUser', {
+                userMail: payload.email,
+                userId: responseData.localId,
+                token: responseData.idToken
+            });
+
+            return payload.mode === 'login'
+                ? i18n.global.t('auth.info.success.login')
+                : i18n.global.t('auth.info.success.signUp');
+        } catch (error) {
             let errorMessage = i18n.global.t('auth.info.errors.errorMessage');
-            switch (responseData.error?.message) {
+            const message = error.response?.data?.error?.message;
+
+            switch (message) {
                 // login errors messages
                 case 'EMAIL_NOT_FOUND':
                     errorMessage += i18n.global.t('auth.info.errors.login.EMAIL_NOT_FOUND');
@@ -46,29 +67,8 @@ export default {
                     break;
             }
 
-            throw new Error(responseData.message || errorMessage);
+            throw new Error(errorMessage);
         }
-
-        // установка таймера для автологаута
-        const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
-        const curDate = new Date().getTime();
-        const tokenExpiration = curDate + expiresIn;
-        timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
-
-        localStorage.setItem('email', payload.email);
-        localStorage.setItem('userId', responseData.localId);
-        localStorage.setItem('token', responseData.idToken);
-        localStorage.setItem('tokenExpiration', tokenExpiration);
-
-        context.commit('setUser', {
-            userMail: payload.email,
-            userId: responseData.localId,
-            token: responseData.idToken
-        });
-
-        return payload.mode === 'login'
-            ? i18n.global.t('auth.info.success.login')
-            : i18n.global.t('auth.info.success.signUp');
     },
     async login(context, payload) {
         return context.dispatch('auth', { ...payload, mode: 'login' });

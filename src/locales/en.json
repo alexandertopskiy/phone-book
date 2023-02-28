@@ -167,7 +167,10 @@
                     "exist": "Such a contact already exists"
                 },
                 "delete": "An error occurred while deleting contact",
-                "update": "An error occurred while updating contact"
+                "update": {
+                    "default": "An error occurred while updating contact",
+                    "exist": "Such a contact already exists"
+                }
             }
         }
     },
