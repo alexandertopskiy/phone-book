@@ -13,6 +13,17 @@
             "export": "Export Contacts"
         }
     },
+    "export": {
+        "titleCSV": "#,Name,Phone,Email,Birthday\r\n",
+        "emptyList": "Contacts list is empty.",
+        "plainText": {
+            "index": "Contact #",
+            "name": "Name: ",
+            "number": "Number: ",
+            "email": "Email: ",
+            "birthday": "Birthday: "
+        }
+    },
     "commonUI": {
         "copiedButton": {
             "title": "Click to Copy to Clipboard"

@@ -105,11 +105,14 @@ export default {
             const contactCopy = JSON.parse(JSON.stringify(this.$store.getters['contacts/contacts']));
 
             if (!contactCopy.length) {
-                this.$store.dispatch('snackbar/showSnackbar', { message: 'Список контактов пуст.', type: 'failure' });
+                this.$store.dispatch('snackbar/showSnackbar', {
+                    message: this.$t('export.emptyList'),
+                    type: 'failure'
+                });
                 return;
             }
 
-            // удаление свойства id (при импорте/создании приложение само генерит id)
+            // удаление свойства id (при импорте/создании контакта бэк сам генерит id)
             contactCopy.forEach(contact => delete contact['id']);
 
             if (format === 'json') this.download(JSON.stringify(contactCopy), format);
@@ -119,20 +122,21 @@ export default {
         convertToPlainText(contacts) {
             let output = '';
             for (const [index, contact] of contacts.entries()) {
-                output += 'Contact №' + (index + 1) + '\n';
-                output += 'Name: ' + contact.name + '\n';
-                output += 'Number: ' + contact.phone + '\n';
-                if (contact.email) output += 'Email: ' + contact.email + '\n';
-                if (contact.birthday) output += 'Birthday: ' + contact.birthday + '\n';
+                output += this.$t('export.plainText.index') + (index + 1) + '\n';
+                output += this.$t('export.plainText.name') + contact.name + '\n';
+                output += this.$t('export.plainText.number') + contact.phone + '\n';
+                if (contact.email) output += this.$t('export.plainText.email') + contact.email + '\n';
+                if (contact.birthday) output += this.$t('export.plainText.birthday') + contact.birthday + '\n';
                 output += '\n';
             }
             return output;
         },
         convertToCSV(contacts) {
-            // заголовок таблицы (названия полей)
             // ',' - перевод на новый столбец
             // '\r\n' - перевод на новую строку
-            let csv = '№,name,phone,email,birthday\r\n';
+
+            // заголовок таблицы (названия полей)
+            let csv = this.$t('export.titleCSV');
 
             for (const [index, contact] of contacts.entries()) {
                 csv += index + 1 + ',' + contact.name + ',' + contact.phone + ',';
@@ -146,7 +150,7 @@ export default {
         download(text, format = 'txt') {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/' + format + ';charset=utf-8,' + encodeURIComponent(text));
-            element.setAttribute('download', 'exported_contacts.' + format);
+            element.setAttribute('download', 'exported_contacts (' + this.$i18n.locale + ').' + format);
 
             element.style.display = 'none';
             document.body.appendChild(element);
