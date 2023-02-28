@@ -86,7 +86,24 @@ export default {
         },
         filteredContacts() {
             if (this.searchQuery && this.searchQuery.trim()) {
-                return this.availableContacts.filter(contact => contact.name.toLowerCase().includes(this.searchQuery));
+                return this.availableContacts.filter(contact => {
+                    const nameMatch = contact.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    const numberMatch = contact.phone.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+                    // поиск для российских номеров ("+7" и "8" - одно и то же)
+                    let rusNumMatch = false;
+                    if (this.searchQuery.startsWith('+7') && contact.phone.startsWith('8')) {
+                        const contactPart = contact.phone.slice(2);
+                        const queryPart = this.searchQuery.slice(3);
+                        rusNumMatch = contactPart.includes(queryPart);
+                    } else if (this.searchQuery.startsWith('8') && contact.phone.startsWith('+7')) {
+                        const contactPart = contact.phone.slice(3);
+                        const queryPart = this.searchQuery.slice(2);
+                        rusNumMatch = contactPart.includes(queryPart);
+                    }
+
+                    return nameMatch || numberMatch || rusNumMatch;
+                });
             }
             return this.availableContacts;
         },

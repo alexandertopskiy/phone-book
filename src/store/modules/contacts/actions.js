@@ -59,7 +59,7 @@ export default {
                     const correctedContact = {
                         name: importedContact.name,
                         phone: importedContact.phone,
-                        email: importedContact.email || '',
+                        email: importedContact.email || null,
                         birthday: importedContact.birthday || null
                     };
 
@@ -97,8 +97,8 @@ export default {
         const newContact = {
             name: payload.name,
             phone: payload.phone,
-            email: payload.email,
-            birthday: payload.birthday
+            email: payload.email || null,
+            birthday: payload.birthday || null
         };
 
         if (
