@@ -1,5 +1,9 @@
 {
     "chooseLang": "Change Language:",
+    "languages": {
+        "en": "English",
+        "ru": "Russian"
+    },
     "navBar": {
         "greeting": "Hello, ",
         "logout": "Logout",

@@ -69,8 +69,12 @@ export default {
     computed: {
         didAutoLogout() {
             return this.$store.getters.didAutoLogout;
+        },
+        locale() {
+            return this.$i18n.locale;
         }
     },
+
     watch: {
         didAutoLogout(curVal, oldVal) {
             if (curVal && curVal !== oldVal) {
@@ -80,6 +84,9 @@ export default {
                     type: 'success'
                 });
             }
+        },
+        locale(newValue) {
+            localStorage.setItem('locale', newValue);
         }
     }
 };

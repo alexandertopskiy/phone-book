@@ -36,6 +36,8 @@
                         <v-btn variant="outlined" color="teal" type="button" @click="switchAuthMode">
                             {{ switchModeButtonCaption }}
                         </v-btn>
+
+                        <LangSwitch />
                     </div>
                 </v-form>
             </v-card>
