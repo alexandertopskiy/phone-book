@@ -46,8 +46,7 @@
 <script>
 export default {
     props: ['id', 'name', 'phone', 'email', 'birthday'],
-    emits: ['deleteContact'],
-    inject: ['showEditContact'],
+    inject: ['showEditContact', 'showDeleteContact'],
     data() {
         return {
             editFormVisible: false
@@ -70,7 +69,7 @@ export default {
             this.showEditContact(this.id);
         },
         deleteContact() {
-            this.$emit('deleteContact', this.id);
+            this.showDeleteContact(this.id);
         }
     }
 };

@@ -57,7 +57,6 @@
                         :email="contact.email"
                         :birthday="contact.birthday"
                         class="my-2"
-                        @delete-contact="deleteContact($event)"
                     />
                 </div>
             </template>
@@ -101,14 +100,6 @@ export default {
         },
         getFirstLater(name) {
             return name[0].toUpperCase();
-        },
-        async deleteContact(id) {
-            try {
-                const message = await this.$store.dispatch('contacts/removeContact', { id: id });
-                this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
-            } catch (error) {
-                this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
-            }
         },
         async loadContacts() {
             this.isLoading = true;

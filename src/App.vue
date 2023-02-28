@@ -11,9 +11,28 @@
         </router-view>
 
         <!-- Dialog Modals -->
-        <CreateContact v-if="createFormVisible" :dialog="createFormVisible" @close="closeCreateContact" />
-        <EditContact v-if="editFormVisible" :dialog="editFormVisible" @close="closeEditContact" :id="editedContactId" />
-        <ImportContacts v-if="importFormVisible" :dialog="importFormVisible" @close="closeImportContacts" />
+        <CreateContact
+            v-if="createFormVisible && !didAutoLogout"
+            :dialog="createFormVisible"
+            @close="closeCreateContact"
+        />
+        <EditContact
+            v-if="editFormVisible && !didAutoLogout"
+            :dialog="editFormVisible"
+            @close="closeEditContact"
+            :id="editedContactId"
+        />
+        <ImportContacts
+            v-if="importFormVisible && !didAutoLogout"
+            :dialog="importFormVisible"
+            @close="closeImportContacts"
+        />
+        <DeleteContact
+            v-if="deleteFormVisible && !didAutoLogout"
+            :dialog="deleteFormVisible"
+            @close="closeDeleteContact"
+            :id="deletedContactId"
+        />
 
         <!-- Success/Failure Messages -->
         <ResultMessage />
@@ -25,27 +44,31 @@ import NavBar from '@/components/nav/NavBar.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
 import EditContact from '@/components/dialogs/EditContact.vue';
 import ImportContacts from '@/components/dialogs/ImportContacts.vue';
+import DeleteContact from '@/components/dialogs/DeleteContact.vue';
 
-import { useCreateContact, useEditContact, useImportContacts } from '@/hooks/useModals.js';
+import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals.js';
 
 export default {
     components: {
         NavBar,
         CreateContact,
         EditContact,
-        ImportContacts
+        ImportContacts,
+        DeleteContact
     },
     provide() {
         return {
             showCreateContact: this.showCreateContact,
             showEditContact: this.showEditContact,
-            showImportContacts: this.showImportContacts
+            showImportContacts: this.showImportContacts,
+            showDeleteContact: this.showDeleteContact
         };
     },
     setup() {
         const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
         const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
         const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
+        const { deleteFormVisible, deletedContactId, showDeleteContact, closeDeleteContact } = useDeleteContact();
 
         return {
             // creating
@@ -60,7 +83,12 @@ export default {
             // importing
             importFormVisible,
             showImportContacts,
-            closeImportContacts
+            closeImportContacts,
+            // deleting
+            deleteFormVisible,
+            deletedContactId,
+            showDeleteContact,
+            closeDeleteContact
         };
     },
     created() {

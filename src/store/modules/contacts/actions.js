@@ -16,7 +16,6 @@ export default {
             const url = `${baseURL}/${userId}.json?auth=${token}`;
             const { data: responseData } = await axios.get(url);
 
-            console.log(responseData);
             let contacts = [];
             for (const key in responseData) {
                 const contact = responseData[key];

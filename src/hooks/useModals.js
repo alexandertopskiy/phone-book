@@ -54,3 +54,23 @@ export function useImportContacts() {
         closeImportContacts
     };
 }
+
+export function useDeleteContact() {
+    const deleteFormVisible = ref(false);
+    const deletedContactId = ref(null);
+
+    function showDeleteContact(id) {
+        deletedContactId.value = id;
+        deleteFormVisible.value = true;
+    }
+    function closeDeleteContact() {
+        deleteFormVisible.value = false;
+    }
+
+    return {
+        deleteFormVisible,
+        deletedContactId,
+        showDeleteContact,
+        closeDeleteContact
+    };
+}

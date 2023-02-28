@@ -73,6 +73,11 @@
                 "required": "JSON Data is required.",
                 "invalid": "Data is invalid."
             }
+        },
+        "delete": {
+            "title": "Delete Contact",
+            "subtitle": "Are you sure you want to delete the Contact?",
+            "btnTitle": "Yes, delete"
         }
     },
     "auth": {
