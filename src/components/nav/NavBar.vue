@@ -8,7 +8,7 @@
         <v-btn @click="logout">{{ $t('navBar.logout') }}</v-btn>
     </v-app-bar>
     <v-app-bar color="teal-lighten-1" v-else>
-        <v-toolbar-title class="text-center">PhoneBook</v-toolbar-title>
+        <v-toolbar-title class="ms-0 text-center">PhoneBook</v-toolbar-title>
     </v-app-bar>
 
     <!-- Боковое Меню -->

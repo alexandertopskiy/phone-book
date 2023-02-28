@@ -1,7 +1,7 @@
 <template>
     <v-main class="bg-teal-lighten-3 d-flex flex-column justify-center">
         <v-container fluid class="text-center">
-            <v-card max-width="400" class="mx-auto bg-teal-lighten-5" v-if="!isLoading">
+            <v-card max-width="500" class="mx-auto bg-teal-lighten-5" v-if="!isLoading">
                 <v-form class="my-2 pa-2 px-4" @submit.prevent="submitData" validate-on="blur" ref="form">
                     <!-- Email Field -->
                     <v-text-field
