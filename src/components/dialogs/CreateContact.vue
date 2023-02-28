@@ -39,7 +39,11 @@
                 :rules="birthdayRules"
                 :label="$t('dialogs.createAndEdit.inputs.birthday')"
                 class="pb-2"
-            ></v-text-field>
+            >
+                <v-tooltip activator="parent" location="bottom">
+                    {{ $t('dialogs.createAndEdit.inputs.birthdayTip') }}
+                </v-tooltip>
+            </v-text-field>
         </template>
 
         <template #mainAction>
@@ -83,11 +87,10 @@ export default {
             try {
                 const message = await this.$store.dispatch('contacts/registerContact', newContact);
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+                this.closeModal();
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
             }
-
-            this.closeModal();
         },
         closeModal() {
             this.setOriginalData();

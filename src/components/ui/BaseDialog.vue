@@ -11,7 +11,6 @@
                 <div class="d-flex justify-space-between pt-4">
                     <!-- Cancel/Close Modal -->
                     <v-btn variant="outlined" color="red" @click="closeModal">
-                        <v-icon small class="mr-3">mdi-backspace-outline</v-icon>
                         {{ $t('commonUI.dialog.closeBtn') }}
                     </v-btn>
                     <!-- Main Action -->

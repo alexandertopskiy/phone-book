@@ -100,11 +100,10 @@ export default {
             try {
                 const message = await this.$store.dispatch('contacts/updateContact', updatedContact);
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
+                this.closeModal();
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
             }
-
-            this.closeModal();
         },
         closeModal() {
             this.setOriginalData();

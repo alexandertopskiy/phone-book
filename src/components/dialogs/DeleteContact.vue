@@ -6,7 +6,7 @@
         <template #mainAction>
             <!-- Create/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit">
-                <v-icon small class="mr-3">mdi-plus</v-icon>
+                <v-icon small class="mr-3">mdi-delete-outline</v-icon>
                 {{ $t('dialogs.delete.btnTitle') }}
             </v-btn>
         </template>
