@@ -1,34 +1,35 @@
 <template>
-    <v-list density="compact" nav>
-        <template v-for="item in menuItems" :key="item.value">
-            <!-- v-list-item также имеет пропс value для запоминания селекта :value="subitem.value" -->
-            <v-list-item
-                v-if="!item.subItems"
-                :title="item.title"
-                :prepend-icon="item.icon"
-                @click="onClickMenu(item.action)"
-            >
-            </v-list-item>
-            <v-list-group v-else :value="item.value">
-                <template #activator="{ props }">
-                    <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
-                </template>
-
+    <div class="menu">
+        <v-list density="compact" nav>
+            <template v-for="item in menuItems" :key="item.value">
+                <!-- v-list-item также имеет пропс value для запоминания селекта :value="subitem.value" -->
                 <v-list-item
-                    v-for="subitem in item.subItems"
-                    :key="subitem.value"
-                    :title="subitem.title"
-                    :prepend-icon="subitem.icon"
-                    @click="onClickMenu(subitem.action)"
+                    v-if="!item.subItems"
+                    :title="item.title"
+                    :prepend-icon="item.icon"
+                    @click="onClickMenu(item.action)"
                 >
                 </v-list-item>
-            </v-list-group>
-        </template>
+                <v-list-group v-else :value="item.value">
+                    <template #activator="{ props }">
+                        <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
+                    </template>
 
-        <v-list-item>
+                    <v-list-item
+                        v-for="subitem in item.subItems"
+                        :key="subitem.value"
+                        :title="subitem.title"
+                        :prepend-icon="subitem.icon"
+                        @click="onClickMenu(subitem.action)"
+                    >
+                    </v-list-item>
+                </v-list-group>
+            </template>
+        </v-list>
+        <div class="footer">
             <LangSwitch />
-        </v-list-item>
-    </v-list>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -162,3 +163,19 @@ export default {
     }
 };
 </script>
+
+<style scoped lang="scss">
+.menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+</style>
