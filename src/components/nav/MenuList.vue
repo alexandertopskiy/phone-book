@@ -96,6 +96,8 @@ export default {
                 case 'export-txt':
                     this.exportContacts('txt');
                     break;
+                default:
+                    break;
             }
 
             this.$emit('closeMenu');
