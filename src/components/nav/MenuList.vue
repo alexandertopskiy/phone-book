@@ -28,6 +28,13 @@
         </v-list>
         <div class="footer">
             <LangSwitch />
+
+            <p class="text-center text-body-2">
+                view
+                <a href="https://github.com/alexandertopskiy/phone-book" target="_blank"
+                    >GitHub project <v-icon>mdi-github</v-icon></a
+                >
+            </p>
         </div>
     </div>
 </template>
@@ -176,6 +183,20 @@ export default {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            text-decoration: none;
+            color: #26a69a;
+
+            &:hover,
+            &:active {
+                color: #b2dfdb;
+            }
+        }
     }
 }
 </style>
