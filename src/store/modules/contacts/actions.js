@@ -141,7 +141,17 @@ export default {
         const contactId = payload.id;
         const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
-        if (context.state.contacts.some(contact => contact.phone === payload.phone || contact.email === payload.email))
+        if (
+            context.state.contacts.some(contact => {
+                // не сравнивать с самим собой
+                const isOther = contact.id !== payload.id;
+                // совпадений по телефону/почте не должно быть, т.к. они уникальны (по имени/дате - можно)
+                const matchPhone = contact.phone === payload.phone;
+                const matchMail = contact.email === payload.email;
+
+                return isOther && (matchPhone || matchMail);
+            })
+        )
             throw new Error(i18n.global.t('contacts.info.errors.update.exist'));
 
         try {
