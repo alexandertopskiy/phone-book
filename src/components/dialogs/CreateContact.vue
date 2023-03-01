@@ -40,7 +40,7 @@
                 :label="$t('dialogs.createAndEdit.inputs.birthday')"
                 class="pb-2"
             >
-                <v-tooltip activator="parent" location="bottom">
+                <v-tooltip activator="parent" offset="6" location="bottom">
                     {{ $t('dialogs.createAndEdit.inputs.birthdayTip') }}
                 </v-tooltip>
             </v-text-field>
