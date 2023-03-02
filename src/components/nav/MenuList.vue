@@ -1,43 +1,51 @@
 <template>
-    <v-list density="compact" nav>
-        <template v-for="item in menuItems" :key="item.value">
-            <!-- v-list-item также имеет пропс value для запоминания селекта :value="subitem.value" -->
-            <v-list-item
-                v-if="!item.subItems"
-                :title="item.title"
-                :prepend-icon="item.icon"
-                @click="onClickMenu(item.action)"
-            >
-            </v-list-item>
-            <v-list-group v-else :value="item.value">
-                <template #activator="{ props }">
-                    <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
-                </template>
-
+    <div class="menu">
+        <v-list density="compact" nav>
+            <template v-for="item in menuItems" :key="item.value">
+                <!-- v-list-item также имеет пропс value для запоминания селекта :value="subitem.value" -->
                 <v-list-item
-                    v-for="subitem in item.subItems"
-                    :key="subitem.value"
-                    :title="subitem.title"
-                    :prepend-icon="subitem.icon"
-                    @click="onClickMenu(subitem.action)"
+                    v-if="!item.subItems"
+                    :title="item.title"
+                    :prepend-icon="item.icon"
+                    @click="onClickMenu(item.action)"
                 >
                 </v-list-item>
-            </v-list-group>
-        </template>
+                <v-list-group v-else :value="item.value">
+                    <template #activator="{ props }">
+                        <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title"></v-list-item>
+                    </template>
 
-        <v-list-item>
+                    <v-list-item
+                        v-for="subitem in item.subItems"
+                        :key="subitem.value"
+                        :title="subitem.title"
+                        :prepend-icon="subitem.icon"
+                        @click="onClickMenu(subitem.action)"
+                    >
+                    </v-list-item>
+                </v-list-group>
+            </template>
+        </v-list>
+        <div class="footer">
             <LangSwitch />
-        </v-list-item>
-    </v-list>
+
+            <p class="text-center text-body-2">
+                view
+                <a href="https://github.com/alexandertopskiy/phone-book" target="_blank"
+                    >GitHub project <v-icon>mdi-github</v-icon></a
+                >
+            </p>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
     inject: ['showCreateContact', 'showImportContacts'],
     emits: ['closeMenu'],
-    data() {
-        return {
-            menuItems: [
+    computed: {
+        menuItems() {
+            return [
                 {
                     title: this.$t('navBar.menuItems.create'),
                     icon: 'mdi-plus',
@@ -75,8 +83,8 @@ export default {
                         }
                     ]
                 }
-            ]
-        };
+            ];
+        }
     },
     methods: {
         onClickMenu(action) {
@@ -95,6 +103,8 @@ export default {
                     break;
                 case 'export-txt':
                     this.exportContacts('txt');
+                    break;
+                default:
                     break;
             }
 
@@ -160,3 +170,33 @@ export default {
     }
 };
 </script>
+
+<style scoped lang="scss">
+.menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            text-decoration: none;
+            color: #26a69a;
+
+            &:hover,
+            &:active {
+                color: #b2dfdb;
+            }
+        }
+    }
+}
+</style>

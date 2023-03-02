@@ -37,7 +37,7 @@
                             {{ switchModeButtonCaption }}
                         </v-btn>
 
-                        <LangSwitch />
+                        <LangSwitch class="lang-switch" />
                     </div>
                 </v-form>
             </v-card>
@@ -106,11 +106,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .actions {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
+
+    .lang-switch {
+        align-self: center;
+    }
 }
 </style>
