@@ -1,6 +1,8 @@
 # phone-book
 
-![Страница контактов](assets/logo.png)
+![Лого](assets/logo.png)
+
+Deploy: https://phonebook-60b42.web.app
 
 ## Содержание
 
