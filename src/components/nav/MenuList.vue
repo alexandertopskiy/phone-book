@@ -43,9 +43,9 @@
 export default {
     inject: ['showCreateContact', 'showImportContacts'],
     emits: ['closeMenu'],
-    data() {
-        return {
-            menuItems: [
+    computed: {
+        menuItems() {
+            return [
                 {
                     title: this.$t('navBar.menuItems.create'),
                     icon: 'mdi-plus',
@@ -83,8 +83,8 @@ export default {
                         }
                     ]
                 }
-            ]
-        };
+            ];
+        }
     },
     methods: {
         onClickMenu(action) {
