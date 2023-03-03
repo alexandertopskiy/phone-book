@@ -5,9 +5,8 @@ let timer;
 
 export default {
     async auth(context, payload) {
-        const apiKey = 'AIzaSyCJE9ddX-ky6IFAFgHOKDdYxMnbadjb9CI';
         const mode = payload.mode === 'login' ? 'signInWithPassword' : 'signUp';
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${apiKey}`;
+        const url = `${process.env.VUE_APP_AUTH_BASE_URL}:${mode}?key=${process.env.VUE_APP_AUTH_API_KEY}`;
 
         try {
             const { data: responseData } = await axios.post(url, {

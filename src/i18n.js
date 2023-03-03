@@ -25,8 +25,8 @@ const savedLocal = localStorage.getItem('locale');
 export default createI18n({
     legacy: false,
     globalInjection: true,
-    // если в localStorage ничего нет, то считывание из env (если и там нет, то 'en')
-    locale: savedLocal || process.env.VUE_APP_I18N_LOCALE || 'en',
-    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+    // если в localStorage ничего нет, то считывание из env (если и там нет, то 'ru')
+    locale: savedLocal || process.env.VUE_APP_I18N_LOCALE || 'ru',
+    fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'ru',
     messages: loadLocaleMessages()
 });

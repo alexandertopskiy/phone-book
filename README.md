@@ -2,7 +2,7 @@
 
 ![Лого](assets/logo.png)
 
-Deploy: https://phonebook-60b42.web.app
+Deploy: https://phonebook-4d668.web.app
 
 ## Содержание
 
@@ -106,6 +106,14 @@ Deploy: https://phonebook-60b42.web.app
 ![Форма добавления контакта](assets/snackbar.png)
 
 ## 3. Установка зависимостей и запуск проекта
+
+Для запуска проекта необходимо:
+
+-   Создать проект в Firebase
+-   Переименовать файл [.env.sample](./.env.sample) -> .env
+-   В этом файле указать:
+    -   **VUE_APP_AUTH_API_KEY** - Web API-ключ проекта (для работы авторизации)
+    -   **VUE_APP_BASE_URL** - URL к Firebase Realtime DB
 
 ### 3.1. Установка зависимостей
 

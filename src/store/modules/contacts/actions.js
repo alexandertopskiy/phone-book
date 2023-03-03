@@ -1,7 +1,7 @@
 import i18n from '@/i18n';
 import axios from 'axios';
 
-const baseURL = 'https://phonebook-60b42-default-rtdb.firebaseio.com/contacts';
+const baseURL = process.env.VUE_APP_BASE_URL + '/contacts';
 
 export default {
     setSearchQuery(context, payload) {
