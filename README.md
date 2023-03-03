@@ -86,8 +86,6 @@ Deploy: https://phonebook-60b42.web.app
         -   при нажатии на эти кнопки информация сохраняется в буфер обмена
         -   для хорошего UX при наведении курсора на кнопки выводится подсказка
 
-<!-- TODO: add github link: https://github.com/alexandertopskiy/phone-book -->
-
 ![Страница контактов](assets/menu-list.png)
 
 ### 2.3. Форма "Добавить"/"Редактировать"
