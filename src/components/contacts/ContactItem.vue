@@ -2,7 +2,8 @@
     <v-expansion-panel rounded="0">
         <!-- Activator (карточка контакта) -->
         <v-expansion-panel-title class="py-2 pl-0">
-            <v-list-item :title="name" :subtitle="phone" :prepend-avatar="dummyImage" ref="item"></v-list-item>
+            <img :src="dummyImage" alt="icon" />
+            <v-list-item :title="name" :subtitle="phone"></v-list-item>
         </v-expansion-panel-title>
 
         <!-- Выпадающая часть -->
@@ -71,6 +72,11 @@ export default {
 </script>
 
 <style scoped>
+img {
+    margin-left: 16px;
+    border-radius: 50%;
+    height: 40px;
+}
 .with-gap {
     gap: 0.5rem;
 }
