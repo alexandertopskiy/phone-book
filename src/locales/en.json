@@ -26,7 +26,8 @@
     },
     "commonUI": {
         "copiedButton": {
-            "title": "Click to Copy to Clipboard"
+            "toDoTitle": "Click to Copy to Clipboard",
+            "doneTitle": "Copied to Clipboard"
         },
         "resultMessage": {
             "closeBtn": "Close"
