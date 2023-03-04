@@ -71,7 +71,6 @@ export default {
         input {
             text-align: center;
             width: 100%;
-            pointer-events: none;
 
             padding: 0.25rem 1.5rem;
             border-radius: 6px;
@@ -82,6 +81,13 @@ export default {
             -webkit-text-fill-color: #b2dfdb;
             opacity: 1; /* required on iOS */
         }
+    }
+
+    &:hover input {
+        outline: none;
+        border-color: #26a69a;
+        color: #26a69a;
+        -webkit-text-fill-color: #26a69a;
     }
 }
 </style>
