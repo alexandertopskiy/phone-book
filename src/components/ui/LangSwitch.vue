@@ -1,11 +1,22 @@
 <template>
     <div class="lang text-body-2">
         <label for="lang">{{ $t('chooseLang') }}</label>
-        <select v-model="$i18n.locale" id="lang">
-            <option v-for="locale in lagnuages" :key="locale.key" :value="locale.key">
-                {{ locale.title }}
-            </option>
-        </select>
+        <div class="select-holder">
+            <select v-model="$i18n.locale" id="lang">
+                <option v-for="locale in lagnuages" :key="locale.key" :value="locale.key">
+                    {{ locale.title }}
+                </option>
+            </select>
+            <!-- 
+				fake select
+				в safari не работает text-align для select-элемента 
+				из-за этого реализован костыль (https://codepen.io/samhtfc/pen/powQVWX)
+				- реальный селект скрывается, от него берется возможность использовать список options
+				- вывод выбранного варианта производится  в input (для которого text-align работает нормально) 
+				- этот инпут абсолютно позиционируется относительно select'а, чтобы нажатие на него выводило список вариантов
+			-->
+            <input type="text" :value="fakeSelectCapture" disabled />
+        </div>
     </div>
 </template>
 
@@ -24,6 +35,9 @@ export default {
                     key: 'en'
                 }
             ];
+        },
+        fakeSelectCapture() {
+            return this.lagnuages.find(lang => lang.key === this.$i18n.locale).title;
         }
     }
 };
@@ -40,17 +54,29 @@ export default {
         color: #26a69a;
     }
 
-    select {
-        text-align: center;
-        padding: 0.25rem 1.5rem;
-        border-radius: 6px;
-        border: 1px solid #b2dfdb;
-        color: #b2dfdb;
+    .select-holder {
+        position: relative;
+        display: flex;
+        align-items: center;
 
-        &:focus {
-            outline: none;
-            border-color: #26a69a;
-            color: #26a69a;
+        select {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        input {
+            text-align: center;
+            width: 100%;
+            pointer-events: none;
+
+            padding: 0.25rem 1.5rem;
+            border-radius: 6px;
+            border: 1px solid #b2dfdb;
+            color: #b2dfdb;
         }
     }
 }
