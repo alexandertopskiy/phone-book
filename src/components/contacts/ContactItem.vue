@@ -10,9 +10,15 @@
         <v-expansion-panel-text>
             <!-- Информация -->
             <div class="d-flex flex-wrap justify-start py-2 with-gap">
-                <CopiedButton :title="$t('contacts.list.item.info.phone')" :data="phone" />
-                <CopiedButton v-if="!!email" :title="$t('contacts.list.item.info.email')" :data="email" />
-                <CopiedButton v-if="!!birthday" :title="$t('contacts.list.item.info.birthday')" :data="birthday" />
+                <template v-for="info in infoList" :key="info.data">
+                    <CopiedButton
+                        v-if="!!info.data"
+                        :data="info.data"
+                        :title="info.title"
+                        :isCopied="copiedInfo === info.data"
+                        @copied="copiedInfo = $event"
+                    />
+                </template>
             </div>
             <!-- Кнопки действия -->
             <div class="d-flex flex-wrap align-center justify-center py-2 with-gap">
@@ -45,10 +51,18 @@ export default {
     inject: ['showEditContact', 'showDeleteContact'],
     data() {
         return {
-            editFormVisible: false
+            editFormVisible: false,
+            copiedInfo: null
         };
     },
     computed: {
+        infoList() {
+            return [
+                { data: this.phone, title: this.$t('contacts.list.item.info.phone') },
+                { data: this.email, title: this.$t('contacts.list.item.info.email') },
+                { data: this.birthday, title: this.$t('contacts.list.item.info.birthday') }
+            ];
+        },
         dummyImage() {
             const [firstLetter, secondLetter] = this.name.split(' ').map(word => word[0]);
             return `https://dummyimage.com/150x150/80cbc4/ffffff.gif&text=${firstLetter ?? ''}${secondLetter ?? ''}`;

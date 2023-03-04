@@ -10,7 +10,8 @@
 <script>
 export default {
     name: 'CopiedButton',
-    props: ['title', 'data'],
+    props: ['title', 'data', 'isCopied'],
+    emits: ['copied'],
     data() {
         return {
             show: false
@@ -20,6 +21,7 @@ export default {
         async copyToClipboard(mytext) {
             if (this.isTouch) this.show = true;
             await navigator.clipboard.writeText(mytext);
+            this.$emit('copied', this.data);
             setTimeout(() => (this.show = false), 2000);
         }
     },
@@ -28,7 +30,7 @@ export default {
             return this.$vuetify.display.platform.touch;
         },
         tooltipCapture() {
-            return this.isTouch
+            return this.isTouch || this.isCopied
                 ? this.$t('commonUI.copiedButton.doneTitle')
                 : this.$t('commonUI.copiedButton.toDoTitle');
         }
