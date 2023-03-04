@@ -77,6 +77,10 @@ export default {
             border-radius: 6px;
             border: 1px solid #b2dfdb;
             color: #b2dfdb;
+
+            // for safari color text
+            -webkit-text-fill-color: #b2dfdb;
+            opacity: 1; /* required on iOS */
         }
     }
 }
