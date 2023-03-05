@@ -35,14 +35,13 @@
                 type="date"
                 :max="new Date().toISOString().slice(0, 10)"
                 min="1950-01-01"
-                v-model.trim="userBirthday"
+                v-model="userBirthday"
                 :rules="birthdayRules"
                 :label="$t('dialogs.createAndEdit.inputs.birthday')"
+                persistent-hint
+                :hint="$t('dialogs.createAndEdit.inputs.birthdayTip')"
                 class="pb-2"
             >
-                <v-tooltip activator="parent" offset="6" location="bottom">
-                    {{ $t('dialogs.createAndEdit.inputs.birthdayTip') }}
-                </v-tooltip>
             </v-text-field>
         </template>
 
