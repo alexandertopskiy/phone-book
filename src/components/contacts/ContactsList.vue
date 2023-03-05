@@ -89,18 +89,22 @@ export default {
         filteredContacts() {
             if (this.searchQuery && this.searchQuery.trim()) {
                 return this.availableContacts.filter(contact => {
+                    // для проверки номеров, содержащий дефис
+                    const normalizedPhone = contact.phone.replace(/-/g, '');
+                    const normalizedQuery = this.searchQuery.replace(/-/g, '');
+
                     const nameMatch = contact.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-                    const numberMatch = contact.phone.toLowerCase().includes(this.searchQuery.toLowerCase());
+                    const numberMatch = normalizedPhone.includes(normalizedQuery);
 
                     // поиск для российских номеров ("+7" и "8" - одно и то же)
                     let rusNumMatch = false;
                     if (this.searchQuery.startsWith('+7') && contact.phone.startsWith('8')) {
-                        const contactPart = contact.phone.slice(1);
-                        const queryPart = this.searchQuery.slice(2);
+                        const contactPart = normalizedPhone.slice(1); // "8123..." -> "123..."
+                        const queryPart = normalizedQuery.slice(2); // "+7123..." -> "123..."
                         rusNumMatch = contactPart.startsWith(queryPart);
                     } else if (this.searchQuery.startsWith('8') && contact.phone.startsWith('+7')) {
-                        const contactPart = contact.phone.slice(2);
-                        const queryPart = this.searchQuery.slice(1);
+                        const contactPart = normalizedPhone.slice(2); // "+7123..." -> "123..."
+                        const queryPart = normalizedQuery.slice(1); // "8123..." -> "123..."
                         rusNumMatch = contactPart.startsWith(queryPart);
                     }
 
