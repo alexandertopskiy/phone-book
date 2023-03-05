@@ -80,7 +80,9 @@ export default {
     computed: {
         availableContacts() {
             const allContacts = this.$store.getters['contacts/contacts'];
-            const sortedContacts = allContacts.slice().sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+            const sortedContacts = allContacts
+                .slice()
+                .sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
 
             return sortedContacts;
         },
