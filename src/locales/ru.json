@@ -43,7 +43,7 @@
         },
         "edit": {
             "title": "Редактировать Контакт",
-            "btnTitle": "Save Changes"
+            "btnTitle": "Сохранить"
         },
         "createAndEdit": {
             "inputs": {
