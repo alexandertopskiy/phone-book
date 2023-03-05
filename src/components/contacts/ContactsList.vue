@@ -95,13 +95,13 @@ export default {
                     // поиск для российских номеров ("+7" и "8" - одно и то же)
                     let rusNumMatch = false;
                     if (this.searchQuery.startsWith('+7') && contact.phone.startsWith('8')) {
-                        const contactPart = contact.phone.slice(2);
-                        const queryPart = this.searchQuery.slice(3);
-                        rusNumMatch = contactPart.includes(queryPart);
-                    } else if (this.searchQuery.startsWith('8') && contact.phone.startsWith('+7')) {
-                        const contactPart = contact.phone.slice(3);
+                        const contactPart = contact.phone.slice(1);
                         const queryPart = this.searchQuery.slice(2);
-                        rusNumMatch = contactPart.includes(queryPart);
+                        rusNumMatch = contactPart.startsWith(queryPart);
+                    } else if (this.searchQuery.startsWith('8') && contact.phone.startsWith('+7')) {
+                        const contactPart = contact.phone.slice(2);
+                        const queryPart = this.searchQuery.slice(1);
+                        rusNumMatch = contactPart.startsWith(queryPart);
                     }
 
                     return nameMatch || numberMatch || rusNumMatch;
