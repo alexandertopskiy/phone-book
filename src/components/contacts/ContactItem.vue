@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel rounded="0">
+    <v-expansion-panel rounded="0" :value="id">
         <!-- Activator (карточка контакта) -->
         <v-expansion-panel-title class="py-2 pl-0">
             <img :src="dummyImage" alt="icon" />

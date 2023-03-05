@@ -30,7 +30,7 @@
         </div>
 
         <!-- Contacts List -->
-        <v-expansion-panels class="d-block">
+        <v-expansion-panels class="d-block" v-model="expansedContact">
             <transition-group name="collapsed-contact">
                 <template v-for="(contact, index) in filteredContacts" :key="contact.id">
                     <!-- Group/Letter -->
@@ -77,7 +77,8 @@ export default {
     inject: ['showCreateContact', 'showEditContact', 'showDeleteContact'],
     data() {
         return {
-            isLoading: false
+            isLoading: false,
+            expansedContact: null
         };
     },
     computed: {
@@ -140,6 +141,11 @@ export default {
     },
     created() {
         this.loadContacts();
+    },
+    watch: {
+        availableContacts(newValue, oldValue) {
+            if (newValue.length !== oldValue.length) this.expansedContact = null;
+        }
     }
 };
 </script>
