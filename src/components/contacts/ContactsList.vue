@@ -57,6 +57,8 @@
                             :phone="contact.phone"
                             :email="contact.email"
                             :birthday="contact.birthday"
+                            @editContact="editContact"
+                            @deleteContact="deleteContact"
                         />
                     </div>
                 </template>
@@ -72,7 +74,7 @@ export default {
     components: {
         ContactItem
     },
-    inject: ['showCreateContact'],
+    inject: ['showCreateContact', 'showEditContact', 'showDeleteContact'],
     data() {
         return {
             isLoading: false
@@ -115,6 +117,12 @@ export default {
     methods: {
         createContact() {
             this.showCreateContact();
+        },
+        editContact(id) {
+            this.showEditContact(id);
+        },
+        deleteContact(id) {
+            this.showDeleteContact(id);
         },
         getFirstLater(name) {
             return name[0].toUpperCase();
