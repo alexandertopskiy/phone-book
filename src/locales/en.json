@@ -26,7 +26,8 @@
     },
     "commonUI": {
         "copiedButton": {
-            "title": "Click to Copy to Clipboard"
+            "toDoTitle": "Click to Copy to Clipboard",
+            "doneTitle": "Copied to Clipboard"
         },
         "resultMessage": {
             "closeBtn": "Close"
@@ -50,7 +51,7 @@
                 "phone": "Phone Number",
                 "email": "E-mail",
                 "birthday": "Birthday",
-                "birthdayTip": "Incomplete date won't be added"
+                "birthdayTip": "If you manually enter an incomplete or non-existent date (for example, February 31), the date will not be added"
             },
             "errors": {
                 "nameRequired": "Name is required.",
