@@ -1,5 +1,5 @@
 <template>
-    <v-expansion-panel rounded="0">
+    <v-expansion-panel rounded="0" :value="id">
         <!-- Activator (карточка контакта) -->
         <v-expansion-panel-title class="py-2 pl-0">
             <img :src="dummyImage" alt="icon" />
@@ -34,10 +34,10 @@
                         {{ $t('contacts.list.item.buttons.write') }}
                     </span>
                 </v-btn>
-                <v-btn @click="editContact" icon variant="outlined" size="small" color="blue">
+                <v-btn @click="$emit('editContact', this.id)" icon variant="outlined" size="small" color="blue">
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn @click="deleteContact" icon variant="outlined" size="small" color="red">
+                <v-btn @click="$emit('deleteContact', this.id)" icon variant="outlined" size="small" color="red">
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
             </div>
@@ -48,7 +48,7 @@
 <script>
 export default {
     props: ['id', 'name', 'phone', 'email', 'birthday'],
-    inject: ['showEditContact', 'showDeleteContact'],
+    emits: ['editContact', 'deleteContact'],
     data() {
         return {
             editFormVisible: false,
@@ -74,12 +74,6 @@ export default {
         },
         writeContact() {
             window.open('mailto:' + this.email);
-        },
-        editContact() {
-            this.showEditContact(this.id);
-        },
-        deleteContact() {
-            this.showDeleteContact(this.id);
         }
     }
 };

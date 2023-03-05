@@ -30,37 +30,35 @@
         </div>
 
         <!-- Contacts List -->
-        <v-expansion-panels class="d-block">
-            <transition-group name="collapsed-contact">
-                <template v-for="(contact, index) in filteredContacts" :key="contact.id">
-                    <!-- Group/Letter -->
-                    <div>
-                        <div v-if="index === 0">
-                            <v-list-subheader class="bg-teal-lighten-3">{{
-                                getFirstLater(contact.name)
-                            }}</v-list-subheader>
-                        </div>
-                        <div v-else>
-                            <v-list-subheader
-                                class="bg-teal-lighten-3"
-                                v-if="getFirstLater(contact.name) !== getFirstLater(filteredContacts[index - 1].name)"
-                                >{{ getFirstLater(contact.name) }}</v-list-subheader
-                            >
-                            <v-divider v-else></v-divider>
-                        </div>
+        <v-expansion-panels class="d-block" v-model="expansedContact">
+            <template v-for="(contact, index) in filteredContacts" :key="contact.id">
+                <!-- Group/Letter -->
+                <div>
+                    <div v-if="index === 0">
+                        <v-list-subheader class="bg-teal-lighten-3">{{ getFirstLater(contact.name) }}</v-list-subheader>
                     </div>
-                    <!-- Contact -->
-                    <div>
-                        <ContactItem
-                            :id="contact.id"
-                            :name="contact.name"
-                            :phone="contact.phone"
-                            :email="contact.email"
-                            :birthday="contact.birthday"
-                        />
+                    <div v-else>
+                        <v-list-subheader
+                            class="bg-teal-lighten-3"
+                            v-if="getFirstLater(contact.name) !== getFirstLater(filteredContacts[index - 1].name)"
+                            >{{ getFirstLater(contact.name) }}</v-list-subheader
+                        >
+                        <v-divider v-else></v-divider>
                     </div>
-                </template>
-            </transition-group>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <ContactItem
+                        :id="contact.id"
+                        :name="contact.name"
+                        :phone="contact.phone"
+                        :email="contact.email"
+                        :birthday="contact.birthday"
+                        @editContact="editContact"
+                        @deleteContact="deleteContact"
+                    />
+                </div>
+            </template>
         </v-expansion-panels>
     </v-list>
 </template>
@@ -72,10 +70,11 @@ export default {
     components: {
         ContactItem
     },
-    inject: ['showCreateContact'],
+    inject: ['showCreateContact', 'showEditContact', 'showDeleteContact'],
     data() {
         return {
-            isLoading: false
+            isLoading: false,
+            expansedContact: null
         };
     },
     computed: {
@@ -116,6 +115,12 @@ export default {
         createContact() {
             this.showCreateContact();
         },
+        editContact(id) {
+            this.showEditContact(id);
+        },
+        deleteContact(id) {
+            this.showDeleteContact(id);
+        },
         getFirstLater(name) {
             return name[0].toUpperCase();
         },
@@ -132,30 +137,11 @@ export default {
     },
     created() {
         this.loadContacts();
+    },
+    watch: {
+        availableContacts(newValue, oldValue) {
+            if (newValue.length !== oldValue.length) this.expansedContact = null;
+        }
     }
 };
 </script>
-
-<style lang="scss" scoped>
-.collapsed-contact-enter-from {
-    opacity: 0;
-}
-.collapsed-contact-enter-active {
-    transition: all 0.3s ease-out;
-}
-.collapsed-contact-enter-to {
-    opacity: 1;
-}
-
-.collapsed-contact-leave-from {
-    opacity: 1;
-    transform: translateX(0);
-}
-.collapsed-contact-leave-active {
-    transition: all 0.3s ease-in;
-}
-.collapsed-contact-leave-to {
-    opacity: 0;
-    transform: translateX(-550px);
-}
-</style>
