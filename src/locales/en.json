@@ -51,7 +51,7 @@
                 "phone": "Phone Number",
                 "email": "E-mail",
                 "birthday": "Birthday",
-                "birthdayTip": "If you manually enter an incomplete or non-existent date (for example, February 31), the date will not be added"
+                "birthdayTip": "If you manually enter an incomplete (dd.01.2000) or non-existent (February 31) date, the date will not be added"
             },
             "errors": {
                 "nameRequired": "Name is required.",

@@ -39,7 +39,7 @@
                 :rules="birthdayRules"
                 :label="$t('dialogs.createAndEdit.inputs.birthday')"
                 persistent-hint
-                :hint="$t('dialogs.createAndEdit.inputs.birthdayTip')"
+                :hint="isTouch ? null : $t('dialogs.createAndEdit.inputs.birthdayTip')"
                 class="pb-2"
             >
             </v-text-field>
@@ -68,6 +68,7 @@ export default {
     },
     emits: ['close'],
     mixins: [createEditMixin],
+    inject: ['isTouch'],
     computed: {
         hasEnteredData() {
             return this.userName !== '' || this.userPhone !== '' || this.userMail !== '' || this.userBirthday !== null;

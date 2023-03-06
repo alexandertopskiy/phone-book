@@ -39,85 +39,56 @@
     </v-app>
 </template>
 
-<script>
+<script setup>
+// components
 import NavBar from '@/components/nav/NavBar.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
 import EditContact from '@/components/dialogs/EditContact.vue';
 import ImportContacts from '@/components/dialogs/ImportContacts.vue';
 import DeleteContact from '@/components/dialogs/DeleteContact.vue';
-
+// composables
+import { computed, provide, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals.js';
 
-export default {
-    components: {
-        NavBar,
-        CreateContact,
-        EditContact,
-        ImportContacts,
-        DeleteContact
-    },
-    provide() {
-        return {
-            showCreateContact: this.showCreateContact,
-            showEditContact: this.showEditContact,
-            showImportContacts: this.showImportContacts,
-            showDeleteContact: this.showDeleteContact
-        };
-    },
-    setup() {
-        const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
-        const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
-        const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
-        const { deleteFormVisible, deletedContactId, showDeleteContact, closeDeleteContact } = useDeleteContact();
+const store = useStore();
+const router = useRouter();
+const { t, locale } = useI18n();
 
-        return {
-            // creating
-            createFormVisible,
-            showCreateContact,
-            closeCreateContact,
-            // editing
-            editFormVisible,
-            editedContactId,
-            showEditContact,
-            closeEditContact,
-            // importing
-            importFormVisible,
-            showImportContacts,
-            closeImportContacts,
-            // deleting
-            deleteFormVisible,
-            deletedContactId,
-            showDeleteContact,
-            closeDeleteContact
-        };
-    },
-    created() {
-        this.$store.dispatch('tryLogin');
-    },
-    computed: {
-        didAutoLogout() {
-            return this.$store.getters.didAutoLogout;
-        },
-        locale() {
-            return this.$i18n.locale;
-        }
-    },
+// onCreate: попытка авторизоваться, если в localStorage хранится токен и он еще не протух
+store.dispatch('tryLogin');
 
-    watch: {
-        didAutoLogout(curVal, oldVal) {
-            if (curVal && curVal !== oldVal) {
-                this.$router.replace('/auth');
-                this.$store.dispatch('snackbar/showSnackbar', {
-                    message: this.$t('auth.info.autoLogoutMessage'),
-                    type: 'success'
-                });
-            }
-        },
-        locale(newValue) {
-            localStorage.setItem('locale', newValue);
-        }
+// Модалки
+const { createFormVisible, showCreateContact, closeCreateContact } = useCreateContact();
+const { editFormVisible, editedContactId, showEditContact, closeEditContact } = useEditContact();
+const { importFormVisible, showImportContacts, closeImportContacts } = useImportContacts();
+const { deleteFormVisible, deletedContactId, showDeleteContact, closeDeleteContact } = useDeleteContact();
+// прокидывем методы открытия модалок, чтобы сделать доступными из всех компонентов
+provide('showCreateContact', showCreateContact);
+provide('showEditContact', showEditContact);
+provide('showImportContacts', showImportContacts);
+provide('showDeleteContact', showDeleteContact);
+
+// при протухании токена автоматически делать логаут
+const didAutoLogout = computed(() => store.getters.didAutoLogout);
+watch(didAutoLogout, (newValue, oldValue) => {
+    if (newValue && newValue !== oldValue) {
+        router.replace('/auth');
+        store.dispatch('snackbar/showSnackbar', {
+            message: t('auth.info.autoLogoutMessage'),
+            type: 'success'
+        });
     }
-};
+});
+
+// при изменении языка сохранение выбора в localStorage
+watch(locale, newValue => localStorage.setItem('locale', newValue));
+
+const isTouch = computed(() => useDisplay().platform.value.touch);
+provide('isTouch', isTouch.value);
 </script>
 
 <style>
