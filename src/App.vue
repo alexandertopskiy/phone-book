@@ -61,7 +61,8 @@ export default {
             showCreateContact: this.showCreateContact,
             showEditContact: this.showEditContact,
             showImportContacts: this.showImportContacts,
-            showDeleteContact: this.showDeleteContact
+            showDeleteContact: this.showDeleteContact,
+            isTouch: this.isTouch
         };
     },
     setup() {
@@ -100,6 +101,9 @@ export default {
         },
         locale() {
             return this.$i18n.locale;
+        },
+        isTouch() {
+            return this.$vuetify.display.platform.touch;
         }
     },
 

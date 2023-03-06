@@ -12,6 +12,7 @@ export default {
     name: 'CopiedButton',
     props: ['title', 'data', 'isCopied'],
     emits: ['copied'],
+    inject: ['isTouch'],
     data() {
         return {
             show: false
@@ -26,9 +27,6 @@ export default {
         }
     },
     computed: {
-        isTouch() {
-            return this.$vuetify.display.platform.touch;
-        },
         tooltipCapture() {
             return this.isTouch || this.isCopied
                 ? this.$t('commonUI.copiedButton.doneTitle')
