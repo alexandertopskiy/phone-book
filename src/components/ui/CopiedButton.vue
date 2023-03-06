@@ -8,30 +8,30 @@
 </template>
 
 <script>
-export default {
-    name: 'CopiedButton',
-    props: ['title', 'data', 'isCopied'],
-    emits: ['copied'],
-    inject: ['isTouch'],
-    data() {
-        return {
-            show: false
-        };
-    },
-    methods: {
-        async copyToClipboard(mytext) {
-            if (this.isTouch) this.show = true;
-            await navigator.clipboard.writeText(mytext);
-            this.$emit('copied', this.data);
-            setTimeout(() => (this.show = false), 2000);
-        }
-    },
-    computed: {
-        tooltipCapture() {
-            return this.isTouch || this.isCopied
-                ? this.$t('commonUI.copiedButton.doneTitle')
-                : this.$t('commonUI.copiedButton.toDoTitle');
-        }
-    }
+export default { name: 'CopiedButton' };
+</script>
+
+<script setup>
+import { ref, inject, computed, defineProps, defineEmits } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const props = defineProps(['title', 'data', 'isCopied']);
+const emit = defineEmits(['copied']);
+
+const show = ref(false);
+const isTouch = inject('isTouch');
+
+// копирование данных в буфер обмена
+const copyToClipboard = async function (copiedText) {
+    if (isTouch) show.value = true;
+    await navigator.clipboard.writeText(copiedText);
+    emit('copied', props.data);
+    // скрытие подсказки через 2с
+    setTimeout(() => (this.show = false), 2000);
 };
+
+const tooltipCapture = computed(() =>
+    isTouch || props.isCopied ? t('commonUI.copiedButton.doneTitle') : t('commonUI.copiedButton.toDoTitle')
+);
 </script>
