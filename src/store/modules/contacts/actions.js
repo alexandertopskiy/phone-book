@@ -69,18 +69,9 @@ export default {
 
             // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
             if (importedContacts === 0) throw new Error(i18n.global.t('contacts.info.errors.import.duplicate.all'));
-            if (issues !== 0)
-                throw new Error(
-                    i18n.global.t('contacts.info.errors.import.duplicate.partly.start') +
-                        issues +
-                        i18n.global.t('contacts.info.errors.import.duplicate.partly.end')
-                );
+            if (issues !== 0) return i18n.global.t('contacts.info.errors.import.duplicate.partly', { issues });
 
-            return (
-                i18n.global.t('contacts.info.success.import.start') +
-                importedContacts +
-                i18n.global.t('contacts.info.success.import.end')
-            );
+            return i18n.global.t('contacts.info.success.import', { count: importedContacts });
         } catch (error) {
             throw new Error(error.message || i18n.global.t('contacts.info.errors.import.default'));
         }
