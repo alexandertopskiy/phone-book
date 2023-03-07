@@ -31,8 +31,8 @@ const snackbarModule = {
             state.text = payload.message;
             state.multiline = payload.message.length > 50;
             state.type = payload.type;
-            // если type - 'ошибка', то snackbar нужно закрыть вручную (если timeout не задан явно)
-            state.timeout = payload.type === 'failure' ? -1 : payload.timeout ?? 5000;
+            // если type - 'ошибка', то timeout 6с, иначе - 3с (если timeout не задан явно в dispatch)
+            state.timeout = payload.type === 'failure' ? 6000 : payload.timeout ?? 3000;
             state.isVisible = true;
         },
         hideSnackbar(state) {

@@ -8,6 +8,8 @@
                 :label="$t('dialogs.import.inputTitle')"
                 auto-grow
                 required
+                persistent-hint
+                :hint="$t('dialogs.import.hint')"
                 class="pb-2"
             ></v-textarea>
         </template>
@@ -67,7 +69,6 @@ export default {
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
             }
-
             this.closeModal();
         },
         closeModal() {
