@@ -1,5 +1,6 @@
 import i18n from '@/i18n';
 import axios from 'axios';
+import hasSuchContact from '@/helpers/hasSuchContact.js';
 
 const baseURL = process.env.VUE_APP_BASE_URL + '/contacts';
 
@@ -23,9 +24,9 @@ export default {
                     id: key,
                     name: contact.name,
                     phone: contact.phone,
-                    email: contact.email,
-                    // если на бэк firebase отправить свойство со значением null, то свойство не добавится объекту
-                    birthday: contact.birthday || null
+                    // если на бэк firebase отправлен объект, чье свойство - со значением null, то это свойство не добавится объекту
+                    ...(contact.email && { email: contact.email }),
+                    ...(contact.birthday && { birthday: contact.birthday })
                 });
             }
             context.commit('setContacts', contacts);
@@ -36,7 +37,6 @@ export default {
         }
     },
     async importContacts(context, payload) {
-        const currentContacts = context.state.contacts;
         // юзер может ввести как массив, так и один объект
         const contactsForImport = payload.length ? payload : [payload];
         // счетчик добавленных контактов
@@ -46,16 +46,11 @@ export default {
 
         try {
             for (const importedContact of contactsForImport) {
-                // уже существующие контакты () не добавляются
-                const alreadyExists = currentContacts.some(
-                    existed => existed.phone === importedContact.phone || existed.email === importedContact.email
-                );
                 // если у контакта не указано имя/номер, то не добавлять его
                 const isCorrect = !!(importedContact.name && importedContact.phone);
-
-                if (!alreadyExists && isCorrect) {
+                // также проверка на дубли
+                if (isCorrect && !hasSuchContact(context.state.contacts, importedContact)) {
                     // форматирование контакта: добавляются только поля с корректными данными, иначе - обнуляются
-
                     const correctedContact = {
                         name: importedContact.name,
                         phone: importedContact.phone,
@@ -73,7 +68,6 @@ export default {
             }
 
             // результат импорта (были ли добавлены контакты/кол-во/причина НЕ добавления)
-
             if (importedContacts === 0) throw new Error(i18n.global.t('contacts.info.errors.import.duplicate.all'));
             if (issues !== 0)
                 throw new Error(
@@ -97,15 +91,13 @@ export default {
         const newContact = {
             name: payload.name,
             phone: payload.phone,
+            // если на бэк firebase отправлен объект, чье свойство - со значением null, то это свойство не добавится объекту
             email: payload.email || null,
             birthday: payload.birthday || null
         };
 
-        if (
-            context.state.contacts.some(
-                contact => contact.phone === newContact.phone || contact.email === newContact.email
-            )
-        )
+        // проверка на дублирование
+        if (hasSuchContact(context.state.contacts, newContact))
             throw new Error(i18n.global.t('contacts.info.errors.create.exist'));
 
         try {
@@ -141,17 +133,8 @@ export default {
         const contactId = payload.id;
         const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
-        if (
-            context.state.contacts.some(contact => {
-                // не сравнивать с самим собой
-                const isOther = contact.id !== payload.id;
-                // совпадений по телефону/почте не должно быть, т.к. они уникальны (по имени/дате - можно)
-                const matchPhone = contact.phone === payload.phone;
-                const matchMail = contact.email === payload.email;
-
-                return isOther && (matchPhone || matchMail);
-            })
-        )
+        // проверка на дублирование
+        if (hasSuchContact(context.state.contacts, payload))
             throw new Error(i18n.global.t('contacts.info.errors.update.exist'));
 
         try {
