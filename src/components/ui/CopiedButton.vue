@@ -12,7 +12,7 @@ export default { name: 'CopiedButton' };
 </script>
 
 <script setup>
-import { ref, inject, computed, defineProps, defineEmits } from 'vue';
+import { ref, inject, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
