@@ -45,3 +45,9 @@ export default {
     }
 };
 </script>
+
+<style>
+div.v-snackbar:not(.v-snackbar--absolute) {
+    height: 100% !important;
+}
+</style>
