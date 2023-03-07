@@ -69,7 +69,8 @@
         },
         "import": {
             "title": "Import Contacts",
-            "inputTitle": "Paste JSON Data here, format:",
+            "inputTitle": "Paste JSON Data here. Example:",
+            "hint": "The 'name' and 'phone' properties are required",
             "btnTitle": "Import",
             "errors": {
                 "required": "JSON Data is required.",
