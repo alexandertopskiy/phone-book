@@ -10,8 +10,8 @@
 
                 <!-- Actions -->
                 <div class="actions mb-2">
-                    <v-btn variant="tonal" color="teal" @click="goToContactsPage(true)"> Добавить </v-btn>
-                    <v-btn variant="outlined" color="teal" @click="goToContactsPage()"> Нет, спасибо </v-btn>
+                    <v-btn variant="tonal" color="teal" @click="addDefaultContacts"> Добавить </v-btn>
+                    <v-btn variant="outlined" color="teal" @click="$router.push('/')"> Нет, спасибо </v-btn>
                     <LangSwitch class="lang-switch" />
                 </div>
             </v-card>
@@ -31,11 +31,11 @@ export default {
         };
     },
     methods: {
-        async goToContactsPage(withOnboarding = false) {
+        async addDefaultContacts() {
             this.isLoading = true;
 
-            console.log(withOnboarding);
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await this.$store.dispatch('contacts/setDefaultContacts');
+            this.$router.replace('/');
 
             this.isLoading = false;
         }

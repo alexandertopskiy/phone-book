@@ -13,5 +13,8 @@ export default {
     },
     didAutoLogout(state) {
         return state.didAutoLogout;
+    },
+    hadOnboarding(state) {
+        return state.hadOnboarding;
     }
 };

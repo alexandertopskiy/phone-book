@@ -8,7 +8,8 @@ const authModule = {
             userMail: null,
             userId: null,
             token: null,
-            didAutoLogout: false
+            didAutoLogout: false,
+            hadOnboarding: true
         };
     },
     getters,

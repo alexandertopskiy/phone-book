@@ -12,7 +12,14 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/contacts' },
         { path: '/auth', component: AuthPage, meta: { requiresUnauth: true } },
-        { path: '/onboarding', component: OnboardingPage },
+        {
+            path: '/onboarding',
+            component: OnboardingPage,
+            beforeEnter(_, _2, next) {
+                if (store.getters.hadOnboarding) next('/');
+                else next();
+            }
+        },
         { path: '/contacts', component: ContactsPage, meta: { requiresAuth: true } },
         { path: '/:notFound(.*)', component: NotFound }
     ]

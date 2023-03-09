@@ -88,11 +88,14 @@ export default {
             const actionPayload = { email: this.userMail, password: this.userPassword };
             try {
                 let message;
-                if (this.mode === 'login') message = await this.$store.dispatch('login', actionPayload);
-                else message = await this.$store.dispatch('signUp', actionPayload);
-
+                if (this.mode === 'login') {
+                    message = await this.$store.dispatch('login', actionPayload);
+                    this.$router.replace('/');
+                } else {
+                    message = await this.$store.dispatch('signUp', actionPayload);
+                    this.$router.replace('/onboarding');
+                }
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
-                this.$router.replace('/');
             } catch (error) {
                 this.$store.dispatch('snackbar/showSnackbar', { message: error.message, type: 'failure' });
             }

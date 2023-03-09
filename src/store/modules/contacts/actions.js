@@ -138,5 +138,19 @@ export default {
         } catch (_) {
             throw new Error(i18n.global.t('contacts.info.errors.update.default'));
         }
+    },
+    // "Онбординг" - добавление важных контактов при регистарции
+    async setDefaultContacts(context) {
+        const defaultContacts = [
+            { name: 'Полиция', phone: '102' },
+            { name: 'Пожарная служба', phone: '101' },
+            { name: 'Скорая помощь', phone: '103' },
+            { name: 'Единый номер экстренных служб', phone: '112' }
+        ];
+        try {
+            await context.dispatch('importContacts', defaultContacts);
+        } catch (error) {
+            throw new Error('Ошибка при добавлении базовых контактов');
+        }
     }
 };
