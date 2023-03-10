@@ -79,9 +79,16 @@
             }
         },
         "delete": {
-            "title": "Delete Contact",
-            "subtitle": "Are you sure you want to delete the Contact?",
-            "btnTitle": "Yes, delete"
+            "one": {
+                "title": "Delete Contact",
+                "subtitle": "Are you sure you want to delete the Contact? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            },
+            "all": {
+                "title": "Delete All Contacts",
+                "subtitle": "Are you sure you want to delete All Contacts? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            }
         }
     },
     "auth": {

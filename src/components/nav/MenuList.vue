@@ -42,7 +42,7 @@
 
 <script>
 export default {
-    inject: ['showCreateContact', 'showImportContacts'],
+    inject: ['showCreateContact', 'showImportContacts', 'showDeleteContact'],
     emits: ['closeMenu'],
     computed: {
         menuItems() {
@@ -104,7 +104,7 @@ export default {
                     this.showImportContacts();
                     break;
                 case 'removeAll':
-                    console.log('removing All...');
+                    this.showDeleteContact(null);
                     break;
                 case 'export-json':
                     this.exportContacts('json');
