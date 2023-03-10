@@ -142,15 +142,15 @@ export default {
     // "Онбординг" - добавление важных контактов при регистарции
     async setDefaultContacts(context) {
         const defaultContacts = [
-            { name: 'Полиция', phone: '102' },
-            { name: 'Пожарная служба', phone: '101' },
-            { name: 'Скорая помощь', phone: '103' },
-            { name: 'Единый номер экстренных служб', phone: '112' }
+            { name: i18n.global.t('onboarding.action.defaultContacts.police'), phone: '102' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.fireDepartment'), phone: '101' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.ambulance'), phone: '103' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.emergencyNumber'), phone: '112' }
         ];
         try {
             await context.dispatch('importContacts', defaultContacts);
         } catch (error) {
-            throw new Error('Ошибка при добавлении базовых контактов');
+            throw new Error(i18n.global.t('onboarding.action.error'));
         }
     }
 };

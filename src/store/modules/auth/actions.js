@@ -30,8 +30,7 @@ export default {
             context.commit('setUser', {
                 userMail: payload.email,
                 userId: responseData.localId,
-                token: responseData.idToken,
-                hadOnboarding: payload.mode === 'login'
+                token: responseData.idToken
             });
 
             return payload.mode === 'login'
@@ -94,8 +93,7 @@ export default {
             context.commit('setUser', {
                 userMail: email,
                 userId: userId,
-                token: token,
-                hadOnboarding: true
+                token: token
             });
         }
     },
@@ -110,8 +108,7 @@ export default {
         context.commit('setUser', {
             userMail: null,
             userId: null,
-            token: null,
-            hadOnboarding: true
+            token: null
         });
 
         return i18n.global.t('auth.info.logoutMessage');

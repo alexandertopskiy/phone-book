@@ -122,6 +122,21 @@
             }
         }
     },
+    "onboarding": {
+        "title": "Почти закончили!",
+        "subtitle": "Хотите, чтобы мы сразу добавили важные контакты (скорая, полиция)?",
+        "addBtnTitle": "Добавить",
+        "noAddBtnTitle": "Нет, спасибо",
+        "action": {
+            "defaultContacts": {
+                "police": "Полиция",
+                "fireDepartment": "Пожарная служба",
+                "ambulance": "Скорая помощь",
+                "emergencyNumber": "Единый номер экстренных служб"
+            },
+            "error": "Произошла ошибка при добавлении важных контактов"
+        }
+    },
     "contacts": {
         "toolbar": {
             "inputLabel": "Найти контакт"

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import AuthPage from '@/pages/AuthPage.vue';
-import OnboardingPage from '@/pages/OnboardingPage.vue';
 import ContactsPage from '@/pages/ContactsPage.vue';
 import NotFound from '@/pages/NotFound.vue';
 
@@ -12,14 +11,6 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/contacts' },
         { path: '/auth', component: AuthPage, meta: { requiresUnauth: true } },
-        {
-            path: '/onboarding',
-            component: OnboardingPage,
-            beforeEnter(_, _2, next) {
-                if (store.getters.hadOnboarding) next('/');
-                else next();
-            }
-        },
         { path: '/contacts', component: ContactsPage, meta: { requiresAuth: true } },
         { path: '/:notFound(.*)', component: NotFound }
     ]
