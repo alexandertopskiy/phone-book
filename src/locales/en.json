@@ -10,7 +10,8 @@
         "menuItems": {
             "create": "New Contact",
             "import": "Import Contacts",
-            "export": "Export Contacts"
+            "export": "Export Contacts",
+            "removeAll": "Remove All Contacts"
         }
     },
     "export": {
