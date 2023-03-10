@@ -10,7 +10,8 @@
         "menuItems": {
             "create": "New Contact",
             "import": "Import Contacts",
-            "export": "Export Contacts"
+            "export": "Export Contacts",
+            "removeAll": "Remove All Contacts"
         }
     },
     "export": {
@@ -78,9 +79,16 @@
             }
         },
         "delete": {
-            "title": "Delete Contact",
-            "subtitle": "Are you sure you want to delete the Contact?",
-            "btnTitle": "Yes, delete"
+            "one": {
+                "title": "Delete Contact",
+                "subtitle": "Are you sure you want to delete the Contact? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            },
+            "all": {
+                "title": "Delete All Contacts",
+                "subtitle": "Are you sure you want to delete All Contacts? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            }
         }
     },
     "auth": {
@@ -170,6 +178,7 @@
                 "import": "Import completed. All contacts ({count} pcs) have been imported.",
                 "create": "Contact added",
                 "delete": "Contact deleted",
+                "deleteAll": "All Contacts deleted",
                 "update": "Contact updated"
             },
             "errors": {
@@ -186,6 +195,7 @@
                     "exist": "Such a contact already exists"
                 },
                 "delete": "An error occurred while deleting contact",
+                "deleteAll": "An error occurred while deleting contacts",
                 "update": {
                     "default": "An error occurred while updating contact",
                     "exist": "Such a contact already exists"

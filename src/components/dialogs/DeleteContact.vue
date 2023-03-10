@@ -1,13 +1,13 @@
 <template>
-    <BaseDialog :dialog="dialog" :title="$t('dialogs.delete.title')" @close="closeModal" @sumbitData="deleteContact">
+    <BaseDialog :dialog="dialog" :title="titleCapture" @close="closeModal" @sumbitData="deleteContact">
         <template #dataFields>
-            <p class="text-subtitle-1 text-center">{{ $t('dialogs.delete.subtitle') }}</p>
+            <p class="text-subtitle-1 text-center" v-html="subtitleCapture"></p>
         </template>
         <template #mainAction>
             <!-- Create/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit">
                 <v-icon small class="mr-3">mdi-delete-outline</v-icon>
-                {{ $t('dialogs.delete.btnTitle') }}
+                {{ buttonCapture }}
             </v-btn>
         </template>
     </BaseDialog>
@@ -26,10 +26,24 @@ export default {
         }
     },
     emits: ['close'],
+    computed: {
+        titleCapture() {
+            return this.id ? this.$t('dialogs.delete.one.title') : this.$t('dialogs.delete.all.title');
+        },
+        subtitleCapture() {
+            return this.id ? this.$t('dialogs.delete.one.subtitle') : this.$t('dialogs.delete.all.subtitle');
+        },
+        buttonCapture() {
+            return this.id ? this.$t('dialogs.delete.one.btnTitle') : this.$t('dialogs.delete.all.btnTitle');
+        }
+    },
     methods: {
         async deleteContact() {
             try {
-                const message = await this.$store.dispatch('contacts/removeContact', { id: this.id });
+                let message;
+                if (this.id) message = await this.$store.dispatch('contacts/removeContact', { id: this.id });
+                else message = await this.$store.dispatch('contacts/removeAllContacts');
+
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
                 this.closeModal();
             } catch (error) {

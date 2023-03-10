@@ -7,6 +7,7 @@
                     v-if="!item.subItems"
                     :title="item.title"
                     :prepend-icon="item.icon"
+                    :class="item.class"
                     @click="onClickMenu(item.action)"
                 >
                 </v-list-item>
@@ -41,7 +42,7 @@
 
 <script>
 export default {
-    inject: ['showCreateContact', 'showImportContacts'],
+    inject: ['showCreateContact', 'showImportContacts', 'showDeleteContact'],
     emits: ['closeMenu'],
     computed: {
         menuItems() {
@@ -82,6 +83,13 @@ export default {
                             action: 'export-txt'
                         }
                     ]
+                },
+                {
+                    title: this.$t('navBar.menuItems.removeAll'),
+                    icon: 'mdi-trash-can-outline',
+                    value: 'remove',
+                    action: 'removeAll',
+                    class: 'text-red'
                 }
             ];
         }
@@ -94,6 +102,9 @@ export default {
                     break;
                 case 'import':
                     this.showImportContacts();
+                    break;
+                case 'removeAll':
+                    this.showDeleteContact(null);
                     break;
                 case 'export-json':
                     this.exportContacts('json');

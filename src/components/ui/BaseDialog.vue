@@ -4,7 +4,7 @@
             <h1 class="text-h5 text-center">{{ title }}</h1>
 
             <!-- Form -->
-            <v-form class="my-2" @submit.prevent="submitData" validate-on="blur" ref="form">
+            <v-form class="mt-2" @submit.prevent="submitData" validate-on="blur" ref="form">
                 <slot name="dataFields"></slot>
 
                 <!-- Actions -->
