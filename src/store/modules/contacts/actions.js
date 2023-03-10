@@ -138,5 +138,19 @@ export default {
         } catch (_) {
             throw new Error(i18n.global.t('contacts.info.errors.update.default'));
         }
+    },
+    // "Онбординг" - добавление важных контактов при регистарции
+    async setDefaultContacts(context) {
+        const defaultContacts = [
+            { name: i18n.global.t('onboarding.action.defaultContacts.police'), phone: '102' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.fireDepartment'), phone: '101' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.ambulance'), phone: '103' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.emergencyNumber'), phone: '112' }
+        ];
+        try {
+            await context.dispatch('importContacts', defaultContacts);
+        } catch (error) {
+            throw new Error(i18n.global.t('onboarding.action.error'));
+        }
     }
 };

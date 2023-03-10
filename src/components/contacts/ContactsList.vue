@@ -13,7 +13,13 @@
                             {{ $t('contacts.emptyList.noContacts.title') }}
                         </p>
                         <v-btn block variant="outlined" color="blue-darken-2" @click="createContact">
-                            {{ $t('contacts.emptyList.noContacts.btnTitle') }}
+                            {{ $t('contacts.emptyList.noContacts.createBtn') }}
+                        </v-btn>
+                        <p class="my-2">
+                            {{ $t('contacts.emptyList.noContacts.btnsDevider') }}
+                        </p>
+                        <v-btn block variant="outlined" color="blue-darken-2" @click="addDefaultContacts">
+                            {{ $t('contacts.emptyList.noContacts.autoaddBtn') }}
                         </v-btn>
                     </div>
                 </v-list-item-title>
@@ -120,6 +126,11 @@ export default {
     methods: {
         createContact() {
             this.showCreateContact();
+        },
+        async addDefaultContacts() {
+            this.isLoading = true;
+            await this.$store.dispatch('contacts/setDefaultContacts');
+            this.isLoading = false;
         },
         editContact(id) {
             this.showEditContact(id);
