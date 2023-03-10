@@ -178,6 +178,7 @@
                 "import": "Import completed. All contacts ({count} pcs) have been imported.",
                 "create": "Contact added",
                 "delete": "Contact deleted",
+                "deleteAll": "All Contacts deleted",
                 "update": "Contact updated"
             },
             "errors": {
@@ -194,6 +195,7 @@
                     "exist": "Such a contact already exists"
                 },
                 "delete": "An error occurred while deleting contact",
+                "deleteAll": "An error occurred while deleting contacts",
                 "update": {
                     "default": "An error occurred while updating contact",
                     "exist": "Such a contact already exists"

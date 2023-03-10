@@ -118,6 +118,21 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.delete'));
         }
     },
+    async removeAllContacts(context) {
+        const userId = context.rootGetters.userId;
+        const token = context.rootGetters.token;
+
+        try {
+            const url = `${baseURL}/${userId}.json?auth=${token}`;
+            await axios.delete(url);
+
+            context.commit('removeAllContacts');
+
+            return i18n.global.t('contacts.info.success.deleteAll');
+        } catch (_) {
+            throw new Error(i18n.global.t('contacts.info.errors.deleteAll'));
+        }
+    },
     async updateContact(context, payload) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;

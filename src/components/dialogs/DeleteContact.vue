@@ -40,7 +40,10 @@ export default {
     methods: {
         async deleteContact() {
             try {
-                const message = await this.$store.dispatch('contacts/removeContact', { id: this.id });
+                let message;
+                if (this.id) message = await this.$store.dispatch('contacts/removeContact', { id: this.id });
+                else message = await this.$store.dispatch('contacts/removeAllContacts');
+
                 this.$store.dispatch('snackbar/showSnackbar', { message, type: 'success' });
                 this.closeModal();
             } catch (error) {
