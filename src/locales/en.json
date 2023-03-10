@@ -10,7 +10,8 @@
         "menuItems": {
             "create": "New Contact",
             "import": "Import Contacts",
-            "export": "Export Contacts"
+            "export": "Export Contacts",
+            "removeAll": "Remove All Contacts"
         }
     },
     "export": {
@@ -78,9 +79,16 @@
             }
         },
         "delete": {
-            "title": "Delete Contact",
-            "subtitle": "Are you sure you want to delete the Contact?",
-            "btnTitle": "Yes, delete"
+            "one": {
+                "title": "Delete Contact",
+                "subtitle": "Are you sure you want to delete the Contact? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            },
+            "all": {
+                "title": "Delete All Contacts",
+                "subtitle": "Are you sure you want to delete All Contacts? <br /> This action cannot be changed",
+                "btnTitle": "Yes, delete"
+            }
         }
     },
     "auth": {
@@ -122,6 +130,21 @@
             }
         }
     },
+    "onboarding": {
+        "title": "Almost finished!",
+        "subtitle": "Do you want us to immediately add important contacts (ambulance, police)?",
+        "addBtnTitle": "Add, Please",
+        "noAddBtnTitle": "No, Thanks",
+        "action": {
+            "defaultContacts": {
+                "police": "Police",
+                "fireDepartment": "Fire Department",
+                "ambulance": "Ambulance",
+                "emergencyNumber": "Single Emergency Number"
+            },
+            "error": "An error occurred while adding important contacts"
+        }
+    },
     "contacts": {
         "toolbar": {
             "inputLabel": "Search a contact"
@@ -130,7 +153,9 @@
             "notFound": "There's no such contact",
             "noContacts": {
                 "title": "You haven't add any contacts yet",
-                "btnTitle": "Add the first one!"
+                "createBtn": "Create manually",
+                "btnsDevider": "or",
+                "autoaddBtn": "Add important contacts (ambulance, police)"
             }
         },
         "list": {
@@ -153,6 +178,7 @@
                 "import": "Import completed. All contacts ({count} pcs) have been imported.",
                 "create": "Contact added",
                 "delete": "Contact deleted",
+                "deleteAll": "All Contacts deleted",
                 "update": "Contact updated"
             },
             "errors": {
@@ -169,6 +195,7 @@
                     "exist": "Such a contact already exists"
                 },
                 "delete": "An error occurred while deleting contact",
+                "deleteAll": "An error occurred while deleting contacts",
                 "update": {
                     "default": "An error occurred while updating contact",
                     "exist": "Such a contact already exists"

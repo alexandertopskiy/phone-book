@@ -11,6 +11,9 @@ export default {
     removeContact(state, index) {
         state.contacts.splice(index, 1);
     },
+    removeAllContacts(state) {
+        state.contacts = [];
+    },
     updateContact(state, payload) {
         state.contacts[payload.index] = payload.data;
     }

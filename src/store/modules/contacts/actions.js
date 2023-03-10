@@ -118,6 +118,21 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.delete'));
         }
     },
+    async removeAllContacts(context) {
+        const userId = context.rootGetters.userId;
+        const token = context.rootGetters.token;
+
+        try {
+            const url = `${baseURL}/${userId}.json?auth=${token}`;
+            await axios.delete(url);
+
+            context.commit('removeAllContacts');
+
+            return i18n.global.t('contacts.info.success.deleteAll');
+        } catch (_) {
+            throw new Error(i18n.global.t('contacts.info.errors.deleteAll'));
+        }
+    },
     async updateContact(context, payload) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;
@@ -137,6 +152,20 @@ export default {
             return i18n.global.t('contacts.info.success.update');
         } catch (_) {
             throw new Error(i18n.global.t('contacts.info.errors.update.default'));
+        }
+    },
+    // "Онбординг" - добавление важных контактов при регистарции
+    async setDefaultContacts(context) {
+        const defaultContacts = [
+            { name: i18n.global.t('onboarding.action.defaultContacts.police'), phone: '102' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.fireDepartment'), phone: '101' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.ambulance'), phone: '103' },
+            { name: i18n.global.t('onboarding.action.defaultContacts.emergencyNumber'), phone: '112' }
+        ];
+        try {
+            await context.dispatch('importContacts', defaultContacts);
+        } catch (error) {
+            throw new Error(i18n.global.t('onboarding.action.error'));
         }
     }
 };

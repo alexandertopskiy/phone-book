@@ -91,7 +91,7 @@ const isTouch = computed(() => useDisplay().platform.value.touch);
 provide('isTouch', isTouch.value);
 </script>
 
-<style>
+<style scoped>
 /* Animation */
 .route-enter-from {
     transform: translateY(30px);
