@@ -1,7 +1,7 @@
 <template>
-    <v-expansion-panel rounded="0" :value="id">
+    <v-expansion-panel rounded="0" :value="id" ref="panel">
         <!-- Activator (карточка контакта) -->
-        <v-expansion-panel-title class="py-2 pl-0" @click="scrollToContact" :ref="id">
+        <v-expansion-panel-title class="py-2 pl-0" @click="scrollToContact">
             <img :src="dummyImage" alt="icon" />
             <v-list-item :title="name" :subtitle="phone"></v-list-item>
         </v-expansion-panel-title>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-    props: ['id', 'name', 'phone', 'email', 'birthday'],
+    props: ['id', 'name', 'phone', 'email', 'birthday', 'isSelected'],
     emits: ['editContact', 'deleteContact'],
     data() {
         return {
@@ -76,8 +76,10 @@ export default {
             window.open('mailto:' + this.email);
         },
         scrollToContact() {
-            const el = this.$refs[this.id].$el;
-            el.scrollIntoView();
+            if (!this.isSelected) {
+                const el = this.$refs.panel.$el;
+                el.scrollIntoView(false);
+            }
         }
     }
 };
