@@ -1,7 +1,7 @@
 <template>
     <v-expansion-panel rounded="0" :value="id">
         <!-- Activator (карточка контакта) -->
-        <v-expansion-panel-title class="py-2 pl-0">
+        <v-expansion-panel-title class="py-2 pl-0" @click="scrollToContact" :ref="id">
             <img :src="dummyImage" alt="icon" />
             <v-list-item :title="name" :subtitle="phone"></v-list-item>
         </v-expansion-panel-title>
@@ -74,6 +74,10 @@ export default {
         },
         writeContact() {
             window.open('mailto:' + this.email);
+        },
+        scrollToContact() {
+            const el = this.$refs[this.id].$el;
+            el.scrollIntoView();
         }
     }
 };
