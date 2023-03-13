@@ -78,10 +78,12 @@ export default {
         writeContact() {
             window.open('mailto:' + this.email);
         },
-        scrollToContact() {
-            if (!this.isSelected) {
+        async scrollToContact() {
+            await this.$nextTick();
+
+            if (this.isSelected) {
                 const el = this.$refs.panel.$el;
-                el.scrollIntoView(false);
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
     }
