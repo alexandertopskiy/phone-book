@@ -60,6 +60,7 @@
                         :phone="contact.phone"
                         :email="contact.email"
                         :birthday="contact.birthday"
+                        :isSelected="contact.id === expansedContact"
                         @editContact="editContact"
                         @deleteContact="deleteContact"
                     />

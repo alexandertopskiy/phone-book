@@ -1,9 +1,12 @@
 <template>
-    <v-expansion-panel rounded="0" :value="id">
+    <v-expansion-panel rounded="0" :value="id" ref="panel">
         <!-- Activator (карточка контакта) -->
-        <v-expansion-panel-title class="py-2 pl-0">
+        <v-expansion-panel-title class="py-2 pl-0" @click="scrollToContact">
             <img :src="dummyImage" alt="icon" />
-            <v-list-item :title="name" :subtitle="phone"></v-list-item>
+            <div class="contact-card">
+                <p class="name">{{ name }}</p>
+                <p class="phone">{{ phone }}</p>
+            </div>
         </v-expansion-panel-title>
 
         <!-- Выпадающая часть -->
@@ -47,7 +50,7 @@
 
 <script>
 export default {
-    props: ['id', 'name', 'phone', 'email', 'birthday'],
+    props: ['id', 'name', 'phone', 'email', 'birthday', 'isSelected'],
     emits: ['editContact', 'deleteContact'],
     data() {
         return {
@@ -74,12 +77,37 @@ export default {
         },
         writeContact() {
             window.open('mailto:' + this.email);
+        },
+        async scrollToContact() {
+            await this.$nextTick();
+
+            if (this.isSelected) {
+                const el = this.$refs.panel.$el;
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem 1rem;
+    gap: 0.25rem;
+
+    .name {
+        line-height: 1.25rem;
+        font-size: 1rem;
+    }
+    .phone {
+        font-size: 0.875rem;
+        line-height: 1rem;
+        opacity: 0.6;
+    }
+}
+
 img {
     margin-left: 16px;
     border-radius: 50%;
