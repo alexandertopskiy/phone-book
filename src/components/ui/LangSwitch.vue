@@ -50,6 +50,10 @@ export default {
     align-items: center;
     gap: 1rem;
 
+    @media only screen and (max-width: 480px) {
+        font-size: 0.75rem !important;
+    }
+
     label {
         color: #26a69a;
     }
@@ -80,6 +84,11 @@ export default {
             // for safari color text
             -webkit-text-fill-color: #b2dfdb;
             opacity: 1; /* required on iOS */
+
+            @media only screen and (max-width: 480px) {
+                // font-size: 0.75rem !important;
+                padding: 0.25rem 0.25rem;
+            }
         }
     }
 
