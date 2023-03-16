@@ -85,7 +85,13 @@ watch(didAutoLogout, (newValue, oldValue) => {
 });
 
 // при изменении языка сохранение выбора в localStorage
-watch(locale, newValue => localStorage.setItem('locale', newValue));
+watch(locale, newValue => {
+    localStorage.setItem('locale', newValue);
+    store.dispatch('snackbar/showSnackbar', {
+        message: t('i18n.message'),
+        type: 'success'
+    });
+});
 
 const isTouch = computed(() => useDisplay().platform.value.touch);
 provide('isTouch', isTouch.value);

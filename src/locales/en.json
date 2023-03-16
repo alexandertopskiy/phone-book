@@ -1,8 +1,11 @@
 {
-    "chooseLang": "Change Language:",
-    "languages": {
-        "en": "English",
-        "ru": "Russian"
+    "i18n": {
+        "chooseLang": "Change Language:",
+        "languages": {
+            "en": "English",
+            "ru": "Russian"
+        },
+        "message": "Language Changed"
     },
     "navBar": {
         "greeting": "Hello, ",

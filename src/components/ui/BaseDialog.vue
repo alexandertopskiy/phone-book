@@ -8,7 +8,7 @@
                 <slot name="dataFields"></slot>
 
                 <!-- Actions -->
-                <div class="d-flex justify-space-between pt-4">
+                <div class="d-flex flex-column flex-sm-row justify-space-between mt-4 with-gap">
                     <!-- Cancel/Close Modal -->
                     <v-btn variant="outlined" color="red" @click="closeModal">
                         {{ $t('commonUI.dialog.closeBtn') }}
@@ -60,3 +60,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.with-gap {
+    gap: 0.5rem;
+}
+</style>

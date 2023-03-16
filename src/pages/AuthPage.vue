@@ -150,6 +150,12 @@ export default {
     flex-direction: column;
     gap: 1rem;
 
+    @media only screen and (max-width: 480px) {
+        button {
+            font-size: 0.75rem;
+        }
+    }
+
     .lang-switch {
         align-self: center;
     }

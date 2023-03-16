@@ -1,6 +1,6 @@
 <template>
     <div class="lang text-body-2">
-        <label for="lang">{{ $t('chooseLang') }}</label>
+        <label for="lang">{{ $t('i18n.chooseLang') }}</label>
         <div class="select-holder">
             <select v-model="$i18n.locale" id="lang">
                 <option v-for="locale in lagnuages" :key="locale.key" :value="locale.key">
@@ -27,11 +27,11 @@ export default {
         lagnuages() {
             return [
                 {
-                    title: this.$t('languages.ru'),
+                    title: this.$t('i18n.languages.ru'),
                     key: 'ru'
                 },
                 {
-                    title: this.$t('languages.en'),
+                    title: this.$t('i18n.languages.en'),
                     key: 'en'
                 }
             ];
@@ -49,6 +49,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+
+    @media only screen and (max-width: 480px) {
+        font-size: 0.75rem !important;
+    }
 
     label {
         color: #26a69a;
@@ -80,6 +84,11 @@ export default {
             // for safari color text
             -webkit-text-fill-color: #b2dfdb;
             opacity: 1; /* required on iOS */
+
+            @media only screen and (max-width: 480px) {
+                // font-size: 0.75rem !important;
+                padding: 0.25rem 0.25rem;
+            }
         }
     }
 
