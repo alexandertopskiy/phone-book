@@ -6,11 +6,11 @@
         <v-spacer></v-spacer>
 
         <!-- Logout Button -->
-        <v-btn @click="logout" class="d-none d-sm-block" color="white" variant="text">
-            {{ $t('navBar.logout') }}
-        </v-btn>
-        <v-btn @click="logout" class="d-block d-sm-none" icon color="white">
+        <v-btn @click="logout" v-if="xs" icon color="white">
             <v-icon>mdi-logout</v-icon>
+        </v-btn>
+        <v-btn @click="logout" v-else color="white" variant="text">
+            {{ $t('navBar.logout') }}
         </v-btn>
     </v-app-bar>
     <v-app-bar color="teal-lighten-1" v-else>
@@ -30,9 +30,11 @@ import MenuList from './MenuList.vue';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { useDisplay } from 'vuetify';
 
 const store = useStore();
 const router = useRouter();
+const { xs } = useDisplay();
 
 const drawer = ref(false);
 const toggleDrawerVisibility = () => (drawer.value = !drawer.value);
