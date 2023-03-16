@@ -3,8 +3,11 @@
         {{ message }}
 
         <template v-slot:actions>
-            <v-btn color="white" variant="text" @click="closeSnackbar">
+            <v-btn @click="closeSnackbar" class="d-none d-sm-block" color="white" variant="text">
                 {{ $t('commonUI.resultMessage.closeBtn') }}
+            </v-btn>
+            <v-btn @click="closeSnackbar" class="d-block d-sm-none" icon color="white">
+                <v-icon>mdi-close</v-icon>
             </v-btn>
         </template>
     </v-snackbar>
@@ -48,5 +51,10 @@ const closeSnackbar = () => store.dispatch('snackbar/hideSnackbar');
 <style>
 div.v-snackbar:not(.v-snackbar--absolute) {
     height: 100% !important;
+}
+
+div.v-snackbar .v-snackbar__wrapper {
+    min-width: 0px;
+    max-width: 300px;
 }
 </style>
