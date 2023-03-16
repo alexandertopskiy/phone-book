@@ -1,6 +1,6 @@
 <template>
     <div class="lang text-body-2">
-        <label for="lang">{{ $t('chooseLang') }}</label>
+        <label for="lang">{{ $t('i18n.chooseLang') }}</label>
         <div class="select-holder">
             <select v-model="$i18n.locale" id="lang">
                 <option v-for="locale in lagnuages" :key="locale.key" :value="locale.key">
@@ -27,11 +27,11 @@ export default {
         lagnuages() {
             return [
                 {
-                    title: this.$t('languages.ru'),
+                    title: this.$t('i18n.languages.ru'),
                     key: 'ru'
                 },
                 {
-                    title: this.$t('languages.en'),
+                    title: this.$t('i18n.languages.en'),
                     key: 'en'
                 }
             ];
