@@ -1,19 +1,14 @@
 import i18n from '@/i18n';
-import axios from 'axios';
+import { authUser } from '@/api/authRequests.js';
 
 let timer;
 
 export default {
     async auth(context, payload) {
         const mode = payload.mode === 'login' ? 'signInWithPassword' : 'signUp';
-        const url = `${process.env.VUE_APP_AUTH_BASE_URL}:${mode}?key=${process.env.VUE_APP_AUTH_API_KEY}`;
 
         try {
-            const { data: responseData } = await axios.post(url, {
-                email: payload.email,
-                password: payload.password,
-                returnSecureToken: true
-            });
+            const responseData = await authUser(payload.email, payload.password, mode);
 
             // установка таймера для автологаута
             // const expiresIn = 10 * 1000; // time in ms: 3600s * 1000
