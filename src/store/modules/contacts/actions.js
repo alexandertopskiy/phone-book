@@ -1,8 +1,12 @@
 import i18n from '@/i18n';
-import axios from 'axios';
 import hasSuchContact from '@/helpers/hasSuchContact.js';
-
-const baseURL = process.env.VUE_APP_BASE_URL + '/contacts';
+import {
+    loadContacts,
+    registerContact,
+    removeContact,
+    removeAllContacts,
+    updateContact
+} from '@/api/contactsRequests.js';
 
 export default {
     setSearchQuery(context, payload) {
@@ -14,8 +18,7 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            const { data: responseData } = await axios.get(url);
+            const responseData = await loadContacts(userId, token);
 
             let contacts = [];
             for (const key in responseData) {
@@ -92,9 +95,8 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.create.exist'));
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            const { data: responseData } = await axios.post(url, newContact);
-            context.commit('registerContact', { id: responseData.name, ...newContact });
+            const { name } = await registerContact(userId, token, newContact);
+            context.commit('registerContact', { id: name, ...newContact });
 
             return i18n.global.t('contacts.info.success.create');
         } catch (_) {
@@ -108,9 +110,7 @@ export default {
         const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
         try {
-            const url = `${baseURL}/${userId}/${contactId}.json?auth=${token}`;
-            await axios.delete(url);
-
+            await removeContact(userId, token, contactId);
             context.commit('removeContact', contactIndex);
 
             return i18n.global.t('contacts.info.success.delete');
@@ -123,9 +123,7 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            await axios.delete(url);
-
+            await removeAllContacts(userId, token);
             context.commit('removeAllContacts');
 
             return i18n.global.t('contacts.info.success.deleteAll');
@@ -144,9 +142,7 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.update.exist'));
 
         try {
-            const url = `${baseURL}/${userId}/${contactId}.json?auth=${token}`;
-            await axios.put(url, payload);
-
+            await updateContact(userId, token, contactId, payload);
             context.commit('updateContact', { index: contactIndex, data: payload });
 
             return i18n.global.t('contacts.info.success.update');
