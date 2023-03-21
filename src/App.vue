@@ -52,7 +52,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
-import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals.js';
+import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals.ts';
 
 const store = useStore();
 const router = useRouter();

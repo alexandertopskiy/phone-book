@@ -1,5 +1,5 @@
 import i18n from '@/i18n';
-import hasSuchContact from '@/helpers/hasSuchContact.js';
+import hasSuchContact from '@/helpers/hasSuchContact';
 import {
     loadContacts,
     registerContact,
