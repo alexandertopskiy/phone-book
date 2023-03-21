@@ -3,6 +3,7 @@
         <template #dataFields>
             <p class="text-subtitle-1 text-center" v-html="subtitleCapture"></p>
         </template>
+
         <template #mainAction>
             <!-- Create/Main Action -->
             <v-btn variant="outlined" color="blue" type="submit">
@@ -13,7 +14,7 @@
     </BaseDialog>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     props: {
         dialog: {
@@ -40,7 +41,7 @@ export default {
     methods: {
         async deleteContact() {
             try {
-                let message;
+                let message: string;
                 if (this.id) message = await this.$store.dispatch('contacts/removeContact', { id: this.id });
                 else message = await this.$store.dispatch('contacts/removeAllContacts');
 
