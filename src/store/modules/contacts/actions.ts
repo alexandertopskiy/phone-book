@@ -20,7 +20,7 @@ export default {
         try {
             const responseData = await loadContacts(userId, token);
 
-            let contacts = [];
+            const contacts = [];
             for (const key in responseData) {
                 const contact = responseData[key];
                 contacts.push({

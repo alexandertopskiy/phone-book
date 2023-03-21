@@ -1,17 +1,17 @@
 export default {
-    userMail(state) {
+    userMail(state): string {
         return state.userMail;
     },
-    userId(state) {
+    userId(state): string {
         return state.userId;
     },
-    token(state) {
+    token(state): string {
         return state.token;
     },
-    isAuth(state) {
+    isAuth(state): boolean {
         return !!state.token;
     },
-    didAutoLogout(state) {
+    didAutoLogout(state): boolean {
         return state.didAutoLogout;
     }
 };

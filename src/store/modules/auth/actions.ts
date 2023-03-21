@@ -1,7 +1,7 @@
 import i18n from '@/i18n';
 import { authUser } from '@/api/authRequests.js';
 
-let timer;
+let timer: number;
 
 export default {
     async auth(context, payload) {
@@ -20,7 +20,7 @@ export default {
             localStorage.setItem('email', payload.email);
             localStorage.setItem('userId', responseData.localId);
             localStorage.setItem('token', responseData.idToken);
-            localStorage.setItem('tokenExpiration', tokenExpiration);
+            localStorage.setItem('tokenExpiration', tokenExpiration + '');
 
             context.commit('setUser', {
                 userMail: payload.email,

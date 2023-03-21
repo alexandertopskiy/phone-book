@@ -1,8 +1,8 @@
 export default {
-    searchQuery(state) {
+    searchQuery(state): string {
         return state.searchQuery;
     },
-    contacts(state) {
+    contacts(state): any[] {
         return state.contacts;
     }
 };
