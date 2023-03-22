@@ -1,12 +1,12 @@
 import i18n from '@/i18n';
 import hasSuchContact from '@/helpers/hasSuchContact';
 import {
-    loadContacts,
-    registerContact,
-    removeContact,
-    removeAllContacts,
-    updateContact
-} from '@/api/contactsRequests.js';
+    loadContactsRequest,
+    registerContactRequest,
+    removeContactRequest,
+    removeAllContactsRequest,
+    updateContactRequest
+} from '@/services/api/contactsRequests.js';
 
 export default {
     setSearchQuery(context, payload) {
@@ -18,7 +18,7 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            const responseData = await loadContacts(userId, token);
+            const responseData = await loadContactsRequest(userId, token);
 
             const contacts = [];
             for (const key in responseData) {
@@ -95,7 +95,7 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.create.exist'));
 
         try {
-            const { name } = await registerContact(userId, token, newContact);
+            const { name } = await registerContactRequest(userId, token, newContact);
             context.commit('registerContact', { id: name, ...newContact });
 
             return i18n.global.t('contacts.info.success.create');
@@ -110,7 +110,7 @@ export default {
         const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
         try {
-            await removeContact(userId, token, contactId);
+            await removeContactRequest(userId, token, contactId);
             context.commit('removeContact', contactIndex);
 
             return i18n.global.t('contacts.info.success.delete');
@@ -123,7 +123,7 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            await removeAllContacts(userId, token);
+            await removeAllContactsRequest(userId, token);
             context.commit('removeAllContacts');
 
             return i18n.global.t('contacts.info.success.deleteAll');
@@ -142,7 +142,7 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.update.exist'));
 
         try {
-            await updateContact(userId, token, contactId, payload);
+            await updateContactRequest(userId, token, contactId, payload);
             context.commit('updateContact', { index: contactIndex, data: payload });
 
             return i18n.global.t('contacts.info.success.update');
