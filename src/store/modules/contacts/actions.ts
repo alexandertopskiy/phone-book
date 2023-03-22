@@ -1,8 +1,13 @@
 import i18n from '@/i18n';
-import axios from 'axios';
-import hasSuchContact from '@/helpers/hasSuchContact.js';
-
-const baseURL = process.env.VUE_APP_BASE_URL + '/contacts';
+import hasSuchContact from '@/helpers/hasSuchContact';
+import {
+    loadContactsRequest,
+    registerContactRequest,
+    removeContactRequest,
+    removeAllContactsRequest,
+    updateContactRequest
+} from '@/services/api/contactsRequests';
+import { Contact } from '@/models/contact';
 
 export default {
     setSearchQuery(context, payload) {
@@ -14,10 +19,9 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            const { data: responseData } = await axios.get(url);
+            const responseData = await loadContactsRequest(userId, token);
 
-            let contacts = [];
+            const contacts = [];
             for (const key in responseData) {
                 const contact = responseData[key];
                 contacts.push({
@@ -79,7 +83,7 @@ export default {
     async registerContact(context, payload) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;
-        const newContact = {
+        const newContact: Contact = {
             name: payload.name,
             phone: payload.phone,
             // если на бэк firebase отправлен объект, чье свойство - со значением null, то это свойство не добавится объекту
@@ -92,9 +96,8 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.create.exist'));
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            const { data: responseData } = await axios.post(url, newContact);
-            context.commit('registerContact', { id: responseData.name, ...newContact });
+            const { name } = await registerContactRequest(userId, token, newContact);
+            context.commit('registerContact', { id: name, ...newContact });
 
             return i18n.global.t('contacts.info.success.create');
         } catch (_) {
@@ -108,9 +111,7 @@ export default {
         const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
 
         try {
-            const url = `${baseURL}/${userId}/${contactId}.json?auth=${token}`;
-            await axios.delete(url);
-
+            await removeContactRequest(userId, token, contactId);
             context.commit('removeContact', contactIndex);
 
             return i18n.global.t('contacts.info.success.delete');
@@ -123,9 +124,7 @@ export default {
         const token = context.rootGetters.token;
 
         try {
-            const url = `${baseURL}/${userId}.json?auth=${token}`;
-            await axios.delete(url);
-
+            await removeAllContactsRequest(userId, token);
             context.commit('removeAllContacts');
 
             return i18n.global.t('contacts.info.success.deleteAll');
@@ -133,20 +132,18 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.deleteAll'));
         }
     },
-    async updateContact(context, payload) {
+    async updateContact(context, payload: Contact) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;
         const contactId = payload.id;
-        const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
+        const contactIndex = context.getters.contacts.findIndex((contact: Contact) => contact.id === contactId);
 
         // проверка на дублирование
         if (hasSuchContact(context.state.contacts, payload))
             throw new Error(i18n.global.t('contacts.info.errors.update.exist'));
 
         try {
-            const url = `${baseURL}/${userId}/${contactId}.json?auth=${token}`;
-            await axios.put(url, payload);
-
+            await updateContactRequest(userId, token, contactId, payload);
             context.commit('updateContact', { index: contactIndex, data: payload });
 
             return i18n.global.t('contacts.info.success.update');

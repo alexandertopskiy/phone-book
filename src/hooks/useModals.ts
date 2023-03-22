@@ -21,7 +21,7 @@ export function useEditContact() {
     const editFormVisible = ref(false);
     const editedContactId = ref(null);
 
-    function showEditContact(id) {
+    function showEditContact(id: string) {
         editedContactId.value = id;
         editFormVisible.value = true;
     }
@@ -59,7 +59,7 @@ export function useDeleteContact() {
     const deleteFormVisible = ref(false);
     const deletedContactId = ref(null);
 
-    function showDeleteContact(id) {
+    function showDeleteContact(id: string) {
         deletedContactId.value = id;
         deleteFormVisible.value = true;
     }

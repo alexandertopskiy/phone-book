@@ -12,15 +12,15 @@
                         <p class="my-2">
                             {{ $t('contacts.emptyList.noContacts.title') }}
                         </p>
-                        <v-btn block variant="outlined" color="blue-darken-2" @click="createContact">
+                        <button v-ripple class="info-btn" @click="createContact">
                             {{ $t('contacts.emptyList.noContacts.createBtn') }}
-                        </v-btn>
+                        </button>
                         <p class="my-2">
                             {{ $t('contacts.emptyList.noContacts.btnsDevider') }}
                         </p>
-                        <v-btn block variant="outlined" color="blue-darken-2" @click="addDefaultContacts">
+                        <button v-ripple class="info-btn" @click="addDefaultContacts">
                             {{ $t('contacts.emptyList.noContacts.autoaddBtn') }}
-                        </v-btn>
+                        </button>
                     </div>
                 </v-list-item-title>
             </v-list-item>
@@ -70,7 +70,8 @@
     </v-list>
 </template>
 
-<script>
+<script lang="ts">
+import { Contact } from '@/models/contact';
 import ContactItem from '@/components/contacts/ContactItem.vue';
 
 export default {
@@ -86,16 +87,16 @@ export default {
     },
     computed: {
         availableContacts() {
-            const allContacts = this.$store.getters['contacts/contacts'];
+            const allContacts: Contact[] = this.$store.getters['contacts/contacts'];
             const sortedContacts = allContacts
                 .slice()
                 .sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
 
             return sortedContacts;
         },
-        filteredContacts() {
+        filteredContacts(): Contact[] {
             if (this.searchQuery && this.searchQuery.trim()) {
-                return this.availableContacts.filter(contact => {
+                return this.availableContacts.filter((contact: Contact) => {
                     // для проверки номеров, содержащий дефис
                     const normalizedPhone = contact.phone.replace(/-/g, '');
                     const normalizedQuery = this.searchQuery.replace(/-/g, '');
@@ -133,13 +134,13 @@ export default {
             await this.$store.dispatch('contacts/setDefaultContacts');
             this.isLoading = false;
         },
-        editContact(id) {
+        editContact(id: string) {
             this.showEditContact(id);
         },
-        deleteContact(id) {
+        deleteContact(id: string) {
             this.showDeleteContact(id);
         },
-        getFirstLater(name) {
+        getFirstLater(name: string) {
             return name[0].toUpperCase();
         },
         async loadContacts() {
@@ -163,3 +164,21 @@ export default {
     }
 };
 </script>
+
+<style>
+.info-btn {
+    padding: 0.35rem 0.6rem;
+    width: 100%;
+
+    color: #1976d2;
+    border: 1px solid #1976d2;
+    border-radius: 4px;
+
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+
+    text-transform: uppercase;
+    white-space: normal;
+}
+</style>

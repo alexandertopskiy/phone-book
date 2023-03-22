@@ -9,32 +9,32 @@ export default {
 
             // input rules
             nameRules: [
-                val => !!(val && val.trim()) || this.$t('dialogs.createAndEdit.errors.nameRequired'),
-                val => val?.length <= 40 || this.$t('dialogs.createAndEdit.errors.longName')
+                (val: string) => !!(val && val.trim()) || this.$t('dialogs.createAndEdit.errors.nameRequired'),
+                (val: string) => val?.length <= 40 || this.$t('dialogs.createAndEdit.errors.longName')
             ],
             phoneRules: [
-                val => !!(val && val.trim()) || this.$t('dialogs.createAndEdit.errors.phoneRequired'),
-                val =>
+                (val: string) => !!(val && val.trim()) || this.$t('dialogs.createAndEdit.errors.phoneRequired'),
+                (val: string) =>
                     /^((8|\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/.test(val) ||
                     this.$t('dialogs.createAndEdit.errors.invalidPhone')
             ],
             emailRules: [
-                val =>
+                (val: string) =>
                     !(val && val.trim()) || /.+@.+\..+/.test(val) || this.$t('dialogs.createAndEdit.errors.invalidMail')
             ],
             birthdayRules: [
-                val =>
+                (val: string) =>
                     val !== null ||
                     !isNaN(new Date(val).getTime()) ||
                     this.$t('dialogs.createAndEdit.errors.invalidDate'),
-                val => {
+                (val: string) => {
                     const enteredDate = new Date(val);
                     const nowDate = new Date(new Date().toISOString().slice(0, 10));
                     const tooYoung = enteredDate.getTime() > nowDate.getTime();
 
                     return !tooYoung || this.$t('dialogs.createAndEdit.errors.earlyDate');
                 },
-                val => {
+                (val: string) => {
                     const enteredDate = new Date(val);
                     const tooOld = enteredDate.getFullYear() < 1900;
 

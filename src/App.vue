@@ -39,7 +39,7 @@
     </v-app>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // components
 import NavBar from '@/components/nav/NavBar.vue';
 import CreateContact from '@/components/dialogs/CreateContact.vue';
@@ -52,7 +52,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useDisplay } from 'vuetify';
-import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals.js';
+import { useCreateContact, useEditContact, useImportContacts, useDeleteContact } from '@/hooks/useModals';
 
 const store = useStore();
 const router = useRouter();

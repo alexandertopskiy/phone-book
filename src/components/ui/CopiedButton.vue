@@ -7,11 +7,11 @@
     </button>
 </template>
 
-<script>
+<script lang="ts">
 export default { name: 'CopiedButton' };
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { ref, inject, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -23,7 +23,7 @@ const show = ref(false);
 const isTouch = inject('isTouch');
 
 // копирование данных в буфер обмена
-const copyToClipboard = async function (copiedText) {
+const copyToClipboard = async function (copiedText: string) {
     if (isTouch) show.value = true;
     await navigator.clipboard.writeText(copiedText);
     emit('copied', props.data);
