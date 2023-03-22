@@ -1,8 +1,10 @@
+import { Contact } from '@/models/contact';
+
 export default {
     searchQuery(state): string {
         return state.searchQuery;
     },
-    contacts(state): any[] {
+    contacts(state): Contact[] {
         return state.contacts;
     }
 };
