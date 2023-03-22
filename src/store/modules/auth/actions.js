@@ -1,73 +1,30 @@
 import i18n from '@/i18n';
-import axios from 'axios';
+import { authUserRequest } from '@/services/api/authRequests.js';
+import { setLocalStorageUser, getLocalStorageUser, resetLocalStorageUser } from '@/services/localStorage/user.js';
 
 let timer;
 
 export default {
     async auth(context, payload) {
         const mode = payload.mode === 'login' ? 'signInWithPassword' : 'signUp';
-        const url = `${process.env.VUE_APP_AUTH_BASE_URL}:${mode}?key=${process.env.VUE_APP_AUTH_API_KEY}`;
+        const responseData = await authUserRequest(payload.email, payload.password, mode);
 
-        try {
-            const { data: responseData } = await axios.post(url, {
-                email: payload.email,
-                password: payload.password,
-                returnSecureToken: true
-            });
+        // установка таймера для автологаута
+        const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
+        timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
 
-            // установка таймера для автологаута
-            // const expiresIn = 10 * 1000; // time in ms: 3600s * 1000
-            const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
-            const curDate = new Date().getTime();
-            const tokenExpiration = curDate + expiresIn;
-            timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
+        // сохранение в localStorage
+        setLocalStorageUser(payload.email, responseData.localId, responseData.idToken, expiresIn);
 
-            localStorage.setItem('email', payload.email);
-            localStorage.setItem('userId', responseData.localId);
-            localStorage.setItem('token', responseData.idToken);
-            localStorage.setItem('tokenExpiration', tokenExpiration);
+        context.commit('setUser', {
+            userMail: payload.email,
+            userId: responseData.localId,
+            token: responseData.idToken
+        });
 
-            context.commit('setUser', {
-                userMail: payload.email,
-                userId: responseData.localId,
-                token: responseData.idToken
-            });
-
-            return payload.mode === 'login'
-                ? i18n.global.t('auth.info.success.login')
-                : i18n.global.t('auth.info.success.signUp');
-        } catch (error) {
-            let errorMessage = i18n.global.t('auth.info.errors.errorMessage');
-            const message = error.response?.data?.error?.message;
-
-            switch (message) {
-                // login errors messages
-                case 'EMAIL_NOT_FOUND':
-                    errorMessage += i18n.global.t('auth.info.errors.login.EMAIL_NOT_FOUND');
-                    break;
-                case 'INVALID_PASSWORD':
-                    errorMessage += i18n.global.t('auth.info.errors.login.INVALID_PASSWORD');
-                    break;
-                case 'USER_DISABLED':
-                    errorMessage += i18n.global.t('auth.info.errors.login.USER_DISABLED');
-                    break;
-
-                // signup errors messages
-                case 'EMAIL_EXISTS':
-                    errorMessage += i18n.global.t('auth.info.errors.signUp.EMAIL_EXISTS');
-                    break;
-                case 'TOO_MANY_ATTEMPTS_TRY_LATER':
-                    errorMessage += i18n.global.t('auth.info.errors.signUp.TOO_MANY_ATTEMPTS_TRY_LATER');
-                    break;
-
-                // default error message
-                default:
-                    errorMessage += i18n.global.t('auth.info.errors.defaultMessage');
-                    break;
-            }
-
-            throw new Error(errorMessage);
-        }
+        return payload.mode === 'login'
+            ? i18n.global.t('auth.info.success.login')
+            : i18n.global.t('auth.info.success.signUp');
     },
     async login(context, payload) {
         return context.dispatch('auth', { ...payload, mode: 'login' });
@@ -77,10 +34,7 @@ export default {
     },
     // auto login (if token/userId exist)
     tryLogin(context) {
-        const email = localStorage.getItem('email');
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token');
-        const tokenExpiration = localStorage.getItem('tokenExpiration');
+        const { email, userId, token, tokenExpiration } = getLocalStorageUser();
 
         // установка таймера для автологаута
         const curDate = new Date().getTime();
@@ -89,28 +43,12 @@ export default {
         if (expiresIn <= 30000) return;
         timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
 
-        if (token && userId) {
-            context.commit('setUser', {
-                userMail: email,
-                userId: userId,
-                token: token
-            });
-        }
+        if (token && userId) context.commit('setUser', { userMail: email, userId, token });
     },
     logout(context) {
-        localStorage.removeItem('email');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('tokenExpiration');
-
+        resetLocalStorageUser();
         clearTimeout(timer);
-
-        context.commit('setUser', {
-            userMail: null,
-            userId: null,
-            token: null
-        });
-
+        context.commit('setUser', { userMail: null, userId: null, token: null });
         return i18n.global.t('auth.info.logoutMessage');
     },
     autoLogout(context) {
