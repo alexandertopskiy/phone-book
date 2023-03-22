@@ -1,11 +1,11 @@
-export function setLocalStorageUser(email, userId, token, expiresIn) {
+export function setLocalStorageUser(email: string, userId: string, token: string, expiresIn: number) {
     const curDate = new Date().getTime();
     const tokenExpiration = curDate + expiresIn;
 
     localStorage.setItem('email', email);
     localStorage.setItem('userId', userId);
     localStorage.setItem('token', token);
-    localStorage.setItem('tokenExpiration', tokenExpiration);
+    localStorage.setItem('tokenExpiration', tokenExpiration + '');
 }
 
 export function getLocalStorageUser() {

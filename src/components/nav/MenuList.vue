@@ -40,7 +40,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Contact } from '@/models/contact';
+
 export default {
     inject: ['showCreateContact', 'showImportContacts', 'showDeleteContact'],
     emits: ['closeMenu'],
@@ -95,7 +97,7 @@ export default {
         }
     },
     methods: {
-        onClickMenu(action) {
+        onClickMenu(action: string) {
             switch (action) {
                 case 'create':
                     this.showCreateContact();
@@ -121,7 +123,7 @@ export default {
 
             this.$emit('closeMenu');
         },
-        exportContacts(format) {
+        exportContacts(format: string) {
             // создаем глубокую копию, т.к. contacts - это массив объектов, и изменения объектов затронут стор
             const contactCopy = JSON.parse(JSON.stringify(this.$store.getters['contacts/contacts']));
 
@@ -134,14 +136,15 @@ export default {
             }
 
             // удаление свойства id (при импорте/создании контакта бэк сам генерит id)
-            contactCopy.forEach(contact => delete contact['id']);
+            contactCopy.forEach((contact: Contact) => delete contact['id']);
 
             if (format === 'json') this.download(JSON.stringify(contactCopy), format);
             else if (format === 'txt') this.download(this.convertToPlainText(contactCopy), format);
             else if (format === 'csv') this.download(this.convertToCSV(contactCopy), format);
         },
-        convertToPlainText(contacts) {
+        convertToPlainText(contacts: Contact[]): string {
             let output = '';
+
             for (const [index, contact] of contacts.entries()) {
                 output += this.$t('export.plainText.index') + (index + 1) + '\n';
                 output += this.$t('export.plainText.name') + contact.name + '\n';
@@ -150,9 +153,10 @@ export default {
                 if (contact.birthday) output += this.$t('export.plainText.birthday') + contact.birthday + '\n';
                 output += '\n';
             }
+
             return output;
         },
-        convertToCSV(contacts) {
+        convertToCSV(contacts: Contact[]): string {
             // ',' - перевод на новый столбец
             // '\r\n' - перевод на новую строку
 
@@ -168,7 +172,7 @@ export default {
 
             return csv;
         },
-        download(text, format = 'txt') {
+        download(text: string, format = 'txt') {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/' + format + ';charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', 'exported_contacts (' + this.$i18n.locale + ').' + format);

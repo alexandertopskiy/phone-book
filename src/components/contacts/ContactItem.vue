@@ -48,7 +48,7 @@
     </v-expansion-panel>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     props: ['id', 'name', 'phone', 'email', 'birthday', 'isSelected'],
     emits: ['editContact', 'deleteContact'],
@@ -67,7 +67,7 @@ export default {
             ];
         },
         dummyImage() {
-            const [firstLetter, secondLetter] = this.name.split(' ').map(word => word[0]);
+            const [firstLetter, secondLetter] = this.name.split(' ').map((word: string) => word[0]);
             return `https://dummyimage.com/150x150/80cbc4/ffffff.gif&text=${firstLetter ?? ''}${secondLetter ?? ''}`;
         }
     },

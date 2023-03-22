@@ -1,8 +1,12 @@
 import i18n from '@/i18n';
-import { authUserRequest } from '@/services/api/authRequests.js';
-import { setLocalStorageUser, getLocalStorageUser, resetLocalStorageUser } from '@/services/localStorage/user.js';
+import { authUserRequest } from '@/services/api/authRequests';
+import {
+    setLocalStorageUser,
+    getLocalStorageUser,
+    resetLocalStorageUser
+} from '@/services/localStorage/userLocalStorage';
 
-let timer;
+let timer: number;
 
 export default {
     async auth(context, payload) {

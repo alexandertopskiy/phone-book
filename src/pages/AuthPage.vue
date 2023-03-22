@@ -76,7 +76,7 @@
     </v-main>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -88,10 +88,11 @@ export default {
 
             // inputs rules
             emailRules: [
-                val => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired'),
-                val => !(val && val.trim()) || /.+@.+\..+/.test(val) || this.$t('auth.inputs.errors.emailInvalid')
+                (val: string) => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired'),
+                (val: string) =>
+                    !(val && val.trim()) || /.+@.+\..+/.test(val) || this.$t('auth.inputs.errors.emailInvalid')
             ],
-            passwordRules: [val => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired')]
+            passwordRules: [(val: string) => !!(val && val.trim()) || this.$t('auth.inputs.errors.fieldRequired')]
         };
     },
     computed: {

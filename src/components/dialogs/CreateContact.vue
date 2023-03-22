@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import createEditMixin from '@/mixins/createEditMixin.js';
+import createEditMixin from '@/mixins/createEditMixin';
 
 export default {
     props: {

@@ -24,7 +24,7 @@
     </BaseDialog>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     props: {
         dialog: {
@@ -42,8 +42,8 @@ export default {
 
             // input rules
             jsonDataRules: [
-                val => !!(val && val.trim()) || this.$t('dialogs.import.errors.required'),
-                val => this.isValidJSON(val) || this.$t('dialogs.import.errors.invalid')
+                (val: string) => !!(val && val.trim()) || this.$t('dialogs.import.errors.required'),
+                (val: string) => this.isValidJSON(val) || this.$t('dialogs.import.errors.invalid')
             ]
         };
     },
@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         // TODO: check validation
-        isValidJSON(value) {
+        isValidJSON(value: string) {
             try {
                 const o = JSON.parse(value);
                 return !!o && typeof o === 'object';

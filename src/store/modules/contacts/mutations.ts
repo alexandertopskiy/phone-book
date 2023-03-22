@@ -8,7 +8,7 @@ export default {
     registerContact(state, payload) {
         state.contacts.push(payload);
     },
-    removeContact(state, index) {
+    removeContact(state, index: number) {
         state.contacts.splice(index, 1);
     },
     removeAllContacts(state) {

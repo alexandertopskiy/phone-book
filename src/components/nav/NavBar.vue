@@ -23,7 +23,7 @@
     </v-navigation-drawer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // components
 import MenuList from './MenuList.vue';
 // composables

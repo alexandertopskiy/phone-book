@@ -13,13 +13,13 @@
     </v-snackbar>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     name: 'ResultMessage'
 };
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
