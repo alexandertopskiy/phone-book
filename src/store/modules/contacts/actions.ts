@@ -6,7 +6,8 @@ import {
     removeContactRequest,
     removeAllContactsRequest,
     updateContactRequest
-} from '@/services/api/contactsRequests.js';
+} from '@/services/api/contactsRequests';
+import { Contact } from '@/models/contact';
 
 export default {
     setSearchQuery(context, payload) {
@@ -82,7 +83,7 @@ export default {
     async registerContact(context, payload) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;
-        const newContact = {
+        const newContact: Contact = {
             name: payload.name,
             phone: payload.phone,
             // если на бэк firebase отправлен объект, чье свойство - со значением null, то это свойство не добавится объекту
@@ -131,11 +132,11 @@ export default {
             throw new Error(i18n.global.t('contacts.info.errors.deleteAll'));
         }
     },
-    async updateContact(context, payload) {
+    async updateContact(context, payload: Contact) {
         const userId = context.rootGetters.userId;
         const token = context.rootGetters.token;
         const contactId = payload.id;
-        const contactIndex = context.getters.contacts.findIndex(contact => contact.id === contactId);
+        const contactIndex = context.getters.contacts.findIndex((contact: Contact) => contact.id === contactId);
 
         // проверка на дублирование
         if (hasSuchContact(context.state.contacts, payload))
