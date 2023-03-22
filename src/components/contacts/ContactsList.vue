@@ -12,15 +12,15 @@
                         <p class="my-2">
                             {{ $t('contacts.emptyList.noContacts.title') }}
                         </p>
-                        <v-btn block variant="outlined" color="blue-darken-2" @click="createContact">
+                        <button v-ripple class="info-btn" @click="createContact">
                             {{ $t('contacts.emptyList.noContacts.createBtn') }}
-                        </v-btn>
+                        </button>
                         <p class="my-2">
                             {{ $t('contacts.emptyList.noContacts.btnsDevider') }}
                         </p>
-                        <v-btn block variant="outlined" color="blue-darken-2" @click="addDefaultContacts">
+                        <button v-ripple class="info-btn" @click="addDefaultContacts">
                             {{ $t('contacts.emptyList.noContacts.autoaddBtn') }}
-                        </v-btn>
+                        </button>
                     </div>
                 </v-list-item-title>
             </v-list-item>
@@ -164,3 +164,21 @@ export default {
     }
 };
 </script>
+
+<style>
+.info-btn {
+    padding: 0.35rem 0.6rem;
+    width: 100%;
+
+    color: #1976d2;
+    border: 1px solid #1976d2;
+    border-radius: 4px;
+
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+
+    text-transform: uppercase;
+    white-space: normal;
+}
+</style>

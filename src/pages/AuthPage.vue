@@ -64,7 +64,6 @@
                         <v-btn variant="outlined" color="teal" @click="$router.replace('/')">
                             {{ $t('onboarding.noAddBtnTitle') }}
                         </v-btn>
-                        <LangSwitch class="lang-switch" />
                     </div>
                 </div>
             </v-card>
@@ -155,10 +154,6 @@ export default {
         button {
             font-size: 0.75rem;
         }
-    }
-
-    .lang-switch {
-        align-self: center;
     }
 }
 </style>
