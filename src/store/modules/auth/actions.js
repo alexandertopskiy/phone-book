@@ -1,5 +1,6 @@
 import i18n from '@/i18n';
-import { authUser } from '@/api/authRequests.js';
+import { authUser } from '@/services/api/authRequests.js';
+import { setLocalStorageUser, getLocalStorageUser, resetLocalStorageUser } from '@/services/localStorage/user.js';
 
 let timer;
 
@@ -11,16 +12,11 @@ export default {
             const responseData = await authUser(payload.email, payload.password, mode);
 
             // установка таймера для автологаута
-            // const expiresIn = 10 * 1000; // time in ms: 3600s * 1000
             const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
-            const curDate = new Date().getTime();
-            const tokenExpiration = curDate + expiresIn;
             timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
 
-            localStorage.setItem('email', payload.email);
-            localStorage.setItem('userId', responseData.localId);
-            localStorage.setItem('token', responseData.idToken);
-            localStorage.setItem('tokenExpiration', tokenExpiration);
+            // сохранение в localStorage
+            setLocalStorageUser(payload.email, responseData.localId, responseData.idToken, expiresIn);
 
             context.commit('setUser', {
                 userMail: payload.email,
@@ -72,10 +68,7 @@ export default {
     },
     // auto login (if token/userId exist)
     tryLogin(context) {
-        const email = localStorage.getItem('email');
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token');
-        const tokenExpiration = localStorage.getItem('tokenExpiration');
+        const { email, userId, token, tokenExpiration } = getLocalStorageUser();
 
         // установка таймера для автологаута
         const curDate = new Date().getTime();
@@ -84,28 +77,12 @@ export default {
         if (expiresIn <= 30000) return;
         timer = setTimeout(() => context.dispatch('autoLogout'), expiresIn);
 
-        if (token && userId) {
-            context.commit('setUser', {
-                userMail: email,
-                userId: userId,
-                token: token
-            });
-        }
+        if (token && userId) context.commit('setUser', { userMail: email, userId, token });
     },
     logout(context) {
-        localStorage.removeItem('email');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('tokenExpiration');
-
+        resetLocalStorageUser();
         clearTimeout(timer);
-
-        context.commit('setUser', {
-            userMail: null,
-            userId: null,
-            token: null
-        });
-
+        context.commit('setUser', { userMail: null, userId: null, token: null });
         return i18n.global.t('auth.info.logoutMessage');
     },
     autoLogout(context) {

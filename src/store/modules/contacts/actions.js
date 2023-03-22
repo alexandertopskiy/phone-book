@@ -6,7 +6,7 @@ import {
     removeContact,
     removeAllContacts,
     updateContact
-} from '@/api/contactsRequests.js';
+} from '@/services/api/contactsRequests.js';
 
 export default {
     setSearchQuery(context, payload) {
