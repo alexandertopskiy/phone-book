@@ -1,5 +1,5 @@
 import i18n from '@/i18n';
-import { authUser } from '@/services/api/authRequests.js';
+import { authUserRequest } from '@/services/api/authRequests.js';
 import { setLocalStorageUser, getLocalStorageUser, resetLocalStorageUser } from '@/services/localStorage/user.js';
 
 let timer;
@@ -9,7 +9,7 @@ export default {
         const mode = payload.mode === 'login' ? 'signInWithPassword' : 'signUp';
 
         try {
-            const responseData = await authUser(payload.email, payload.password, mode);
+            const responseData = await authUserRequest(payload.email, payload.password, mode);
 
             // установка таймера для автологаута
             const expiresIn = +responseData.expiresIn * 1000; // time in ms: 3600s * 1000
